@@ -1,0 +1,30 @@
+module printpos(m)
+{
+    translate([0,3,2])
+    {
+        text(
+                text=str(translation_part(m)[0]),
+                size=2,
+                halign="center",
+                valign="center"
+            );
+    }
+    translate([0,0,2])
+    {
+        text(
+                text=str(translation_part(m)[1]),
+                size=2,
+                halign="center",
+                valign="center"
+            );
+    }
+    translate([0,-3,2])
+    {
+        text(
+                text=str(translation_part(m)[2]),
+                size=2,
+                halign="center",
+                valign="center"
+            );
+    }
+}
