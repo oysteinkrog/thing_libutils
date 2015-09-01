@@ -38,3 +38,8 @@ function vec_pair_double_transform_post(vec,t1,t2)=
         ]);
 
 function vec_pair_double(vec)=flatten([for(v=vec) [v,v] ]);
+
+/** Calculates length of hypotenuse according to pythagoras */
+function pythag_hyp(a, b)=sqrt(a*a+b*b);
+function pythag_leg(b, c)=sqrt(c*c-b*b);
+
