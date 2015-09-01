@@ -25,6 +25,9 @@ function transform_post(vec_m, t) = [for(m=vec_m) m*t];
 // sum a vector up to position i
 function v_sum(v, i) = i >= 0 ? v[i] + sum_vec(v, i - 1) : 0;
 
+// cumulative sum of vector [1,2,3] = [1,3,6]
+function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) sum_vec(v,i)];
+
 // filter/remove a val from a vec
 function filter(vec,val=undef) = [for(v=vec) if(v!=val) v];
 
