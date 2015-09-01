@@ -22,8 +22,8 @@ function transform_pp(vec_m, t_pre, t_post) = [for(m=vec_m) (t_pre*m)*t_post];
 function transform_pre(vec_m, t) = [for(m=vec_m) t*m];
 function transform_post(vec_m, t) = [for(m=vec_m) m*t];
 
-// sum a vector up to position iV
-function sum_vec(v, i) = i >= 0 ? v[i] + sum_vec(v, i - 1) : 0;
+// sum a vector up to position i
+function v_sum(v, i) = i >= 0 ? v[i] + sum_vec(v, i - 1) : 0;
 
 // filter/remove a val from a vec
 function filter(vec,val=undef) = [for(v=vec) if(v!=val) v];
