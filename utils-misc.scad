@@ -13,6 +13,8 @@ function vec_2(v3) = vec_i(v3,2);
 
 function vec_add(vec,v) = [for(vv=vec) vv+v];
 
+function v_itrlen(vec) = [0:1:len(vec)-1];
+
 function range1(v1) = [min(v1), max(v1)];
 function range3(v3) = [range1(vec_0(v3)), range1(vec_1(v3)), range1(vec_2(v3))];
 function bbox(r) = [ [r[0][0],r[1][0],r[2][0]], [r[0][1],r[1][1],r[2][1]] ];
