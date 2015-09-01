@@ -38,6 +38,69 @@ module cylindera(h=10, r=undef, r1=undef, r2=undef, d=undef, d1=undef, d2=undef,
 }
 
 
+module fncylinder(r, r2, d, d2, h, fn, center=false, enlarge=0, fnr=0.4){
+    translate(center==false?[0,0,-enlarge]:[0,0,-h/2-enlarge]) {
+        if (fn==undef) {
+            if (r2==undef && d2==undef) {
+                cylinder(r=r?r:d?d/2:1,h=h+enlarge*2,$fn=floor(2*(r?r:d?d/2:1)*PI/fnr));
+            } else {
+                cylinder(r=r?r:d?d/2:1,r2=r2?r2:d2?d2/2:1,h=h+enlarge*2,$fn=floor(2*(r?r:d?d/2:1)*PI/fnr));
+            }
+        } else {
+            if (r2==undef && d2==undef) {
+                cylinder(r=r?r:d?d/2:1,h=h+enlarge*2,$fn=fn);
+            } else {
+                cylinder(r=r?r:d?d/2:1,r2=r2?r2:d2?d2/2:1,h=h+enlarge*2,$fn=fn);
+            }
+        }
+    }
+}
+
+// specify segment length with fnr, $fn not needed but if desired use fn instead but if desired use fn instead
+module fncylindera(
+        h=10,
+        r=undef,
+        r1=undef,
+        r2=undef,
+        d=undef,
+        d1=undef,
+        d2=undef,
+        align=[0,0,0],
+        extra_h=0,
+        extra_r=undef,
+        extra_d=undef,
+        extra_align=[0,0,0],
+        fn,
+        fnr=0.4,
+        debug=false
+        )
+{
+    pi=3.1415926536;
+
+    useDia = r == undef && (r1 == undef && r2 == undef);
+
+    r_= useDia?d/2:(r==undef?0:r);
+    r1_ = useDia?((d1==undef?undef:d1)/2):r1;
+    r2_ = useDia?((d2==undef?undef:d2)/2):r2;
+    extra_r_ = useDia?((extra_d==undef?0:extra_d)/2):((extra_r==undef)?0:extra_d/2);
+
+    extra_sizexy=extra_r_*2;
+
+    size_align([extra_sizexy,extra_sizexy,extra_h],extra_align)
+    {
+
+        fn_=fn==undef?(floor(2*(r_+extra_r_)*pi/fnr)):fn;
+
+        if(debug)
+            echo(useDia, h, r_, r1_, r2_, extra_r_, align, fn_);
+
+        sizexy=r_*2;
+        size_align([sizexy,sizexy,h],align)
+        {
+            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true, $fn=fn_);
+        }
+    }
+}
 /*cubea([10,10,10],[1,0,0]);*/
 /*%cubea([10,10,10],[1,0,0],[5,5,5],[1,1,1]);*/
 
