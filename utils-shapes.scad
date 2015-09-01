@@ -179,5 +179,5 @@ module pie_slice(r, start_angle, end_angle, h)
 /*%cylindera(h=10, d=10, align=[1,-1,1], extra_d=5, extra_h=2, extra_align=[-1,-1,1], $fn=100);*/
 /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
-%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);
-%cylindera(h=10, r=5, align=[-1,0,0], extra_r=5);
+/*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
+/*%cylindera(h=10, r=5, align=[-1,0,0], extra_r=5);*/
