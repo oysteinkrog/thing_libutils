@@ -43,3 +43,22 @@ function vec_pair_double(vec)=flatten([for(v=vec) [v,v] ]);
 function pythag_hyp(a, b)=sqrt(a*a+b*b);
 function pythag_leg(b, c)=sqrt(c*c-b*b);
 
+
+//-- Calculate the module of a vector
+function v_mod(v) = (sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]));
+
+//-- Calculate the cros product of two vectors
+function v_cross(u,v) = [
+  u[1]*v[2] - v[1]*u[2],
+  -(u[0]*v[2] - v[0]*u[2]) ,
+  u[0]*v[1] - v[0]*u[1]];
+
+//-- Calculate the dot product of two vectors
+function v_dot(u,v) = u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
+
+//-- Return the unit vector of a vector
+function v_unitv(v) = v/v_mod(v);
+
+//-- Return the angle between two vectores
+function v_anglev(u,v) = acos( v_dot(u,v) / (v_mod(u)*v_mod(v)) );
+
