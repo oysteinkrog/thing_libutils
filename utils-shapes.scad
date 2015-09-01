@@ -1,5 +1,33 @@
 use <utils-misc.scad>
 
+// translate children 
+module lineup(arr=undef)
+{
+    /*echo(arr);*/
+    /*echo($children);*/
+    if($children>0)
+    {
+        for (i = [0 : $children-1])
+            translate(arr[i]) children(i);
+    }
+}
+
+module stack(separations)
+{
+    union()
+    {
+        for (i = [0:len(separations)-1])
+        {
+            offset = v_sum(separations,i);
+            /*echo("i",i,"offset",offset);*/
+            translate ([0,0,offset])
+            {
+                child(i);
+            }
+        }
+    }
+}
+
 module size_align(size=[10,10,10], align=[0,0,0])
 {
     t=[align[0]*size[0]/2,align[1]*size[1]/2,align[2]*size[2]/2];
