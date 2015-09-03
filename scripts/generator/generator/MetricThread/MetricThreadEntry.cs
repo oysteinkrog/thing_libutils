@@ -1,6 +1,6 @@
 ﻿using UnitsNet;
 
-namespace generator
+namespace generator.MetricThread
 {
     public sealed class MetricThreadEntry
     {

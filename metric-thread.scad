@@ -1,27 +1,27 @@
-// THIS FILE HAS BEEN GENERATED (by iso261-generate)
+// THIS FILE HAS BEEN GENERATED
 // DO NOT MODIFY DIRECTLY
 
 include <units.scad>
 
-MetricSize = 0;
-MetricThreadDesignation = 1;
-MetricThreadDesignationSimple = 2;
-MetricPitchMm = 3;
-MetricExternalBoltClass = 4;
-MetricExternalMajorDiaMax = 5;
-MetricExternalMajorDiaMin = 6;
-MetricExternalPitchMax = 7;
-MetricExternalPitchMin = 8;
-MetricExternalMinorDiaMax = 9;
-MetricExternalMinorDiaMin = 10;
-MetricInternalBoltClass = 11;
-MetricInternalMinorDiaMin = 12;
-MetricInternalMinorDiaMax = 13;
-MetricInternalPitchMin = 14;
-MetricInternalPitchMax = 15;
-MetricInternalMajorDiaMin = 16;
-MetricInternalMajorDiaMax = 17;
-MetricBasicTapDrill = 18;
+MetricThreadSize = 0;
+MetricThreadThreadDesignation = 1;
+MetricThreadThreadDesignationSimple = 2;
+MetricThreadPitchMm = 3;
+MetricThreadExternalBoltClass = 4;
+MetricThreadExternalMajorDiaMax = 5;
+MetricThreadExternalMajorDiaMin = 6;
+MetricThreadExternalPitchMax = 7;
+MetricThreadExternalPitchMin = 8;
+MetricThreadExternalMinorDiaMax = 9;
+MetricThreadExternalMinorDiaMin = 10;
+MetricThreadInternalBoltClass = 11;
+MetricThreadInternalMinorDiaMin = 12;
+MetricThreadInternalMinorDiaMax = 13;
+MetricThreadInternalPitchMin = 14;
+MetricThreadInternalPitchMax = 15;
+MetricThreadInternalMajorDiaMin = 16;
+MetricThreadInternalMajorDiaMax = 17;
+MetricThreadBasicTapDrill = 18;
 
 M0_25x0_075 = 
 [

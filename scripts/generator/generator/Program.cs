@@ -6,7 +6,7 @@ namespace generator
     {
         private static void Main(string[] args)
         {
-            MetricThread.Generate();
+            MetricThread.MetricThread.Generate();
         }
     }
 }

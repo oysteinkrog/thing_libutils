@@ -1,6 +1,6 @@
 using CsvHelper.Configuration;
 
-namespace generator
+namespace generator.MetricThread
 {
     internal sealed class MetricThreadEntryMap : CsvClassMap<MetricThreadEntry>
     {
