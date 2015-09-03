@@ -63,7 +63,7 @@ function path_extend(path, extend=[5,5]) =
     // extended path
     concat([path_start_e], path, [path_end_e]);
 
-use <utils-misc.scad>
+use <misc.scad>
 module sweep_t(shape, path_transforms, closed=false, t_pre=identity4(), t_post=identity4())
 {
     /*path_transforms_mod = path_transforms;*/
