@@ -57,6 +57,9 @@
   <ItemGroup>
     <Compile Include="GenerationCommon.cs" />
     <Compile Include="LengthMillimeterConverter.cs" />
+    <Compile Include="MetricHexagonNut\MetricHexagonNut.cs" />
+    <Compile Include="MetricHexagonNut\MetricHexagonNutEntry.cs" />
+    <Compile Include="MetricHexagonNut\MetricHexagonNutEntryMap.cs" />
     <Compile Include="MetricThread\MetricThread.cs" />
     <Compile Include="MetricThread\MetricThreadEntry.cs" />
     <Compile Include="MetricThread\MetricThreadEntryMap.cs" />
@@ -66,6 +69,14 @@
   <ItemGroup>
     <Content Include="..\..\..\data\iso261-extended-MetricThread.csv">
       <Link>MetricThread\iso261-extended-MetricThread.csv</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\data\iso4032-MetricHexagonNut.csv">
+      <Link>MetricHexagonNut\iso4032-MetricHexagonNut.csv</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\data\iso4035-MetricHexagonThinNut.csv">
+      <Link>MetricHexagonNut\iso4035-MetricHexagonThinNut.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />

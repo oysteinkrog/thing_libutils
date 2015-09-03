@@ -9,6 +9,17 @@ namespace generator
 {
     internal static class GenerationCommon
     {
+        public static void AppendHeader(StringBuilder stringBuilder, IEnumerable<string> filesToInclude)
+        {
+            AppendHeaderGeneratedWarning(stringBuilder);
+
+            foreach (var file in filesToInclude)
+            {
+                stringBuilder.AppendLine($"include <{file}>");
+            }
+            stringBuilder.AppendLine();
+        }
+
         public static void AppendHeaderGeneratedWarning(StringBuilder stringBuilder)
         {
             stringBuilder.AppendLine("// THIS FILE HAS BEEN GENERATED");
@@ -16,16 +27,10 @@ namespace generator
             stringBuilder.AppendLine();
         }
 
-        public static void GenerateScadLib<T>(string prefix, IEnumerable<T> entries, Func<T, string> keyName,
-            StringBuilder stringBuilder, IEnumerable<string> filesToInclude)
+        public static void GenerateScadLib<T>(string prefix, List<T> entries, Func<T, string> keyName,
+            StringBuilder stringBuilder)
         {
             if (prefix == null) throw new ArgumentNullException(nameof(prefix));
-            AppendHeaderGeneratedWarning(stringBuilder);
-            foreach (var file in filesToInclude)
-            {
-                stringBuilder.AppendLine($"include <{file}>");
-            }
-            stringBuilder.AppendLine();
             var properties = typeof (T).GetProperties();
 
             for (var index = 0; index < properties.Length; index++)
@@ -37,37 +42,35 @@ namespace generator
             stringBuilder.AppendLine();
             foreach (var entry in entries)
             {
-                var entryName = keyName(entry);
-                entryName = entryName.Replace(".", "_");
-                AppendTable(stringBuilder, entryName, properties, entry);
+                var entryName = $"{prefix}{keyName(entry)}";
+                entryName = SanitizeOpenScadVariableName(entryName);
+                AppendTable(prefix, stringBuilder, entryName, properties, entry);
                 stringBuilder.AppendLine();
             }
         }
 
-        private static void AppendTable<T>(StringBuilder stringBuilder, string entryName, PropertyInfo[] properties,
-            T metricEntry)
+        private static string SanitizeOpenScadVariableName(string entryName)
         {
-            stringBuilder.AppendLine(string.Format(CultureInfo.InvariantCulture, "{0} = ", entryName));
-            AppendTableData(stringBuilder, properties, metricEntry);
+            return entryName.Replace(".", "_");
         }
 
-        private static void AppendTableData<T>(StringBuilder stringBuilder, PropertyInfo[] properties, T metricEntry)
+        private static void AppendTable<T>(string prefix, StringBuilder stringBuilder, string entryName, PropertyInfo[] properties, T metricEntry)
         {
-            stringBuilder.AppendLine("[");
+            stringBuilder.AppendLine(string.Format(CultureInfo.InvariantCulture, "{0} = [", entryName));
             for (var index = 0; index < properties.Length; index++)
             {
-                AppendTableEntry(stringBuilder, properties, index, metricEntry);
+                stringBuilder.Append("    ");
+                AppendTableEntry(prefix, stringBuilder, properties, index, metricEntry);
             }
             stringBuilder.AppendLine("];");
         }
 
-        private static void AppendTableEntry<T>(StringBuilder stringBuilder, PropertyInfo[] properties, int index,
-            T metricEntry)
+        private static void AppendTableEntry<T>(string prefix, StringBuilder stringBuilder, PropertyInfo[] properties, int index, T metricEntry)
         {
             var propertyInfo = properties[index];
             var stringValue = GetFormattedValue(propertyInfo, metricEntry);
-            stringBuilder.AppendLine(string.Format(CultureInfo.InvariantCulture, "[{0}, {1}],",
-                propertyInfo.Name, stringValue));
+            stringBuilder.AppendLine(string.Format(CultureInfo.InvariantCulture, "[{0}{1}, {2}],",
+                prefix, propertyInfo.Name, stringValue));
         }
 
         private static string GetFormattedValue(PropertyInfo propertyInfo, object tableEntry)
@@ -78,9 +81,13 @@ namespace generator
             {
                 stringValue = string.Format(CultureInfo.InvariantCulture, "{0}*mm", ((Length) value).Millimeters);
             }
+            else if (value is string)
+            {
+                stringValue = $"\"{((string)value).Trim()}\"";
+            }
             else
             {
-                stringValue = $"\"{value}\"";
+                stringValue = SanitizeOpenScadVariableName($"{value}");
             }
             return stringValue;
         }

@@ -6,8 +6,8 @@ namespace generator.MetricThread
     {
         public Length Size { get; set; }
 
-        public string ThreadDesignation { get; set; }
-        public string ThreadDesignationSimple { get; set; }
+        public string ThreadKey { get; set; }
+        public string ThreadKeySimple { get; set; }
 
         public Length PitchMm { get; set; }
 
@@ -30,5 +30,10 @@ namespace generator.MetricThread
         public Length InternalMajorDiaMax { get; set; }
 
         public Length BasicTapDrill { get; set; }
+
+        public override string ToString()
+        {
+            return ThreadKeySimple;
+        }
     }
 }

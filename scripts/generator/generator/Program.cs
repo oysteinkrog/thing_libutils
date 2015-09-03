@@ -1,12 +1,11 @@
-﻿using generator;
-
-namespace generator
+﻿namespace generator
 {
     internal static class Program
     {
         private static void Main(string[] args)
         {
-            MetricThread.MetricThread.Generate();
+            var metricThreadEntries = MetricThread.MetricThread.Generate();
+            MetricHexagonNut.MetricHexagonNut.GenerateHexagonNut(metricThreadEntries);
         }
     }
 }

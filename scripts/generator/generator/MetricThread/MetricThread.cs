@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using CsvHelper;
 
@@ -8,8 +9,12 @@ namespace generator.MetricThread
 {
     internal static class MetricThread
     {
-        public static void Generate()
+        public static List<MetricThreadEntry> Generate()
         {
+            var output = new StringBuilder();
+            GenerationCommon.AppendHeader(output, new List<string> {"units.scad"});
+            List<MetricThreadEntry> entries;
+
             using (var file = File.OpenText(@"MetricThread\iso261-extended-MetricThread.csv"))
             {
                 // skip two header lines
@@ -21,15 +26,13 @@ namespace generator.MetricThread
                     csv.Configuration.CultureInfo = CultureInfo.InvariantCulture;
                     csv.Configuration.RegisterClassMap<MetricThreadEntryMap>();
 
-                    var entries = csv.GetRecords<MetricThreadEntry>();
+                    entries = csv.GetRecords<MetricThreadEntry>().ToList();
 
-                    var output = new StringBuilder();
-                    GenerationCommon.GenerateScadLib("MetricThread", entries, v => v.ThreadDesignationSimple, output,
-                        new List<string> {"units.scad"});
-
-                    File.WriteAllText("metric-thread.scad", output.ToString());
+                    GenerationCommon.GenerateScadLib("", entries, v => v.ThreadKeySimple, output);
                 }
             }
+            File.WriteAllText("metric-thread.scad", output.ToString());
+            return entries;
         }
     }
 }
