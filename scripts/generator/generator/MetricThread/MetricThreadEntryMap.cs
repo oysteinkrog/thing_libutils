@@ -1,10 +1,10 @@
 using CsvHelper.Configuration;
 
-namespace iso261_generate
+namespace generator
 {
-    internal sealed class MetricEntryMap : CsvClassMap<MetricEntry>
+    internal sealed class MetricThreadEntryMap : CsvClassMap<MetricThreadEntry>
     {
-        public MetricEntryMap()
+        public MetricThreadEntryMap()
         {
             Map(m => m.Size)
                 .Index(0).TypeConverter<LengthMillimeterConverter>();

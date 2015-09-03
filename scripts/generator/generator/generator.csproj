@@ -7,8 +7,8 @@
     <ProjectGuid>{93645A4C-1FF5-4881-9473-518D2BB66B53}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iso261_generate</RootNamespace>
-    <AssemblyName>iso261-generate</AssemblyName>
+    <RootNamespace>generator</RootNamespace>
+    <AssemblyName>generator</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,14 +52,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LengthMillimeterConverter.cs" />
-    <Compile Include="MetricEntry.cs" />
-    <Compile Include="MetricEntryMap.cs" />
+    <Compile Include="MetricThread\MetricThread.cs" />
+    <Compile Include="MetricThread\MetricThreadEntry.cs" />
+    <Compile Include="MetricThread\MetricThreadEntryMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\data\iso261-extended-MetricThread.csv">
-      <Link>iso261-extended-MetricThread.csv</Link>
+      <Link>MetricThread\iso261-extended-MetricThread.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />

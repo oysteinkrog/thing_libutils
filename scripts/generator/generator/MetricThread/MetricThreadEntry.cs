@@ -1,8 +1,8 @@
 ﻿using UnitsNet;
 
-namespace iso261_generate
+namespace generator
 {
-    public sealed class MetricEntry
+    public sealed class MetricThreadEntry
     {
         public Length Size { get; set; }
 
