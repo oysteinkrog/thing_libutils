@@ -41,9 +41,9 @@ namespace iso261_generate
                 .Index(15).TypeConverter<LengthMillimeterConverter>();
             Map(m => m.InternalPitchMax)
                 .Index(16).TypeConverter<LengthMillimeterConverter>();
-            Map(m => m.InternalMajorDiaMax)
-                .Index(17).TypeConverter<LengthMillimeterConverter>();
             Map(m => m.InternalMajorDiaMin)
+                .Index(17).TypeConverter<LengthMillimeterConverter>();
+            Map(m => m.InternalMajorDiaMax)
                 .Index(18).TypeConverter<LengthMillimeterConverter>();
 
             Map(m => m.BasicTapDrill)

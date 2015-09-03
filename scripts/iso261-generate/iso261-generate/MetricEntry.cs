@@ -26,8 +26,8 @@ namespace iso261_generate
         public Length InternalMinorDiaMax { get; set; }
         public Length InternalPitchMin { get; set; }
         public Length InternalPitchMax { get; set; }
-        public Length InternalMajorDiaMax { get; set; }
         public Length InternalMajorDiaMin { get; set; }
+        public Length InternalMajorDiaMax { get; set; }
 
         public Length BasicTapDrill { get; set; }
     }
