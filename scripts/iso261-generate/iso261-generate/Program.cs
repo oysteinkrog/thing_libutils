@@ -14,7 +14,7 @@ namespace iso261_generate
     {
         private static void Main(string[] args)
         {
-            using (var file = File.OpenText("iso261-extended.csv"))
+            using (var file = File.OpenText("iso261-extended-MetricThread.csv"))
             {
                 // skip two header lines
                 file.ReadLine();

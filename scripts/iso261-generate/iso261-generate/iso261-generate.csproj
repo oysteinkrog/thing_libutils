@@ -58,8 +58,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\data\iso261-extended.csv">
-      <Link>iso261-extended.csv</Link>
+    <Content Include="..\..\..\data\iso261-extended-MetricThread.csv">
+      <Link>iso261-extended-MetricThread.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
