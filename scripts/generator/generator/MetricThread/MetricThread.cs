@@ -28,7 +28,7 @@ namespace generator.MetricThread
 
                     entries = csv.GetRecords<MetricThreadEntry>().ToList();
 
-                    GenerationCommon.GenerateScadLib("", entries, v => v.ThreadKeySimple, output);
+                    GenerationCommon.GenerateScadLib("Thread", entries, v => v.ThreadKeySimple, output);
                 }
             }
             File.WriteAllText("metric-thread.scad", output.ToString());

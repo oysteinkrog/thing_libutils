@@ -33,7 +33,7 @@ namespace generator.MetricThread
 
         public override string ToString()
         {
-            return ThreadKeySimple;
+            return $"Thread{ThreadKeySimple}";
         }
     }
 }

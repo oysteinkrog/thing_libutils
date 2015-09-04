@@ -5,7 +5,7 @@ namespace generator.MetricHexagonNut
 {
     public sealed class MetricHexagonNutEntry
     {
-        public MetricThreadEntry MetricThread { get; set; }
+        public MetricThreadEntry Thread { get; set; }
 
         public Length HoleDia { get; set; }
         public Length WidthMin { get; set; }

@@ -14,7 +14,7 @@ namespace generator.MetricHexagonNut
         {
             _metricThreadEntries = metricThreadEntries;
 
-            Map(m => m.MetricThread)
+            Map(m => m.Thread)
                 .Index(0).TypeConverter(new LookupMetricThreadConverter(metricThreadEntries));
 
             Map(m => m.HoleDia)
@@ -46,7 +46,7 @@ namespace generator.MetricHexagonNut
             /// </returns>
             public override object ConvertFromString(TypeConverterOptions options, string text)
             {
-                var metricThreadEntry =
+                MetricThreadEntry metricThreadEntry =
                     _metricThreadEntries.Find(
                         v => v.ThreadKeySimple.Trim().Equals(text.Trim(), StringComparison.InvariantCultureIgnoreCase));
                 if (metricThreadEntry != null)

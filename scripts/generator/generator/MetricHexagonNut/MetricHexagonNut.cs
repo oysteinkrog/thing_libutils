@@ -39,7 +39,7 @@ namespace generator.MetricHexagonNut
                         }
                     }
 
-                    GenerationCommon.GenerateScadLib("MHexNut", entries, v => v.MetricThread.ToString(), output);
+                    GenerationCommon.GenerateScadLib("MHexNut", entries, v => v.Thread.ThreadKeySimple.ToString(), output);
                 }
             }
             using (var file = File.OpenText(@"MetricHexagonNut\iso4035-MetricHexagonThinNut.csv"))
@@ -66,7 +66,7 @@ namespace generator.MetricHexagonNut
                         }
                     }
 
-                    GenerationCommon.GenerateScadLib("MHexThinNut", entries, v => v.MetricThread.ToString(),
+                    GenerationCommon.GenerateScadLib("MHexThinNut", entries, v => v.Thread.ToString(),
                         output);
                 }
             }
