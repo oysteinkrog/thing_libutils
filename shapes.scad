@@ -82,7 +82,7 @@ module cylindera(h=10, r=undef, r1=undef, r2=undef, d=undef, d1=undef, d2=undef,
 }
 
 
-module fncylinder(r, r2, d, d2, h, fn, center=false, enlarge=0, fnr=0.4){
+module fncylinder(r, r2, d, d2, h, fn, center=false, enlarge=0, fnr=0.8){
     translate(center==false?[0,0,-enlarge]:[0,0,-h/2-enlarge]) {
         if (fn==undef) {
             if (r2==undef && d2==undef) {
@@ -116,7 +116,7 @@ module fncylindera(
         extra_d=undef,
         extra_align=[0,0,0],
         fn,
-        fnr=0.4,
+        fnr=0.8,
         debug=false
         )
 {
