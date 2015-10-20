@@ -110,6 +110,7 @@ module fncylindera(
         d1=undef,
         d2=undef,
         align=[0,0,0],
+        orient=[0,0,1],
         extra_h=0,
         extra_r=undef,
         extra_d=undef,
@@ -126,20 +127,21 @@ module fncylindera(
     r_= useDia?d/2:(r==undef?0:r);
     r1_ = useDia?((d1==undef?undef:d1)/2):r1;
     r2_ = useDia?((d2==undef?undef:d2)/2):r2;
-    extra_r_ = useDia?((extra_d==undef?0:extra_d)/2):((extra_r==undef)?0:extra_d/2);
+    extra_r_ = useDia?((extra_d==undef?0:extra_d)/2):((extra_r==undef)?0:extra_r);
 
     extra_sizexy=extra_r_*2;
 
-    size_align([extra_sizexy,extra_sizexy,extra_h],extra_align)
+    size_align([extra_sizexy,extra_sizexy,extra_h], align=extra_align)
     {
-
         fn_=fn==undef?(floor(2*(r_+extra_r_)*pi/fnr)):fn;
 
         if(debug)
+        {
             echo(useDia, h, r_, r1_, r2_, extra_r_, align, fn_);
+        }
 
         sizexy=r_*2;
-        size_align([sizexy,sizexy,h],align)
+        size_align([sizexy,sizexy,h], align=align, orient=orient)
         {
             cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true, $fn=fn_);
         }
@@ -194,4 +196,5 @@ module pie_slice(r, start_angle, end_angle, h)
 /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
 /*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
-/*%cylindera(h=10, r=5, align=[-1,0,0], extra_r=5);*/
+/*fncylindera(h=10, r=5, extra_r=2, align=[0,0,1], orient=[1,0,0]);*/
+
