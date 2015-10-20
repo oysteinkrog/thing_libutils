@@ -28,13 +28,27 @@ module stack(separations)
     }
 }
 
-module size_align(size=[10,10,10], align=[0,0,0])
+module orient(zaxes, roll=0)
 {
-    t=[align[0]*size[0]/2,align[1]*size[1]/2,align[2]*size[2]/2];
-    /*echo(t);*/
+    zaxes = len(zaxes.x) == undef && zaxes.x != undef? [zaxes] : zaxes;
+    for(zaxis=zaxes)
+    {
+        rotate(_orient_angles(zaxis))
+        /*rotate(roll*z)*/
+            children();
+    }
+}
+
+module size_align(size=[10,10,10], align=[0,0,0], orient=[0,0,1])
+{
+    bounds = _rotate_matrix(_orient_angles(orient)) * [size.x,size.y,size.z,1];
+    t=hadamard(align, [abs(bounds.x/2),abs(bounds.y/2),abs(bounds.z/2)]);
     translate(t)
     {
-        children();
+        orient(orient)
+        {
+            children();
+        }
     }
 }
 
