@@ -62,3 +62,31 @@ function v_unitv(v) = v/v_mod(v);
 //-- Return the angle between two vectores
 function v_anglev(u,v) = acos( v_dot(u,v) / (v_mod(u)*v_mod(v)) );
 
+function _orient_angles(zaxis)=
+[-asin(zaxis.y / norm(zaxis)),
+    atan2(zaxis.x, zaxis.z),
+    0];
+
+//matrix rotation functions
+function _rotate_x_matrix(a)=
+[[1,0,0,0],
+    [0,cos(a),-sin(a),0],
+    [0,sin(a),cos(a),0],
+    [0,0,0,1]];
+
+function _rotate_y_matrix(a)=
+[[cos(a),0,sin(a),0],
+    [0,1,0,0],
+    [-sin(a),0,cos(a),0],
+    [0,0,0,1]];
+
+function _rotate_z_matrix(a)=
+[[cos(a),-sin(a),0,0],
+    [sin(a),cos(a),0,0],
+    [0,0,1,0],
+    [0,0,0,1]];
+
+function _rotate_matrix(a)=_rotate_z_matrix(a.z)*_rotate_y_matrix(a.y)*_rotate_x_matrix(a.x);
+
+//hadamard product (aka "component-wise" product) for vectors
+function hadamard(v1,v2) = [v1.x*v2.x, v1.y*v2.y, v1.z*v2.z];
