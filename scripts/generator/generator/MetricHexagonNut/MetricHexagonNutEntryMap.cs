@@ -18,9 +18,9 @@ namespace generator.MetricHexagonNut
                 .Index(0).TypeConverter(new LookupMetricThreadConverter(metricThreadEntries));
 
             Map(m => m.HoleDia)
-                .Index(2).TypeConverter<LengthMillimeterConverter>();
+                .Index(1).TypeConverter<LengthMillimeterConverter>();
             Map(m => m.WidthMin)
-                .Index(3).TypeConverter<LengthMillimeterConverter>();
+                .Index(2).TypeConverter<LengthMillimeterConverter>();
             Map(m => m.Thickness)
                 .Index(3).TypeConverter<LengthMillimeterConverter>();
             Map(m => m.WidthMax)
