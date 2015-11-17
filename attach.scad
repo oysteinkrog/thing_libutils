@@ -1,4 +1,5 @@
 use <misc.scad>
+use <shapes.scad>
 
 // From Obiscad
 //----------------------------------------------------------
@@ -32,17 +33,17 @@ module vectorz(l=10, l_arrow=4, mark=false, fnr)
 
     //-- Draw the arrow
     translate([0,0,lb/2])
-      fncylinder(r1=2/2, r2=0.2, h=l_arrow, fnr);
+      fncylindera(r1=2/2, r2=0.2, h=l_arrow, fnr=fnr);
 
     //-- Draw the mark
     if (mark) {
       translate([0,0,lb/2+l_arrow/2])
       translate([1,0,0])
-        cube([2,0.3,l_arrow*0.8],center=true);
+        cubea([2,0.3,l_arrow*0.8]);
     }
 
     //-- Draw the body
-    cylinder(r=1/2, h=lb, center=true, fnr);
+    fncylindera(r=1/2, h=lb, center=true, fnr=fnr);
   }
 
   //-- Draw a sphere in the vector base
@@ -97,7 +98,7 @@ module orientate(v,vref=[0,0,1], roll=0)
 module vector(v,l=0, l_arrow=4, mark=false)
 {
   //-- Get the vector length from the coordinates
-  mod = mod(v);
+  mod = v_mod(v);
 
   //-- The vector is very easy implemented by means of the orientate
   //-- operator:
@@ -159,7 +160,7 @@ module connector(c)
   //-- Draw the attachment axis vector (with a mark)
   translate(p)
     rotate(a=ang, v=v)
-    color("Gray") vector(unitv(v)*6, l_arrow=2, mark=true);
+    color("Gray") vector(v_unitv(v)*6, l_arrow=2, mark=true);
 }
 
 // From Obiscad,
