@@ -90,3 +90,18 @@ function _rotate_matrix(a)=_rotate_z_matrix(a.z)*_rotate_y_matrix(a.y)*_rotate_x
 
 //hadamard product (aka "component-wise" product) for vectors
 function hadamard(v1,v2) = [v1.x*v2.x, v1.y*v2.y, v1.z*v2.z];
+
+// search in a dictionary (vector w/key-value pairs) and replace the value for a given key
+function dict_replace(dict, key, newvalue)=[
+        for(kv=dict)
+        kv[0] == key ?
+            [key, newvalue]
+            :
+            kv
+        ];
+
+function dict_replace_multiple(dict, newvaluesdict)=[
+    for(kv_old=dict)
+    let(r = search(kv_old[0], newvaluesdict, num_returns_per_match=0, index_col_num=0))
+    r==[]?kv_old:newvaluesdict[r[0]]
+    ];
