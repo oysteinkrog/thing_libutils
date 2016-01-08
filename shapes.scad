@@ -63,6 +63,32 @@ module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=
     }
 }
 
+module cuberounda(size=[10,10,10], facets=32, rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
+{
+    size_align(extrasize,extrasize_align)
+    {
+        size_align(size,align)
+        {
+            cuberound(size=size+extrasize, facets=facets, rounding_radius=rounding_radius);
+        }
+    }
+}
+
+module cuberound(size=[10,10,10], facets=32, rounding_radius=1)
+{
+    translate(-size/2)
+    hull()
+    {
+        translate([rounding_radius,rounding_radius,rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([size[0]-rounding_radius,rounding_radius,rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([rounding_radius,size[1]-rounding_radius,rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([size[0]-rounding_radius,size[1]-rounding_radius,rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([rounding_radius,rounding_radius,size[2]-rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([size[0]-rounding_radius,rounding_radius,size[2]-rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([rounding_radius,size[1]-rounding_radius,size[2]-rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+        translate([size[0]-rounding_radius,size[1]-rounding_radius,size[2]-rounding_radius]) sphere (r=rounding_radius,$fn=facets);
+    }
+}
 
 module cylindera(h=10, r=undef, r1=undef, r2=undef, d=undef, d1=undef, d2=undef, align=[0,0,0], extra_h=0,extra_r=undef,extra_d=undef,extra_align=[0,0,0])
 {
