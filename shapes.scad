@@ -215,6 +215,38 @@ module pie_slice(r, start_angle, end_angle, h)
     }
 }
 
+module hollow_cylinder(d=10, thickness=1, h=10, taper=false, orient=[0,0,1], align=[0,0,0])
+{
+    outer_d = d+thickness/2;
+    inner_d = d-thickness/2;
+    size_align(size=[outer_d, outer_d, h], orient=orient, align=align)
+    difference()
+    {
+        hull()
+        {
+            fncylindera(h=h, d=outer_d, orient=[0,0,1], align=[0,0,0]);
+
+            taper_h = outer_d/2;
+            if(taper)
+            {
+                for(z=[-1,1])
+                translate([0,0,z*h/2])
+                mirror([0,0,z==-1?1:0])
+                difference()
+                {
+                    fncylindera(d1=outer_d, d2=0, h=taper_h, align=[0,0,1]);
+                    fncylindera(d1=inner_d, d2=inner_d*2, h=taper_h, align=[0,0,1]);
+                }
+            }
+        }
+
+        fncylindera(h=h+.2, d=inner_d, orient=[0,0,1], align=[0,0,0]);
+
+    }
+}
+
+/*hollow_cylinder(thickness=2, h=9, taper=true, orient=[0,0,1], align=[0,0,1]);*/
+
 /*%pie_slice(r=10, start_angle=-30, end_angle=270, h=10);*/
 
 /*cubea([10,10,10],[1,0,0]);*/
