@@ -150,12 +150,14 @@ module fncylindera(
 
     useDia = r == undef && (r1 == undef && r2 == undef);
 
-    r_= useDia?d/2:(r==undef?0:r);
     r1_ = useDia?((d1==undef?undef:d1)/2):r1;
     r2_ = useDia?((d2==undef?undef:d2)/2):r2;
+    r_= useDia?d/2:(r==undef?0:r);
+    r1r2max = max(r1,r2) == undef ? max(d1,d2)/2 : max(r1,r2);
+    r__ = r_==undef? r1r2max : r_;
     extra_r_ = useDia?((extra_d==undef?0:extra_d)/2):((extra_r==undef)?0:extra_r);
 
-    sizexy=r_*2;
+    sizexy=r__*2;
     extra_sizexy=extra_r_*2;
 
     // some orient hax here to properly support extra_align
@@ -163,7 +165,9 @@ module fncylindera(
     size_align([extra_sizexy,extra_sizexy,extra_h], align=extra_align, orient=orient)
     orient(orient)
     {
-        fn_=fn==undef?(floor(2*(r_+extra_r_)*pi/fnr)):fn;
+        fn_r = r__;
+
+        fn_=fn==undef?(floor(2*(r__)*pi/fnr)):fn;
 
         if(debug)
         {
@@ -236,4 +240,7 @@ module pie_slice(r, start_angle, end_angle, h)
 /*fncylindera(h=10, d=10, extra_h=5, orient=[1,0,0], align=[1,0,0], extra_align=[1,0,0]);*/
 /*translate([0,-30,0])*/
 /*fncylindera(h=10, d=7.5, extra_h=5, orient=[1,0,0], align=[-1,0,0], extra_align=[1,0,0]);*/
+
+/*fncylindera(h=10, r1=5, r2=10, orient=[1,0,0], align=[-1,0,0], extra_align=[1,0,0]);*/
+/*fncylindera(h=10, d1=5, d2=30, orient=[0,0,1], align=[0,0,1]);*/
 
