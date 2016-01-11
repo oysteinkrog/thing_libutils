@@ -13,7 +13,7 @@ namespace generator.MetricHexagonNut
         public static void GenerateHexagonNut(List<MetricThreadEntry> metricThreadEntries)
         {
             var output = new StringBuilder();
-            GenerationCommon.AppendHeader(output, new List<string> {"units.scad", "metric-thread.scad"});
+            GenerationCommon.AppendHeader(output, new List<string> {"units.scad", "metric-thread-data.scad"});
 
             using (var file = File.OpenText(@"MetricHexagonNut\iso4032-MetricHexagonNut.csv"))
             {
@@ -71,7 +71,7 @@ namespace generator.MetricHexagonNut
                 }
             }
 
-            File.WriteAllText("metric-hexnut.scad", output.ToString());
+            File.WriteAllText("metric-hexnut-data.scad", output.ToString());
         }
     }
 }

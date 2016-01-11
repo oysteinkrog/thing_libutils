@@ -31,7 +31,7 @@ namespace generator.MetricThread
                     GenerationCommon.GenerateScadLib("Thread", entries, v => v.ThreadKeySimple, output);
                 }
             }
-            File.WriteAllText("metric-thread.scad", output.ToString());
+            File.WriteAllText("metric-thread-data.scad", output.ToString());
             return entries;
         }
     }

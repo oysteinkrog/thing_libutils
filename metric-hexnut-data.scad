@@ -2,7 +2,7 @@
 // DO NOT MODIFY DIRECTLY
 
 include <units.scad>
-include <metric-thread.scad>
+include <metric-thread-data.scad>
 
 MHexNutHoleDia = 0;
 MHexNutWidthMin = 1;
