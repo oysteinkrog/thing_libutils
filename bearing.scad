@@ -34,7 +34,6 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
     ziptie_width = ziptie_type[1]+0.6*mm;
 
     ziptie_dist_ = (ziptie_dist==undef?bearing_type[3]/2:ziptie_dist);
-    ziptie_thickness_cut = bearing_type[1]+ziptie_bearing_distance+ziptie_thickness*3;
 
     orient(orient)
     {
@@ -45,7 +44,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
         translate([0,0,z*ziptie_dist_ - z*1/2])
         hollow_cylinder(
                 d=bearing_type[1]+ziptie_bearing_distance+ziptie_thickness,
-                thickness = ziptie_thickness*3,
+                thickness = ziptie_thickness*2,
                 h = ziptie_width,
                 taper=false,
                 orient=[0,0,1],
