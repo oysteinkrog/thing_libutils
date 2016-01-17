@@ -51,10 +51,6 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
                 align=[0,0,0]
                 );
 
-
-        // bearing
-        fncylindera(h=bearing_type[2], d=bearing_type[1], orient=[0,0,1]);
-
         // for linear rod
         fncylindera(d=bearing_type[0]*1.5, h=100, orient=[0,0,1]);
 
