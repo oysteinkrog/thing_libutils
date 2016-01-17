@@ -38,7 +38,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
     orient(orient)
     {
         // Main bearing cut
-        fncylindera(h=bearing_type[2], d=bearing_type[1]*tolerance, orient=[0,0,1]);
+        fncylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=[0,0,1]);
 
         for(z=[-1,1])
         translate([0,0,z*ziptie_dist_ - z*1/2])
