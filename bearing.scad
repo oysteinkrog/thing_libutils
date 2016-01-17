@@ -5,7 +5,7 @@ include <units.scad>
 module bearing(bearing_type, override_h=undef, orient=[0,0,1], align=[0,0,0])
 {
     h = override_h==undef ? bearing_type[2] : override_h;
-    size_align(size=[bearing_type[1],bearing_type[1],bearing_type[2]], align=align ,orient=orient)
+    size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     difference()
     {
         // outer
