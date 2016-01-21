@@ -105,3 +105,9 @@ function dict_replace_multiple(dict, newvaluesdict)=[
     let(r = search(kv_old[0], newvaluesdict, num_returns_per_match=0, index_col_num=0))
     r==[]?kv_old:newvaluesdict[r[0]]
     ];
+
+function sinh(x) = (1 - pow(e, -2 * x)) / (2 * pow(e, -x));
+function cosh(x) = (1 + pow(e, -2 * x)) / (2 * pow(e, -x));
+function tanh(x) = sinh(x) / cosh(x);
+function cot(x) = 1 / tan(x);
+
