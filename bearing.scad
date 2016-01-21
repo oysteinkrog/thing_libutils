@@ -9,9 +9,9 @@ module bearing(bearing_type, override_h=undef, orient=[0,0,1], align=[0,0,0])
     difference()
     {
         // outer
-        fncylindera(h=h, d=bearing_type[1], align=[0,0,0]);
+        cylindera(h=h, d=bearing_type[1], align=[0,0,0]);
         // inner
-        fncylindera(h=h+.1, d=bearing_type[0], align=[0,0,0]);
+        cylindera(h=h+.1, d=bearing_type[0], align=[0,0,0]);
         // clips
         if(len(bearing_type) > 3)
         {
@@ -20,8 +20,8 @@ module bearing(bearing_type, override_h=undef, orient=[0,0,1], align=[0,0,0])
             translate([0,0,z*bearing_type[3]/2])
             difference()
             {
-                fncylindera(h=1*mm, d=bearing_type[2]+1, align=[0,0,-z]);
-                fncylindera(h=1*mm+.1, d=bearing_type[4]-clip_depth, align=[0,0,-z]);
+                cylindera(h=1*mm, d=bearing_type[2]+1, align=[0,0,-z]);
+                cylindera(h=1*mm+.1, d=bearing_type[4]-clip_depth, align=[0,0,-z]);
             }
 
         }
@@ -38,7 +38,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
     orient(orient)
     {
         // Main bearing cut
-        fncylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=[0,0,1]);
+        cylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=[0,0,1]);
 
         for(z=[-1,1])
         translate([0,0,z*ziptie_dist_ - z*1/2])
@@ -52,7 +52,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
                 );
 
         // for linear rod
-        fncylindera(d=bearing_type[0]*1.3, h=100, orient=[0,0,1]);
+        cylindera(d=bearing_type[0]*1.3, h=100, orient=[0,0,1]);
 
         if(show_zips)
         {

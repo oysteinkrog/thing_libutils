@@ -74,54 +74,17 @@ module cuberounda(size=[10,10,10], facets=32, rounding_radius=1, align=[0,0,0], 
     }
 }
 
-module cuberound(size=[20,20,20], rounding_radius=1, fn=32)
+module cuberound(size=[20,20,20], rounding_radius=1)
 {
     hull()
     for(x=[-(size[0]/2-rounding_radius),(size[0]/2-rounding_radius)])
     for(y=[-(size[1]/2-rounding_radius),(size[1]/2-rounding_radius)])
     for(z=[-(size[2]/2-rounding_radius),(size[2]/2-rounding_radius)])
     translate([x,y,z])
-    sphere(r=rounding_radius, $fn=fn);
+    sphere(r=rounding_radius);
 }
 
-module cylindera(h=10, r=undef, r1=undef, r2=undef, d=undef, d1=undef, d2=undef, align=[0,0,0], extra_h=0,extra_r=undef,extra_d=undef,extra_align=[0,0,0])
-{
-    extra_r_=(extra_r==undef?0:extra_r);
-    extra_d_=(extra_d==undef?0:extra_d);
-    extra_sizexy=extra_r_*2 + extra_d_;
-    size_align([extra_sizexy,extra_sizexy,extra_h],extra_align)
-    {
-        r_=(r==undef?0:r);
-        d_=(d==undef?0:d);
-        sizexy=r_*2 + d_;
-        size_align([sizexy,sizexy,h],align)
-        {
-            cylinder(h=h+extra_h, r=r+extra_r_, r1=r1, r2=r2, d=d+extra_d_, d1=d1, d2=d2, center=true);
-        }
-    }
-}
-
-
-module fncylinder(r, r2, d, d2, h, fn, center=false, enlarge=0, fnr=0.8){
-    translate(center==false?[0,0,-enlarge]:[0,0,-h/2-enlarge]) {
-        if (fn==undef) {
-            if (r2==undef && d2==undef) {
-                cylinder(r=r?r:d?d/2:1,h=h+enlarge*2,$fn=floor(2*(r?r:d?d/2:1)*PI/fnr));
-            } else {
-                cylinder(r=r?r:d?d/2:1,r2=r2?r2:d2?d2/2:1,h=h+enlarge*2,$fn=floor(2*(r?r:d?d/2:1)*PI/fnr));
-            }
-        } else {
-            if (r2==undef && d2==undef) {
-                cylinder(r=r?r:d?d/2:1,h=h+enlarge*2,$fn=fn);
-            } else {
-                cylinder(r=r?r:d?d/2:1,r2=r2?r2:d2?d2/2:1,h=h+enlarge*2,$fn=fn);
-            }
-        }
-    }
-}
-
-// specify segment length with fnr, $fn not needed but if desired use fn instead but if desired use fn instead
-module fncylindera(
+module cylindera(
         h=10,
         r=undef,
         r1=undef,
@@ -135,8 +98,6 @@ module fncylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,1],
-        fn,
-        fnr=0.8,
         debug=false
         )
 {
@@ -159,20 +120,16 @@ module fncylindera(
     size_align([extra_sizexy,extra_sizexy,extra_h], align=extra_align, orient=orient)
     orient(orient)
     {
-        fn_r = r__;
-
-        fn_=fn==undef?(floor(2*(r__)*pi/fnr)):fn;
-
         if(debug)
         {
-            echo(useDia, h, r_, r1_, r2_, extra_r_, align, fn_);
+            echo(useDia, h, r_, r1_, r2_, extra_r_, align);
         }
 
         // some orient hax here to properly support extra_align
         orient(-orient)
         size_align([sizexy,sizexy,h], align=align, orient=orient)
         {
-            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true, $fn=fn_);
+            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
         }
     }
 }
@@ -218,8 +175,6 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, orient=[0,0,1], ali
     {
         hull()
         {
-            fncylindera(h=h, d=outer_d, orient=[0,0,1], align=[0,0,0]);
-
             taper_h = outer_d/2;
             if(taper)
             {
@@ -228,13 +183,13 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, orient=[0,0,1], ali
                 mirror([0,0,z==-1?1:0])
                 difference()
                 {
-                    fncylindera(d1=outer_d, d2=0, h=taper_h, align=[0,0,1]);
-                    fncylindera(d1=inner_d, d2=inner_d*2, h=taper_h, align=[0,0,1]);
+                    cylindera(d1=outer_d, d2=0, h=taper_h, align=[0,0,1]);
+                    cylindera(d1=inner_d, d2=inner_d*2, h=taper_h, align=[0,0,1]);
                 }
             }
         }
 
-        fncylindera(h=h+.2, d=inner_d, orient=[0,0,1], align=[0,0,0]);
+        cylindera(h=h+.2, d=inner_d, orient=[0,0,1], align=[0,0,0]);
 
     }
 }
@@ -257,16 +212,4 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, orient=[0,0,1], ali
 /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
 /*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
-/*fncylindera(h=10, r=5, extra_r=2, align=[0,0,1], orient=[1,0,0]);*/
-
-/*fncylindera(h=10, d=5, extra_r=2, align=[0,0,-1], orient=[0,0,1]);*/
-/*translate([0,-10,0])*/
-/*fncylindera(h=10, d=5, extra_r=2, align=[0,0,1], orient=[0,0,1]);*/
-/*translate([0,-20,0])*/
-/*fncylindera(h=10, d=10, extra_h=5, orient=[1,0,0], align=[1,0,0], extra_align=[1,0,0]);*/
-/*translate([0,-30,0])*/
-/*fncylindera(h=10, d=7.5, extra_h=5, orient=[1,0,0], align=[-1,0,0], extra_align=[1,0,0]);*/
-
-/*fncylindera(h=10, r1=5, r2=10, orient=[1,0,0], align=[-1,0,0], extra_align=[1,0,0]);*/
-/*fncylindera(h=10, d1=5, d2=30, orient=[0,0,1], align=[0,0,1]);*/
 

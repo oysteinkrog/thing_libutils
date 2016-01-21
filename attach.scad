@@ -5,11 +5,10 @@ use <shapes.scad>
 //----------------------------------------------------------
 //--  Draw a point in the position given by the vector p  
 //----------------------------------------------------------
-module point(p, r=0.7, fn, fnr=0.4)
+module point(p, r=0.7, fn)
 {
-    fn_= fn==undef ? (floor(2*(r)*PI/fnr)) : fn;
     translate(p)
-    sphere(r=r,$fn=fn_);
+    sphere(r=r);
 }
 
 //------------------------------------------------------------------
@@ -22,7 +21,7 @@ module point(p, r=0.7, fn, fnr=0.4)
 //--  mark: If true, a mark is draw in the vector head, for having
 //--    a visual reference of the rolling angle
 //------------------------------------------------------------------
-module vectorz(l=10, l_arrow=4, mark=false, fnr)
+module vectorz(l=10, l_arrow=4, mark=false)
 {
   //-- vector body length (not including the arrow)
   lb = l - l_arrow;
@@ -33,7 +32,7 @@ module vectorz(l=10, l_arrow=4, mark=false, fnr)
 
     //-- Draw the arrow
     translate([0,0,lb/2])
-      fncylindera(r1=2/2, r2=0.2, h=l_arrow, fnr=fnr);
+      cylindera(r1=2/2, r2=0.2, h=l_arrow);
 
     //-- Draw the mark
     if (mark) {
@@ -43,11 +42,11 @@ module vectorz(l=10, l_arrow=4, mark=false, fnr)
     }
 
     //-- Draw the body
-    fncylindera(r=1/2, h=lb, center=true, fnr=fnr);
+    cylindera(r=1/2, h=lb, center=true);
   }
 
   //-- Draw a sphere in the vector base
-  sphere(r=1/2, fnr);
+  sphere(r=1/2);
 }
 
 //-----------------------------------------------------------------
