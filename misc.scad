@@ -111,3 +111,4 @@ function cosh(x) = (1 + pow(e, -2 * x)) / (2 * pow(e, -x));
 function tanh(x) = sinh(x) / cosh(x);
 function cot(x) = 1 / tan(x);
 
+function factorial(n) = n == 0 ? 1 : factorial(n - 1) * n;
