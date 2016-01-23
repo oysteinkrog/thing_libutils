@@ -12,9 +12,9 @@ module lineup(arr=undef)
     }
 }
 
-module stack(separations)
+module stack(dist=10, distances=undef)
 {
-    union()
+    if(dist == undef && distances != undef)
     {
         for (i = [0:len(separations)-1])
         {
@@ -25,6 +25,11 @@ module stack(separations)
                 child(i);
             }
         }
+    }
+    else if(dist != undef && distances == undef)
+    {
+      for (i = [0 : $children-1])
+          translate([ dist*i, 0, 0 ]) children(i);
     }
 }
 
@@ -98,6 +103,7 @@ module cylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,1],
+        round_radius=undef,
         debug=false
         )
 {
@@ -129,7 +135,67 @@ module cylindera(
         orient(-orient)
         size_align([sizexy,sizexy,h], align=align, orient=orient)
         {
-            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
+            if(round_radius==undef)
+            {
+                cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
+            }
+            else
+            {
+                rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
+            }
+        }
+    }
+}
+
+/*translate([10,0,0])*/
+/*rotate_extrude()*/
+        /*translate([10-2,2,0])*/
+/*$fa = 5.6;*/
+/*$fs = 0.3;*/
+/*circle(r = 100);*/
+/*torus(10, 2, align=[0,0,0], orient=[0,0,1]);*/
+
+module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
+{
+    size_align(size=[radius*2+radial_width*2, radius*2+radial_width*2, radial_width*2], align=align, orient=orient)
+    rotate_extrude()
+    translate([radius, 0, 0])
+    circle(radial_width);
+}
+
+module rcylinder(d=10, r1=undef, r2=undef, h=10, round_radius=2)
+{
+    r_= (r1!=undef && r2!=undef) ? [r1,r2] : [d/2,d/2];
+    /*translate([0,0,-h/2])*/
+    hull()
+    {
+        /*a = r_[0]-r_[1];*/
+        /*b = h;*/
+        /*c = pythag_hyp(a,b);*/
+        /*echo(c);*/
+        /*d = c;//pythag_leg(a,c);*/
+        /*echo(d);*/
+        /*translate([0,r1-round_radius,0])*/
+        /*cube([d,d,d]);*/
+        /*angle2 = -atan2(-h, r1-r2);*/
+        /*echo(angle2);*/
+        /*x2 = r2-r1 < 0 ? (round_radius*2*cos(angle2)) : (round_radius*2*sin(angle2));*/
+        /*echo(x2)*/
+        /*translate([0, 0, h/2-round_radius])*/
+        /*torus(radius=r_[1]-round_radius, radial_width=round_radius, align=[0,0,0]);*/
+
+        for(z=[-1,1])
+        translate([0, 0, z*(-h/2)])
+        {
+            /*rd = abs(r1-r2);*/
+            /*angle1 = atan2(h, abs(r2-r1));*/
+            /*x1 = round_radius*2*cos(angle1);*/
+            /*echo(angle1, x1);*/
+            r__=z!=-1?r_[0]:r_[1];
+            torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
+
+            /*translate([0, 0, -round_radius])*/
+            /*cubea([r__*2,r__*2,5], align=[0,0,-z]);*/
         }
     }
 }
