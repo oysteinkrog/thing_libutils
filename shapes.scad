@@ -68,18 +68,18 @@ module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=
     }
 }
 
-module cuberounda(size=[10,10,10], facets=32, rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
+module rcubea(size=[10,10,10], facets=32, rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
 {
     size_align(extrasize,extrasize_align)
     {
         size_align(size,align)
         {
-            cuberound(size=size+extrasize, facets=facets, rounding_radius=rounding_radius);
+            rcube(size=size+extrasize, facets=facets, rounding_radius=rounding_radius);
         }
     }
 }
 
-module cuberound(size=[20,20,20], rounding_radius=1)
+module rcube(size=[20,20,20], rounding_radius=1)
 {
     hull()
     for(x=[-(size[0]/2-rounding_radius),(size[0]/2-rounding_radius)])
