@@ -57,6 +57,18 @@ module size_align(size=[10,10,10], align=[0,0,0], orient=[0,0,1])
     }
 }
 
+module hull_pairwise()
+{
+    for (i= [1:1:$children-1])
+    {
+        hull()
+        {
+            children(i-1);
+            children(i);
+        }
+    }
+}
+
 module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
 {
     size_align(extrasize,extrasize_align)
@@ -279,3 +291,13 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, orient=[0,0,1], ali
 
 /*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
 
+/*hull_pairwise()*/
+{
+    /*sphere(30/2);*/
+
+/*translate([30,0,0])*/
+    /*rcubea(s=[35,35,35], rounding_radius=10);*/
+
+/*translate([60,0,0])*/
+    /*sphere(30/2);*/
+}
