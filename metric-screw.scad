@@ -59,7 +59,7 @@ module screw_nut(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1]
 {
     thickness = lookup(MHexNutThickness,nut)*tolerance;
     d = lookup(MHexNutWidthMin, nut)*tolerance;
-    cylindera(fn=6, d=d, h=override_h==undef?thickness:override_h, orient=orient, align=align);
+    cylindera($fn=6, d=d, h=override_h==undef?thickness:override_h, orient=orient, align=align);
 }
 
 module screw_nut_cut(nut=MHexNutM3, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
