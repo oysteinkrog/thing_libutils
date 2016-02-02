@@ -47,7 +47,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
                 d=bearing_type[1]+ziptie_bearing_distance+ziptie_thickness,
                 thickness = ziptie_thickness*2,
                 h = ziptie_width,
-                taper=false,
+                taper=true,
                 orient=[0,0,1],
                 align=[0,0,0]
                 );
