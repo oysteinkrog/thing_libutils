@@ -59,6 +59,8 @@ module screw_nut(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1]
 {
     thickness = lookup(MHexNutThickness,nut)*tolerance;
     d = lookup(MHexNutWidthMin, nut)*tolerance;
+    facets = lookup(MHexNutFacets, nut);
+    echo (facets);
     cylindera($fn=lookup(MHexNutFacets, nut), d=d, h=override_h==undef?thickness:override_h, orient=orient, align=align);
 }
 
@@ -83,11 +85,20 @@ function get(key, dict) =
     let(x= search(MHexNutThread, MHexNutM3))
     dict[x[0]];
 
+MKnurlInsertNutM3_5 = [
+    [MHexNutHoleDia, 3*mm],
+    [MHexNutWidthMin, 4*mm],
+    [MHexNutThickness, 5*mm],
+    [MHexNutWidthMax, 4.2*mm],
+    [MHexNutThread, ThreadM3],
+    [MHexNutFacets, 10],
+];
 
 if(false)
 {
     nut1 = MHexNutM3;
     nut2 = MHexNutM5;
+    nut3 = MKnurlInsertNutM3_5;
 
     box_h = 10;
     difference()
@@ -104,6 +115,9 @@ if(false)
 
             translate([25,0,0])
                 screw_cut(nut=nut1, h=box_h*mm, nut_offset=3*mm, head_embed=false, orient=[0,0,-1], align=[0,0,-1]);
+
+            translate([35,0,0])
+                screw_cut(nut=nut3, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,-1]);
         }
 
     }
