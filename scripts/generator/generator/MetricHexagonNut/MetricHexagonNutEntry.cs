@@ -11,5 +11,7 @@ namespace generator.MetricHexagonNut
         public Length WidthMax { get; set; }
 
         public MetricThreadEntry Thread { get; set; }
+
+        public int Facets => 6;
     }
 }

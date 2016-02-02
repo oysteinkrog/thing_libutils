@@ -9,6 +9,7 @@ MHexNutWidthMin = 1;
 MHexNutThickness = 2;
 MHexNutWidthMax = 3;
 MHexNutThread = 4;
+MHexNutFacets = 5;
 
 MHexNutM1_2 = [
     [MHexNutHoleDia, 1.2*mm],
@@ -16,6 +17,7 @@ MHexNutM1_2 = [
     [MHexNutThickness, 1*mm],
     [MHexNutWidthMax, 3.28*mm],
     [MHexNutThread, ThreadM1_2],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM1_4 = [
@@ -24,6 +26,7 @@ MHexNutM1_4 = [
     [MHexNutThickness, 1.2*mm],
     [MHexNutWidthMax, 3.28*mm],
     [MHexNutThread, ThreadM1_4],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM1_6 = [
@@ -32,6 +35,7 @@ MHexNutM1_6 = [
     [MHexNutThickness, 1.3*mm],
     [MHexNutWidthMax, 3.48*mm],
     [MHexNutThread, ThreadM1_6],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM1_8 = [
@@ -40,6 +44,7 @@ MHexNutM1_8 = [
     [MHexNutThickness, 1.4*mm],
     [MHexNutWidthMax, 3.82*mm],
     [MHexNutThread, ThreadM1_8],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM2 = [
@@ -48,6 +53,7 @@ MHexNutM2 = [
     [MHexNutThickness, 1.6*mm],
     [MHexNutWidthMax, 4.32*mm],
     [MHexNutThread, ThreadM2],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM2_5 = [
@@ -56,6 +62,7 @@ MHexNutM2_5 = [
     [MHexNutThickness, 2*mm],
     [MHexNutWidthMax, 5.45*mm],
     [MHexNutThread, ThreadM2_5],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM3 = [
@@ -64,6 +71,7 @@ MHexNutM3 = [
     [MHexNutThickness, 2.4*mm],
     [MHexNutWidthMax, 6.01*mm],
     [MHexNutThread, ThreadM3],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM3_5 = [
@@ -72,6 +80,7 @@ MHexNutM3_5 = [
     [MHexNutThickness, 2.8*mm],
     [MHexNutWidthMax, 6.58*mm],
     [MHexNutThread, ThreadM3_5],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM4 = [
@@ -80,6 +89,7 @@ MHexNutM4 = [
     [MHexNutThickness, 3.2*mm],
     [MHexNutWidthMax, 7.66*mm],
     [MHexNutThread, ThreadM4],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM5 = [
@@ -88,6 +98,7 @@ MHexNutM5 = [
     [MHexNutThickness, 4.7*mm],
     [MHexNutWidthMax, 8.79*mm],
     [MHexNutThread, ThreadM5],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM6 = [
@@ -96,6 +107,7 @@ MHexNutM6 = [
     [MHexNutThickness, 5.2*mm],
     [MHexNutWidthMax, 11.05*mm],
     [MHexNutThread, ThreadM6],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM7 = [
@@ -104,6 +116,7 @@ MHexNutM7 = [
     [MHexNutThickness, 5.5*mm],
     [MHexNutWidthMax, 12.12*mm],
     [MHexNutThread, ThreadM7],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM8 = [
@@ -112,6 +125,7 @@ MHexNutM8 = [
     [MHexNutThickness, 6.8*mm],
     [MHexNutWidthMax, 14.38*mm],
     [MHexNutThread, ThreadM8],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM10 = [
@@ -120,6 +134,7 @@ MHexNutM10 = [
     [MHexNutThickness, 8.4*mm],
     [MHexNutWidthMax, 17.77*mm],
     [MHexNutThread, ThreadM10],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM12 = [
@@ -128,6 +143,7 @@ MHexNutM12 = [
     [MHexNutThickness, 10.8*mm],
     [MHexNutWidthMax, 20.03*mm],
     [MHexNutThread, ThreadM12],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM14 = [
@@ -136,6 +152,7 @@ MHexNutM14 = [
     [MHexNutThickness, 12.8*mm],
     [MHexNutWidthMax, 23.35*mm],
     [MHexNutThread, ThreadM14],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM16 = [
@@ -144,6 +161,7 @@ MHexNutM16 = [
     [MHexNutThickness, 14.8*mm],
     [MHexNutWidthMax, 26.75*mm],
     [MHexNutThread, ThreadM16],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM18 = [
@@ -152,6 +170,7 @@ MHexNutM18 = [
     [MHexNutThickness, 15.8*mm],
     [MHexNutWidthMax, 29.56*mm],
     [MHexNutThread, ThreadM18],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM20 = [
@@ -160,6 +179,7 @@ MHexNutM20 = [
     [MHexNutThickness, 18*mm],
     [MHexNutWidthMax, 32.95*mm],
     [MHexNutThread, ThreadM20],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM22 = [
@@ -168,6 +188,7 @@ MHexNutM22 = [
     [MHexNutThickness, 19.4*mm],
     [MHexNutWidthMax, 37.29*mm],
     [MHexNutThread, ThreadM22],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM24 = [
@@ -176,6 +197,7 @@ MHexNutM24 = [
     [MHexNutThickness, 21.5*mm],
     [MHexNutWidthMax, 39.55*mm],
     [MHexNutThread, ThreadM24],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM27 = [
@@ -184,6 +206,7 @@ MHexNutM27 = [
     [MHexNutThickness, 23.8*mm],
     [MHexNutWidthMax, 45.29*mm],
     [MHexNutThread, ThreadM27],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM30 = [
@@ -192,6 +215,7 @@ MHexNutM30 = [
     [MHexNutThickness, 25.6*mm],
     [MHexNutWidthMax, 50.85*mm],
     [MHexNutThread, ThreadM30],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM33 = [
@@ -200,6 +224,7 @@ MHexNutM33 = [
     [MHexNutThickness, 28.7*mm],
     [MHexNutWidthMax, 55.37*mm],
     [MHexNutThread, ThreadM33],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM36 = [
@@ -208,6 +233,7 @@ MHexNutM36 = [
     [MHexNutThickness, 31*mm],
     [MHexNutWidthMax, 60.79*mm],
     [MHexNutThread, ThreadM36],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM39 = [
@@ -216,6 +242,7 @@ MHexNutM39 = [
     [MHexNutThickness, 33.4*mm],
     [MHexNutWidthMax, 66.44*mm],
     [MHexNutThread, ThreadM39],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM42 = [
@@ -224,6 +251,7 @@ MHexNutM42 = [
     [MHexNutThickness, 34*mm],
     [MHexNutWidthMax, 71.3*mm],
     [MHexNutThread, ThreadM42],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM45 = [
@@ -232,6 +260,7 @@ MHexNutM45 = [
     [MHexNutThickness, 36*mm],
     [MHexNutWidthMax, 76.95*mm],
     [MHexNutThread, ThreadM45],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM48 = [
@@ -240,6 +269,7 @@ MHexNutM48 = [
     [MHexNutThickness, 38*mm],
     [MHexNutWidthMax, 82.6*mm],
     [MHexNutThread, ThreadM48],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM52 = [
@@ -248,6 +278,7 @@ MHexNutM52 = [
     [MHexNutThickness, 42*mm],
     [MHexNutWidthMax, 88.25*mm],
     [MHexNutThread, ThreadM52],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM56 = [
@@ -256,6 +287,7 @@ MHexNutM56 = [
     [MHexNutThickness, 45*mm],
     [MHexNutWidthMax, 93.56*mm],
     [MHexNutThread, ThreadM56],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM60 = [
@@ -264,6 +296,7 @@ MHexNutM60 = [
     [MHexNutThickness, 48*mm],
     [MHexNutWidthMax, 99.21*mm],
     [MHexNutThread, ThreadM60],
+    [MHexNutFacets, 6],
 ];
 
 MHexNutM64 = [
@@ -272,6 +305,7 @@ MHexNutM64 = [
     [MHexNutThickness, 51*mm],
     [MHexNutWidthMax, 104.86*mm],
     [MHexNutThread, ThreadM64],
+    [MHexNutFacets, 6],
 ];
 
 MHexThinNutHoleDia = 0;
@@ -279,6 +313,7 @@ MHexThinNutWidthMin = 1;
 MHexThinNutThickness = 2;
 MHexThinNutWidthMax = 3;
 MHexThinNutThread = 4;
+MHexThinNutFacets = 5;
 
 MHexThinNutThreadM2 = [
     [MHexThinNutHoleDia, 2*mm],
@@ -286,6 +321,7 @@ MHexThinNutThreadM2 = [
     [MHexThinNutThickness, 1.2*mm],
     [MHexThinNutWidthMax, 4.32*mm],
     [MHexThinNutThread, ThreadM2],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM2_5 = [
@@ -294,6 +330,7 @@ MHexThinNutThreadM2_5 = [
     [MHexThinNutThickness, 1.6*mm],
     [MHexThinNutWidthMax, 5.45*mm],
     [MHexThinNutThread, ThreadM2_5],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM3 = [
@@ -302,6 +339,7 @@ MHexThinNutThreadM3 = [
     [MHexThinNutThickness, 1.8*mm],
     [MHexThinNutWidthMax, 6.01*mm],
     [MHexThinNutThread, ThreadM3],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM3_5 = [
@@ -310,6 +348,7 @@ MHexThinNutThreadM3_5 = [
     [MHexThinNutThickness, 2*mm],
     [MHexThinNutWidthMax, 6.58*mm],
     [MHexThinNutThread, ThreadM3_5],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM4 = [
@@ -318,6 +357,7 @@ MHexThinNutThreadM4 = [
     [MHexThinNutThickness, 2.2*mm],
     [MHexThinNutWidthMax, 7.66*mm],
     [MHexThinNutThread, ThreadM4],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM5 = [
@@ -326,6 +366,7 @@ MHexThinNutThreadM5 = [
     [MHexThinNutThickness, 2.7*mm],
     [MHexThinNutWidthMax, 8.79*mm],
     [MHexThinNutThread, ThreadM5],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM6 = [
@@ -334,6 +375,7 @@ MHexThinNutThreadM6 = [
     [MHexThinNutThickness, 3.2*mm],
     [MHexThinNutWidthMax, 11.05*mm],
     [MHexThinNutThread, ThreadM6],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM8 = [
@@ -342,6 +384,7 @@ MHexThinNutThreadM8 = [
     [MHexThinNutThickness, 4*mm],
     [MHexThinNutWidthMax, 14.38*mm],
     [MHexThinNutThread, ThreadM8],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM10 = [
@@ -350,6 +393,7 @@ MHexThinNutThreadM10 = [
     [MHexThinNutThickness, 5*mm],
     [MHexThinNutWidthMax, 17.77*mm],
     [MHexThinNutThread, ThreadM10],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM12 = [
@@ -358,6 +402,7 @@ MHexThinNutThreadM12 = [
     [MHexThinNutThickness, 6*mm],
     [MHexThinNutWidthMax, 20.03*mm],
     [MHexThinNutThread, ThreadM12],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM14 = [
@@ -366,6 +411,7 @@ MHexThinNutThreadM14 = [
     [MHexThinNutThickness, 7*mm],
     [MHexThinNutWidthMax, 23.35*mm],
     [MHexThinNutThread, ThreadM14],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM16 = [
@@ -374,6 +420,7 @@ MHexThinNutThreadM16 = [
     [MHexThinNutThickness, 8*mm],
     [MHexThinNutWidthMax, 26.75*mm],
     [MHexThinNutThread, ThreadM16],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM18 = [
@@ -382,6 +429,7 @@ MHexThinNutThreadM18 = [
     [MHexThinNutThickness, 9*mm],
     [MHexThinNutWidthMax, 29.56*mm],
     [MHexThinNutThread, ThreadM18],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM20 = [
@@ -390,6 +438,7 @@ MHexThinNutThreadM20 = [
     [MHexThinNutThickness, 10*mm],
     [MHexThinNutWidthMax, 32.95*mm],
     [MHexThinNutThread, ThreadM20],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM22 = [
@@ -398,6 +447,7 @@ MHexThinNutThreadM22 = [
     [MHexThinNutThickness, 11*mm],
     [MHexThinNutWidthMax, 37.29*mm],
     [MHexThinNutThread, ThreadM22],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM24 = [
@@ -406,6 +456,7 @@ MHexThinNutThreadM24 = [
     [MHexThinNutThickness, 12*mm],
     [MHexThinNutWidthMax, 39.55*mm],
     [MHexThinNutThread, ThreadM24],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM27 = [
@@ -414,6 +465,7 @@ MHexThinNutThreadM27 = [
     [MHexThinNutThickness, 13.5*mm],
     [MHexThinNutWidthMax, 45.2*mm],
     [MHexThinNutThread, ThreadM27],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM30 = [
@@ -422,6 +474,7 @@ MHexThinNutThreadM30 = [
     [MHexThinNutThickness, 15*mm],
     [MHexThinNutWidthMax, 50.85*mm],
     [MHexThinNutThread, ThreadM30],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM33 = [
@@ -430,6 +483,7 @@ MHexThinNutThreadM33 = [
     [MHexThinNutThickness, 16.5*mm],
     [MHexThinNutWidthMax, 55.37*mm],
     [MHexThinNutThread, ThreadM33],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM36 = [
@@ -438,6 +492,7 @@ MHexThinNutThreadM36 = [
     [MHexThinNutThickness, 18*mm],
     [MHexThinNutWidthMax, 60.79*mm],
     [MHexThinNutThread, ThreadM36],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM39 = [
@@ -446,6 +501,7 @@ MHexThinNutThreadM39 = [
     [MHexThinNutThickness, 19.5*mm],
     [MHexThinNutWidthMax, 66.44*mm],
     [MHexThinNutThread, ThreadM39],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM42 = [
@@ -454,6 +510,7 @@ MHexThinNutThreadM42 = [
     [MHexThinNutThickness, 21*mm],
     [MHexThinNutWidthMax, 71.3*mm],
     [MHexThinNutThread, ThreadM42],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM45 = [
@@ -462,6 +519,7 @@ MHexThinNutThreadM45 = [
     [MHexThinNutThickness, 22.5*mm],
     [MHexThinNutWidthMax, 76.95*mm],
     [MHexThinNutThread, ThreadM45],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM48 = [
@@ -470,6 +528,7 @@ MHexThinNutThreadM48 = [
     [MHexThinNutThickness, 24*mm],
     [MHexThinNutWidthMax, 82.6*mm],
     [MHexThinNutThread, ThreadM48],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM52 = [
@@ -478,6 +537,7 @@ MHexThinNutThreadM52 = [
     [MHexThinNutThickness, 26*mm],
     [MHexThinNutWidthMax, 88.25*mm],
     [MHexThinNutThread, ThreadM52],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM56 = [
@@ -486,6 +546,7 @@ MHexThinNutThreadM56 = [
     [MHexThinNutThickness, 28*mm],
     [MHexThinNutWidthMax, 93.56*mm],
     [MHexThinNutThread, ThreadM56],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM60 = [
@@ -494,6 +555,7 @@ MHexThinNutThreadM60 = [
     [MHexThinNutThickness, 30*mm],
     [MHexThinNutWidthMax, 99.21*mm],
     [MHexThinNutThread, ThreadM60],
+    [MHexThinNutFacets, 6],
 ];
 
 MHexThinNutThreadM64 = [
@@ -502,5 +564,6 @@ MHexThinNutThreadM64 = [
     [MHexThinNutThickness, 32*mm],
     [MHexThinNutWidthMax, 104.86*mm],
     [MHexThinNutThread, ThreadM64],
+    [MHexThinNutFacets, 6],
 ];
 
