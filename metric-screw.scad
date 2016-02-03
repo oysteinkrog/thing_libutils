@@ -60,7 +60,6 @@ module screw_nut(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1]
     thickness = lookup(MHexNutThickness,nut)*tolerance;
     d = lookup(MHexNutWidthMin, nut)*tolerance;
     facets = lookup(MHexNutFacets, nut);
-    echo (facets);
     cylindera($fn=lookup(MHexNutFacets, nut), d=d, h=override_h==undef?thickness:override_h, orient=orient, align=align);
 }
 
