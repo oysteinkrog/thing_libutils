@@ -3,9 +3,9 @@ use <shapes.scad>
 include <bearing_data.scad>
 include <units.scad>
 
-module bearing(bearing_type, override_h=undef, orient=[0,0,1], align=[0,0,0])
+module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=[0,0,0])
 {
-    h = override_h==undef ? bearing_type[2] : override_h;
+    h = (override_h==undef ? bearing_type[2] : override_h) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     difference()
     {
