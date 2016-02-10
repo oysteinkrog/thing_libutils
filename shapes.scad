@@ -140,7 +140,7 @@ module rcylinder(d=undef, r1=undef, r2=undef, h=10, round_radius=2)
             /*x1 = round_radius*2*cos(angle1);*/
             /*echo(angle1, x1);*/
             r__=z!=-1?r_[0]:r_[1];
-            torus(radius=r__-round_radius/2, radial_width=round_radius/4, align=[0,0,z]);
+            torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
 
             /*translate([0, 0, -round_radius])*/
             /*cubea([r__*2,r__*2,5], align=[0,0,-z]);*/
