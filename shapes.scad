@@ -211,6 +211,68 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
     }
 }
 
+
+/**
+ * Standard right-angled triangle
+ *
+ * @param number o_len Lenght of the opposite side
+ * @param number a_len Lenght of the adjacent side
+ * @param number depth How wide/deep the triangle is in the 3rd dimension
+ * @todo a better way ?
+ */
+module triangle(o_len, a_len, depth, align=[0,0,0], orient=[0,0,1])
+{
+    size_align(size=[a_len, depth, o_len], align=align, orient=orient)
+    rotate([90,0,0])
+    translate([-a_len/2, -o_len/2, -depth/2])
+    linear_extrude(height=depth)
+    {
+        polygon(points=[[0,0],[a_len,0],[0,o_len]], paths=[[0,1,2]]);
+    }
+}
+
+/*triangle_a(45, 5, 5);*/
+/*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,1]);*/
+/*triangle(10, 15, 5, align=[1,1,1], orient=[0,0,1]);*/
+/*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,-1]);*/
+
+/**
+ * Standard right-angled triangle (tangent version)
+ *
+ * @param number angle of adjacent to hypotenuse (ie tangent)
+ * @param number a_len Lenght of the adjacent side
+ * @param number depth How wide/deep the triangle is in the 3rd dimension
+ */
+module triangle_a(tan_angle, a_len, depth)
+{
+    linear_extrude(height=depth)
+    {
+        polygon(points=[[0,0],[a_len,0],[0,tan(tan_angle) * a_len]], paths=[[0,1,2]]);
+    }
+}
+
+// Tests:
+module test_triangles()
+{
+    // Generate a bunch of triangles by sizes
+    for (i = [1:10])
+    {
+        translate([i*7, -30, i*7])
+        {
+            triangle(i*5, sqrt(i*5+pow(i,2)), 5);
+        }
+    }
+
+    // Generate a bunch of triangles by angle
+    for (i = [1:85/5])
+    {
+        translate([i*7, 22, i*7])
+        {
+            triangle_a(i*5, 10, 5);
+        }
+    }
+}
+
 /*hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);*/
 /*cylindera(d=10, h=10, orient=[0,0,1], align=[0,0,1]);*/
 /*translate([10,0,0])*/
