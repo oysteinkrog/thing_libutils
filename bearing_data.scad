@@ -12,6 +12,9 @@ bearing_MR105 = [5,10,4];
 bearing_MR115 = [5,11,4];
 bearing_MR125 = [5,12,4];
 
+bearing_sf1_1010 = [10,12,10];
+bearing_sf1_1212 = [12,14,12];
+
 
 // linear bearings
 // inner_d, outer_d, length, clips_len, clips_d
