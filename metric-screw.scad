@@ -84,17 +84,18 @@ function get(key, dict) =
     let(x= search(MHexNutThread, MHexNutM3))
     dict[x[0]];
 
-MKnurlInsertNutM3_5 = [
-    [MHexNutHoleDia, 3*mm],
-    [MHexNutWidthMin, 4*mm],
-    [MHexNutThickness, 5*mm],
-    [MHexNutWidthMax, 4.2*mm],
-    [MHexNutThread, ThreadM3],
-    [MHexNutFacets, 10],
-];
 
 if(false)
 {
+    MKnurlInsertNutM3_5 = [
+        [MHexNutHoleDia, 3*mm],
+        [MHexNutWidthMin, 4*mm],
+        [MHexNutThickness, 5*mm],
+        [MHexNutWidthMax, 4.2*mm],
+        [MHexNutThread, ThreadM3],
+        [MHexNutFacets, 10],
+    ];
+
     nut1 = MHexNutM3;
     nut2 = MHexNutM5;
     nut3 = MKnurlInsertNutM3_5;
