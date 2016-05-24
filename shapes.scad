@@ -232,10 +232,59 @@ module triangle(o_len, a_len, depth, align=[0,0,0], orient=[0,0,1])
     }
 }
 
-/*triangle_a(45, 5, 5);*/
-/*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,1]);*/
-/*triangle(10, 15, 5, align=[1,1,1], orient=[0,0,1]);*/
-/*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,-1]);*/
+/**
+ * Rounded Standard right-angled triangle
+ *
+ * @param number o_len Lenght of the opposite side
+ * @param number a_len Lenght of the adjacent side
+ * @param number depth How wide/deep the triangle is in the 3rd dimension
+ * @todo a better way ?
+ */
+module rtriangle(o_len, a_len, depth, rounding_radius=2, align=[0,0,0], orient=[0,0,1])
+{
+    size = [a_len-rounding_radius, depth-rounding_radius, o_len-rounding_radius];
+    r_x = rounding_radius;
+    r_y = rounding_radius;
+    r_z = -rounding_radius;
+
+    hyp = pythag_hyp(o_len,a_len);
+    a_z = atan(a_len/o_len);
+
+    translate([0,0,size[2]+2])
+    color([1,0,0])
+    rotate([90,90,0])
+    pie_slice(r=2, start_angle=0, end_angle=a_z, h=depth);
+
+    /*translate([size[0]+4,0,0])*/
+    /*color([1,0,0])*/
+    /*rotate([90,90,0])*/
+    /*pie_slice(r=2, start_angle=90, end_angle=90+a_z, h=depth);*/
+
+    size_align(size=size, align=align, orient=orient)
+    /*hull()*/
+    for(x=[-(size[0]/2)+rounding_radius,(size[0]/2)-r_x])
+    for(y=[-(size[1]/2)+rounding_radius,(size[1]/2)-r_y])
+    for(z=[-(size[2]/2)+rounding_radius,(size[2]/2)-r_z])
+    translate([x,y,z])
+    if(x<=1 || z<=1)
+    sphere(r=rounding_radius);
+}
+
+/*debug();*/
+
+module debug()
+{
+    $fs = 0.1;
+    $fa = 1;
+
+    /*triangle_a(45, 5, 5);*/
+    /*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,-1]);*/
+    /*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,1]);*/
+
+    triangle(10, 30, 5, align=[1,1,1], orient=[0,0,1]);
+    translate([0,-10,0])
+    rtriangle(10, 30, 5, align=[1,1,1], orient=[0,0,1]);
+}
 
 /**
  * Standard right-angled triangle (tangent version)
