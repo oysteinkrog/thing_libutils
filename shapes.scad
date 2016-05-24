@@ -12,13 +12,13 @@ module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=
     }
 }
 
-module rcubea(size=[10,10,10], facets=32, rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
+module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
 {
     size_align(extrasize,extrasize_align)
     {
         size_align(size,align)
         {
-            rcube(size=size+extrasize, facets=facets, rounding_radius=rounding_radius);
+            rcube(size=size+extrasize, rounding_radius=rounding_radius);
         }
     }
 }
@@ -107,13 +107,14 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
     circle(radial_width);
 }
 
-module rcylinder(d=undef, r1=undef, r2=undef, h=10, round_radius=2)
+module rcylinder(d=undef, r1=undef, r2=undef, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
 {
     useDia = r == undef && (r1 == undef && r2 == undef);
 
     r1_ = useDia?((d1==undef?undef:d1)/2):r1;
     r2_ = useDia?((d2==undef?undef:d2)/2):r2;
     r_= useDia?[d/2,d/2]:(r==undef?[r1_,r2_]:[r,r]);
+    size_align(align=align, orient=orient)
     /*translate([0,0,-h/2])*/
     hull()
     {
