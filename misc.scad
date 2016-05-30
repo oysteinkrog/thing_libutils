@@ -22,8 +22,12 @@ function transform_pp(vec_m, t_pre, t_post) = [for(m=vec_m) (t_pre*m)*t_post];
 function transform_pre(vec_m, t) = [for(m=vec_m) t*m];
 function transform_post(vec_m, t) = [for(m=vec_m) m*t];
 
-// sum a vector up to position i
-function v_sum(v, i) = i >= 0 ? v[i] + v_sum(v, i - 1) : 0;
+// from the start (or s'th element) to the e'th element - remember elements are zero based
+function v_sum(v,e=undef,start=0) = 
+let(e_= e==undef ? len(v)-1 : e)
+(e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
+
+function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
 function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) v_sum(v,i)];
@@ -112,3 +116,11 @@ function tanh(x) = sinh(x) / cosh(x);
 function cot(x) = 1 / tan(x);
 
 function factorial(n) = n == 0 ? 1 : factorial(n - 1) * n;
+
+if(false)
+{
+    vec=[ 10, 20, 30, 40 ];
+    echo("v_sum=", v_sum(vec,2,1)); // is 20+30=50
+    echo("v_sum=", v_sum(vec)); 
+    echo("v_cumsum=", v_cumsum(vec));
+}
