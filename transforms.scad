@@ -1,35 +1,34 @@
 use <misc.scad>
 
-// translate children 
-module lineup(arr=undef)
+// translate children
+module linup(arr=undef)
 {
-    /*echo(arr);*/
-    /*echo($children);*/
     if($children>0)
     {
         for (i = [0 : $children-1])
-            translate(arr[i]) children(i);
+        translate(arr[i]) children(i);
     }
 }
 
-module stack(dist=10, distances=undef)
+module stack(dist=10, distances=undef, axis=[0,0,1])
 {
-    if(dist == undef && distances != undef)
+    if($children>0)
     {
-        for (i = [0:len(separations)-1])
+        if(dist == undef && distances != undef)
         {
-            offset = v_sum(separations,i);
-            /*echo("i",i,"offset",offset);*/
-            translate ([0,0,offset])
+            for (i = [0:len(distances)-1])
             {
-                child(i);
+                offset = v_sum(distances,i);
+                translate(axis*offset)
+                    child(i);
             }
         }
-    }
-    else if(dist != undef && distances == undef)
-    {
-      for (i = [0 : $children-1])
-          translate([ dist*i, 0, 0 ]) children(i);
+        else if(dist != undef && distances == undef)
+        {
+            for (i = [0 : $children-1])
+                translate(axis*(dist*i))
+                    children(i);
+        }
     }
 }
 
@@ -44,10 +43,16 @@ module orient(zaxes, roll=0)
     }
 }
 
+function _orient_bounds(orient, size) =
+    (_rotate_matrix(_orient_angles(orient)) * [size.x,size.y,size.z,1]);
+
+function _orient_t(orient, align, size) =
+    let(bounds = _orient_bounds(orient, size))
+    (hadamard(align, [abs(bounds.x/2),abs(bounds.y/2),abs(bounds.z/2)]));
+
 module size_align(size=[10,10,10], align=[0,0,0], orient=[0,0,1])
 {
-    bounds = _rotate_matrix(_orient_angles(orient)) * [size.x,size.y,size.z,1];
-    t=hadamard(align, [abs(bounds.x/2),abs(bounds.y/2),abs(bounds.z/2)]);
+    t = _orient_t(orient, align, size);
     translate(t)
     {
         orient(orient)
