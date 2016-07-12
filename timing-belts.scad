@@ -1,4 +1,4 @@
-/*Parametric belting section generator 
+/*Parametric belting section generator
  * types GT2 2mm T2.5 T5 T10 MXL
  *
  * (c) ALJ_rprp
@@ -13,14 +13,16 @@
  * allow circular segments
  * length is given in mm not nb of teeth
  * belt is centered at z=0 and extend along x
- * 
+ *
  * TODO : add ofset for cosmetic teeth liaisons between segments
  *
  * usage :
- * belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90,fn=128)
+ * belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90)
  * belt_len  (prf = tT2_5, belt_width = 6, len = 10)
  */
 
+include <shapes.scad>
+include <transforms.scad>
 
 // profiles
 tGT2_2=0;
@@ -31,79 +33,62 @@ tMXL=4;
 
 /*test_belt();*/
 
-module test_belt() {
-    translate([-00.5,0,5.5])cube([1,40,1]);
+module test_belt()
+{
+    $fs= 0.5;
+    $fa = 4;
 
-    belt_len(profile = tT10, belt_width = 10, len = 100);
-    translate([0,0,-20])color("red")belt_len(profile = tT5, belt_width = 10, len = 100);
-    translate([0,0,-40])color("green")belt_len(profile = tT2_5, belt_width = 10, len = 80);
-    translate([0,0,-60])color("blue")belt_len(profile = tGT2_2, belt_width = 10, len = 100);
-    translate([0,0,-80])color("orange")belt_len(profile = tMXL, belt_width = 10, len = 100);
+    translate([-00.5,0,5.5]) cube([1,40,1]);
 
-    translate([0,0,-0])  belt_angle(tT10,20,10,180);
-    translate([0,0,-20]) belt_angle(tT5,15,10,90);
-    translate([0,0,-40]) belt_angle(tT2_5,25,10,120);
-    translate([0,0,-60]) belt_angle(tGT2_2,30,10,40);
-    translate([0,0,-80]) belt_angle(tMXL,30,10,40);
+    stack(dist=20, axis=[0,0,-1])
+    {
+        belt_len(profile = tT10, belt_width = 10, len = 100);
+        color("red") belt_len(profile = tT5, belt_width = 10, len = 100);
+        color("green") belt_len(profile = tT2_5, belt_width = 10, len = 80);
+        color("blue") belt_len(profile = tGT2_2, belt_width = 10, len = 100);
+        color("orange") belt_len(profile = tMXL, belt_width = 10, len = 100);
 
+        belt_angle(tT10,20,10,180);
+        belt_angle(tT5,15,10,90);
+        belt_angle(tT2_5,25,10,120);
+        belt_angle(tGT2_2,30,10,40);
+        belt_angle(tMXL,30,10,40);
 
-    translate([0,0,-100])color("aquamarine") {
-        belt_len(tT2_5,10, 50);
-        translate([50,30,0]) rotate([0,0,180]) belt_len(tT2_5,10,50);
-        translate([ 0,30,0]) rotate([0,0,180]) belt_angle(tT2_5,15,10,180);
-        translate([50,0,0]) rotate([0,0,0]) belt_angle(tT2_5,15,10,180);
+        color("aquamarine") {
+            belt_len(tT2_5,10, 50);
+            translate([50,30,0]) rotate([0,0,180]) belt_len(tT2_5,10,50);
+            translate([ 0,30,0]) rotate([0,0,180]) belt_angle(tT2_5,15,10,180);
+            translate([50,0,0]) rotate([0,0,0]) belt_angle(tT2_5,15,10,180);
+        }
     }
 }
 
-/* there is no partial rotate extrude in scad, hence the workaround
- * note that the pie slice will silently drop angles > 360 */
-module p_slice(radius, angle,height,back_t=0.6) {
-    pt_slc = [[0,radius],
-           [0 ,-back_t],
-           [radius,-back_t],
-               [radius+back_t,radius],
-                   [radius+back_t,radius*2],
-                       [0,radius*2+back_t],
-                           [-radius-back_t,radius*2+back_t],
-                               [-radius-back_t,radius],
-                                   [-radius-back_t,-back_t],
-                                       [(radius+back_t)*sin(angle),(radius+back_t)*(1-cos(angle))-back_t]];
-
-    if (angle<=90) {
-        linear_extrude(height = height+0.2, center=true)
-            polygon( points = pt_slc, 
-                    paths=[[0,1,2,9]]);
-    }else if (angle<=180){
-        linear_extrude(height = height+0.2, center=true)
-            polygon( points = pt_slc,  
-                    paths=[[0,1,2,3,4,9]]);
-    }else if (angle<=270){
-        linear_extrude(height = height+0.2, center=true)
-            polygon( points = pt_slc,  
-                    paths=[[0,1,2,3,4,5,6,9]]);
-    }else if (angle<360) {
-        linear_extrude(height = height+0.2, center=true)
-            polygon( points = pt_slc,  
-                    paths=[[0,1,2,3,4,5,6,7,8,9]]);
-    }
-}
-
-dp=5;
-
-module belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90,fn=128) {
+module belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90)
+{
     av=360/2/rad/3.14159*tpitch[prf];
     bk=bk_thick[prf];
 
     nn=ceil(angle/av);
     ang=av*nn;
-    intersection(){
-        p_slice(rad,angle,bwdth,bk_thick[prf]);
-        union () {
-            for( i = [0:nn]){
-                translate ([0,rad,-bwdth/2])rotate ([0,0,av*i])translate ([0,-rad,0])
-                    draw_tooth(prf,0,bwdth);
+
+    intersection()
+    {
+        translate([0,-bk-.5,0])
+        pie_slice(r=rad+bk+.5,start_angle=-90,end_angle=angle-90,h=bwdth, align=[0,1,0]);
+
+        union ()
+        {
+            for(i=[0:nn])
+            {
+                translate ([0,rad,-bwdth/2])
+                rotate ([0,0,av*i])
+                translate ([0,-rad,0])
+                draw_tooth(prf,0,bwdth);
             }
-            translate ([0,rad,-bwdth/2]) rotate_extrude(angle = 90, $fn=fn)
+
+            translate ([0,rad,-bwdth/2])
+            rotate([0,0,-90])
+            rotate_extrude(angle = angle)
                 polygon([[rad,0],[rad+bk,0],[rad+bk,bwdth],[rad,bwdth]]);
         }
     }
