@@ -149,6 +149,8 @@ module rcylinder(d=undef, r1=undef, r2=undef, h=10, round_radius=2, align=[0,0,0
     }
 }
 
+// positive angles go from start to end counterclockwise
+// negative angles are allowed
 module pie_slice_shape(r, start_angle, end_angle) {
     R = r * sqrt(2) + 1;
     a0 = (4 * start_angle + 0 * end_angle) / 4;
@@ -156,25 +158,26 @@ module pie_slice_shape(r, start_angle, end_angle) {
     a2 = (2 * start_angle + 2 * end_angle) / 4;
     a3 = (1 * start_angle + 3 * end_angle) / 4;
     a4 = (0 * start_angle + 4 * end_angle) / 4;
-    if(end_angle > start_angle)
-    {
-        intersection() {
-            circle(r);
-            polygon([
-                    [0,0],
-                    [R * cos(a0), R * sin(a0)],
-                    [R * cos(a1), R * sin(a1)],
-                    [R * cos(a2), R * sin(a2)],
-                    [R * cos(a3), R * sin(a3)],
-                    [R * cos(a4), R * sin(a4)],
-                    [0,0]
-            ]);
-        }
+    intersection() {
+        circle(r);
+        polygon([
+                [0,0],
+                [R * cos(a0), R * sin(a0)],
+                [R * cos(a1), R * sin(a1)],
+                [R * cos(a2), R * sin(a2)],
+                [R * cos(a3), R * sin(a3)],
+                [R * cos(a4), R * sin(a4)],
+                [0,0]
+        ]);
     }
 }
 
-module pie_slice(r, start_angle, end_angle, h) 
+// positive angles go from start to end counterclockwise
+// negative angles are allowed
+module pie_slice(r, start_angle, end_angle, h, orient=[0,0,1], align=[0,0,0])
 {
+    size_align(size=[r*2, r*2, h], orient=orient, align=align)
+    translate([0,0,-h/2])
     linear_extrude(h)
     {
         pie_slice_shape(r, start_angle, end_angle);
@@ -358,4 +361,12 @@ module test_triangles()
 
 /*translate([60,0,0])*/
     /*sphere(30/2);*/
+
+    /*stack(dist=10, axis=[0,0,-1])*/
+    /*{*/
+        /*pie_slice(r=30, h=5, start_angle=90, end_angle=-180, align=[0,0,-1]);*/
+        /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=[0,0,-1]);*/
+        /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=[0,0,-1]);*/
+        /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=[0,0,-1]);*/
+    /*}*/
 }
