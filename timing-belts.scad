@@ -63,6 +63,20 @@ module test_belt()
     }
 }
 
+module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=tGT2_2, align=[0,0,0], orient=[0,0,1])
+{
+    size_align(size=[pulley_d, belt_width, len], align=align, orient=orient)
+    orient([1,0,0])
+    orient([0,1,0])
+    translate([-len/2, -pulley_d/2, 0])
+    {
+        belt_len(belt, belt_width, len);
+        translate([len,pulley_d,0]) rotate([0,0,180]) belt_len(belt, belt_width, len);
+        translate([0,pulley_d,0]) rotate([0,0,180]) belt_angle(belt, pulley_d/2, belt_width, 180);
+        translate([len,0,0]) rotate([0,0,0]) belt_angle(belt, pulley_d/2 ,belt_width,180);
+    }
+}
+
 module belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90)
 {
     av=360/2/rad/3.14159*tpitch[prf];
