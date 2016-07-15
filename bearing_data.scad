@@ -15,8 +15,8 @@ bearing_MR125 = [5,12,4];
 bearing_sf1_1010 = [10,12,10];
 bearing_sf1_1212 = [12,14,12];
 
-bearing_bronze_10_16_12 = [10,16,12];
-bearing_bronze_12_18_18 = [12,18,18];
+bearing_bronze_10_16_12 = [10,16,12,8,16];
+bearing_bronze_12_18_18 = [12,18,18,9,18];
 
 
 // linear bearings
