@@ -3,6 +3,7 @@ include <transforms.scad>
 
 include <metric-thread-data.scad>
 include <metric-hexnut-data.scad>
+include <metric-knurlnut-data.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
 function get_screw_head_h(nut) = lookup(ThreadSize, nut);
@@ -195,18 +196,10 @@ function get(key, dict) =
 
 if(false)
 {
-    MKnurlInsertNutM3_5 = [
-        [MHexNutHoleDia, 3*mm],
-        [MHexNutWidthMin, 4*mm],
-        [MHexNutThickness, 5*mm],
-        [MHexNutWidthMax, 4.2*mm],
-        [MHexNutThread, ThreadM3],
-        [MHexNutFacets, 10],
-    ];
-
     nut1 = MHexNutM3;
     nut2 = MHexNutM5;
-    nut3 = MKnurlInsertNutM3_5;
+    nut3 = MKnurlInsertNutM3_3_42;
+    nut4 = MKnurlInsertNutM3_5_42;
 
     nut_trap_cut(nut=nut1, trap_axis=[0,0,1], orient=[1,0,0]);
 
