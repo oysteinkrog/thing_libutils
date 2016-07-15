@@ -174,10 +174,9 @@ module pie_slice_shape(r, start_angle, end_angle) {
 
 // positive angles go from start to end counterclockwise
 // negative angles are allowed
-module pie_slice(r, start_angle, end_angle, h, orient=[0,0,1], align=[0,0,0])
+module pie_slice(r, start_angle, end_angle, h, orient=undef, align=[0,0,0])
 {
-    size_align(size=[r*2, r*2, h], orient=orient, align=align)
-    translate([0,0,-h/2])
+    size_align(size=[r*2, r*2, h], orient=orient, orient_ref=[0,0,0], align=align)
     linear_extrude(h)
     {
         pie_slice_shape(r, start_angle, end_angle);
@@ -326,47 +325,63 @@ module test_triangles()
     }
 }
 
-/*hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);*/
-/*cylindera(d=10, h=10, orient=[0,0,1], align=[0,0,1]);*/
-/*translate([10,0,0])*/
-/*{*/
+if(false)
+{
+    /*hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);*/
+    /*cylindera(d=10, h=10, orient=[0,0,1], align=[0,0,1]);*/
+    /*translate([10,0,0])*/
+    /*{*/
     /*hollow_cylinder(d=10, thickness=4, h=10, taper=true, taper_h=.5, orient=[0,0,1], align=[0,0,1]);*/
     /*cylindera(d=8, h=10, orient=[0,0,1], align=[0,0,1]);*/
-/*}*/
+    /*}*/
 
-/*%pie_slice(r=10, start_angle=-30, end_angle=270, h=10);*/
+    /*%pie_slice(r=10, start_angle=-30, end_angle=270, h=10);*/
 
-/*cubea([10,10,10],[1,0,0]);*/
-/*%cubea([10,10,10],[1,0,0],[5,5,5],[1,1,1]);*/
+    /*cubea([10,10,10],[1,0,0]);*/
+    /*%cubea([10,10,10],[1,0,0],[5,5,5],[1,1,1]);*/
 
-/*%cubea([10,10,10],[-1,0,1]);*/
-/*%cubea([10,10,10],[-1,0,1],[1,1,1],[-1,0,1]);*/
-/*%cylindera(h=10, r=10/2, align=[-1,1,1], extra_r=5/2, extra_h=2, extra_align=[-1,1,1], $fn=100);*/
+    /*%cubea([10,10,10],[-1,0,1]);*/
+    /*%cubea([10,10,10],[-1,0,1],[1,1,1],[-1,0,1]);*/
+    /*%cylindera(h=10, r=10/2, align=[-1,1,1], extra_r=5/2, extra_h=2, extra_align=[-1,1,1], $fn=100);*/
 
-/*%cylindera(h=10, d=10, align=[-1,1,1], extra_d=5, extra_h=2, extra_align=[-1,1,1], $fn=100);*/
-/*%cylindera(h=10, d=10, align=[1,1,1], extra_d=15, extra_h=2, extra_align=[1,1,1], $fn=100);*/
+    /*%cylindera(h=10, d=10, align=[-1,1,1], extra_d=5, extra_h=2, extra_align=[-1,1,1], $fn=100);*/
+    /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=15, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
-/*%cylindera(h=10, d=10, align=[1,-1,1], extra_d=5, extra_h=2, extra_align=[-1,-1,1], $fn=100);*/
-/*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
+    /*%cylindera(h=10, d=10, align=[1,-1,1], extra_d=5, extra_h=2, extra_align=[-1,-1,1], $fn=100);*/
+    /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
-/*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
+    /*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
 
-/*hull_pairwise()*/
-{
+    /*hull_pairwise()*/
     /*sphere(30/2);*/
 
-/*translate([30,0,0])*/
+    /*translate([30,0,0])*/
     /*rcubea(s=[35,35,35], rounding_radius=10);*/
     /*rcubea(s=[35,35,35], align=[0,-1,0]);*/
 
-/*translate([60,0,0])*/
+    /*translate([60,0,0])*/
     /*sphere(30/2);*/
 
-    /*stack(dist=10, axis=[0,0,-1])*/
-    /*{*/
-        /*pie_slice(r=30, h=5, start_angle=90, end_angle=-180, align=[0,0,-1]);*/
-        /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=[0,0,-1]);*/
-        /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=[0,0,-1]);*/
-        /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=[0,0,-1]);*/
-    /*}*/
+    stack(dist=50, axis=[0,1,0])
+    {
+        stack(dist=10, axis=[0,0,-1])
+        {
+            /*cylindera(orient=[0,0,-1], align=[0,0,-1]);*/
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,1], align=[0,0,-1]);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,-1], align=[0,0,1]);
+            /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=[0,0,-1]);*/
+            /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=[0,0,-1]);*/
+            /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=[0,0,-1]);*/
+        }
+
+        stack(dist=10, axis=[0,1,0])
+        {
+            /*cylindera(orient=[0,1,0], align=[0,1,0]);*/
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,-1,0], align=[0,1,0]);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,1,0], align=[0,1,0]);
+            pie_slice(r=30, h=5, start_angle=-90, end_angle=180, orient=[0,1,0], align=[0,1,0]);
+            pie_slice(r=30, h=5, start_angle=90, end_angle=270, orient=[0,1,0], align=[0,1,0]);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=270, orient=[0,1,0], align=[0,1,0]);
+        }
+    }
 }
