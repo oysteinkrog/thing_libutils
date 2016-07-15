@@ -125,3 +125,32 @@ if(false)
     echo("v_sum=", v_sum(vec)); 
     echo("v_cumsum=", v_cumsum(vec));
 }
+
+// FUNCTION: is_String(x)
+//   Returns true if x is a string, false otherwise.
+function is_string(x) =
+	x == undef || len(x) == undef
+		? false // if undef, a boolean or a number
+		: len(str(x,x)) == len(x)*2; // if an array, this is false
+
+// FUNCTION: is_array(x)
+//   Returns true if x is an array, false otherwise.
+function is_array(x) = is_string(x) ? false : len(x) != undef;
+
+function identity(d)        = d == 0 ? 1 : [for(y=[1:d]) [for(x=[1:d]) x == y ? 1 : 0] ];
+function unit_vector(v)     = let(x=v[0], y=v[1], z=v[2]) [x/norm(v), y/norm(v), z/norm(v)];
+function skew_symmetric(v)  = let(x=v[0], y=v[1], z=v[2]) [[0, -z, y], [z, 0, -x], [-y, x, 0]];
+function tensor_product1(u) = let(x=u[0], y=u[1], z=u[2]) [[x*x, x*y, x*z], [x*y, y*y, y*z], [x*z, y*z, z*z]];
+function v_rotate(a, v)
+    = is_array(a)
+? let(rx=a[0], ry=a[1], rz=a[2])
+    [[1, 0, 0],              [0, cos(rx), -sin(rx)], [0, sin(rx), cos(rx)]]
+    * [[cos(ry), 0, sin(ry)],  [0, 1, 0],              [-sin(ry), 0, cos(ry)]]
+    * [[cos(rz), -sin(rz), 0], [sin(rz), cos(rz), 0],  [0, 0, 1]]
+    : let(uv=unit_vector(v))
+    cos(a)*identity(3) + sin(a)*skew_symmetric(uv) + (1 - cos(a))*tensor_product1(uv);
+
+
+ /*echo(rotate(90, [1,0,0]) * [1, 0, 0]);*/
+ /*echo(rotate(90, [1,0,0]) * [0, 1, 0]);*/
+ /*echo(rotate(90, [1,0,0]) * [0, 0, 1]);*/
