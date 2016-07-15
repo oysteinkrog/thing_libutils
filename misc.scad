@@ -28,6 +28,7 @@ let(e_= e==undef ? len(v)-1 : e)
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
+function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
 function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) v_sum(v,i)];
