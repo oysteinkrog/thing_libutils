@@ -1,0 +1,4 @@
+XAXIS = [1,0,0];
+YAXIS = [0,1,0];
+ZAXIS = [0,0,1];
+AXES = [XAXIS,YAXIS,ZAXIS];
