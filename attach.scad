@@ -50,33 +50,6 @@ module vectorz(l=10, l_arrow=4, mark=false)
   sphere(r=1/2);
 }
 
-//-----------------------------------------------------------------
-//-- ORIENTATE OPERATOR
-//--
-//--  Orientate an object to the direction given by the vector v
-//--  Parameters:
-//--    v : Target orientation
-//--    vref: Vector reference. It is the vector of the local frame
-//--          of the object that want to be poiting in the direction
-//--          of v
-//--    roll: Rotation of the object around the v axis
-//-------------------------------------------------------------------
-module orientate(v,vref=[0,0,1], roll=0)
-{
-  //-- Calculate the rotation axis
-  raxis = v_cross(vref,v);
-  //-- Calculate the angle between the vectors
-  ang = v_anglev(vref,v);
-
-  raxis_=ang==180&&raxis==[0,0,0]?[1,0,0]:raxis;
-
-  //-- Rotate the child!
-  rotate(a=roll, v=v)
-    rotate(a=ang, v=raxis_)
-    orient(v)
-      child(0);
-}
-
 // From Obiscad,
 //---------------------------------------------------------------------------
 //-- Draw a vector
