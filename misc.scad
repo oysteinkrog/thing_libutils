@@ -159,3 +159,5 @@ function v_rotate(a, v)
  /*echo(rotate(90, [1,0,0]) * [1, 0, 0]);*/
  /*echo(rotate(90, [1,0,0]) * [0, 1, 0]);*/
  /*echo(rotate(90, [1,0,0]) * [0, 0, 1]);*/
+
+function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
