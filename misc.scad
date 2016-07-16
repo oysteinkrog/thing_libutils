@@ -22,6 +22,8 @@ function transform_pp(vec_m, t_pre, t_post) = [for(m=vec_m) (t_pre*m)*t_post];
 function transform_pre(vec_m, t) = [for(m=vec_m) t*m];
 function transform_post(vec_m, t) = [for(m=vec_m) m*t];
 
+function clamp(v, v1, v2) = min(max(v,v1),v2);
+
 // from the start (or s'th element) to the e'th element - remember elements are zero based
 function v_sum(v,e=undef,start=0) = 
 let(e_= e==undef ? len(v)-1 : e)
@@ -29,6 +31,9 @@ let(e_= e==undef ? len(v)-1 : e)
 
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
+function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
+function v_min(v, m, start=0) = [for(i=[start:1:len(v)-1]) min(v[i],m)];
+function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,v2)];
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
 function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) v_sum(v,i)];
