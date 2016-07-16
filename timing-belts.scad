@@ -88,7 +88,7 @@ module belt_angle(prf = tT2_5, rad=25, bwdth = 6, angle=90)
     intersection()
     {
         translate([0,-bk-.5,0])
-        pie_slice(r=rad+bk+.5,start_angle=-90,end_angle=angle-90,h=bwdth, align=[0,1,0]);
+        pie_slice(r=rad+bk+.5,start_angle=-90,end_angle=angle-90,h=bwdth, align=[0,1,-1]);
 
         union ()
         {

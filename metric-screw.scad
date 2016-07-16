@@ -123,7 +123,7 @@ module screw_nut_cut(nut=MHexNutM3, tolerance=1.05, h=1000, orient=[0,0,1], alig
 {
     thickness = lookup(MHexNutThickness,nut)*tolerance;
     d = lookup(MHexNutWidthMin, nut)*tolerance;
-    size_align([d,d,thickness], orient=orient, align=align)
+    size_align(size=[d,d,thickness], orient=orient, align=align)
     {
         translate([0,0,thickness/2])
         {

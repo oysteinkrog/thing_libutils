@@ -1,25 +1,21 @@
+include <system.scad>
+include <units.scad>
 use <misc.scad>
 use <transforms.scad>
 
 module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
 {
-    size_align(extrasize,extrasize_align)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align)
     {
-        size_align(size,align)
-        {
-            cube(size+extrasize, center=true);
-        }
+        cube(size+extrasize, center=true);
     }
 }
 
 module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
 {
-    size_align(extrasize,extrasize_align)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align)
     {
-        size_align(size,align)
-        {
-            rcube(size=size+extrasize, rounding_radius=rounding_radius);
-        }
+        rcube(size=size+extrasize, rounding_radius=rounding_radius);
     }
 }
 
@@ -32,6 +28,7 @@ module rcube(size=[20,20,20], rounding_radius=1)
     translate([x,y,z])
     sphere(r=rounding_radius);
 }
+
 
 module cylindera(
         h=10,
@@ -46,7 +43,7 @@ module cylindera(
         extra_h=0,
         extra_r=undef,
         extra_d=undef,
-        extra_align=[0,0,1],
+        extra_align=[0,0,0],
         round_radius=undef,
         debug=false
         )
@@ -65,28 +62,21 @@ module cylindera(
     sizexy=r__*2;
     extra_sizexy=extra_r_*2;
 
-    // some orient hax here to properly support extra_align
-    orient(-orient)
-    size_align([extra_sizexy,extra_sizexy,extra_h], align=extra_align, orient=orient)
-    orient(orient)
+    if(debug)
     {
-        if(debug)
-        {
-            echo(useDia, h, r_, r1_, r2_, extra_r_, align);
-        }
+        echo(useDia, h, r_, r1_, r2_, extra_r_, align);
+    }
 
-        // some orient hax here to properly support extra_align
-        orient(-orient)
-        size_align([sizexy,sizexy,h], align=align, orient=orient)
+    // some orient hax here to properly support extra_align
+    size_align(size=[sizexy,sizexy,h], extra_size=[extra_sizexy, extra_sizexy, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
+    {
+        if(round_radius==undef)
         {
-            if(round_radius==undef)
-            {
-                cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
-            }
-            else
-            {
-                rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
-            }
+            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
+        }
+        else
+        {
+            rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
         }
     }
 }
@@ -174,9 +164,9 @@ module pie_slice_shape(r, start_angle, end_angle) {
 
 // positive angles go from start to end counterclockwise
 // negative angles are allowed
-module pie_slice(r, start_angle, end_angle, h, orient=undef, align=[0,0,0])
+module pie_slice(r, start_angle, end_angle, h, orient=[0,0,1], align=[0,0,0])
 {
-    size_align(size=[r*2, r*2, h], orient=orient, orient_ref=[0,0,0], align=align)
+    size_align(size=[r*2, r*2, h], orient=orient, orient_ref=[0,0,1], align=align)
     linear_extrude(h)
     {
         pie_slice_shape(r, start_angle, end_angle);
@@ -325,6 +315,7 @@ module test_triangles()
     }
 }
 
+
 if(false)
 {
     /*hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);*/
@@ -362,6 +353,33 @@ if(false)
     /*translate([60,0,0])*/
     /*sphere(30/2);*/
 
+
+    cylindera(h=20, r=5*mm, align=[0,1,0], orient=[0,0,1], $fn=100);
+
+/*size_align(size=[5,5,20], orient=[0,1,0], orient_ref=[0,0,1])*/
+/*size_align(size=[5,5,20], orient=[0,1,0], orient_ref=[0,1,0], align=[0,1,0])*/
+/*size_align(size=[5,20,5], orient=[0,0,1], orient_ref=[0,1,0], align=[0,0,0])*/
+/*rotate([90,0,0])*/
+/*cylinder(d=5, h=20, center=true);*/
+
+/*cylindera(d=10, h=10, orient=[0,1,0], align=[0,0,1]);*/
+}
+
+
+if(false)
+{
+    r=5*mm;
+    for(axis=concat(AXES,-AXES))
+    translate(axis*r*2)
+    {
+        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
+        color(c)
+        cylindera(h=20, r=r, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=100);
+    }
+}
+
+if(false)
+{
     stack(dist=50, axis=[0,1,0])
     {
         stack(dist=10, axis=[0,0,-1])

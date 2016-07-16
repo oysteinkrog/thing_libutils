@@ -32,16 +32,12 @@ module stack(dist=10, distances=undef, axis=[0,0,1])
     }
 }
 
-module orient(v, vref=[0,0,1], roll=0)
+module orient(axis=[0,0,1], axis_ref=[0,0,1], roll=0)
 {
-    zaxes = len(v.x) == undef && v.x != undef? [v] : v;
-    rotate(_orient_angles(vref))
-    for(z=zaxes)
-    {
-        rotate(_orient_angles(z))
-        rotate(roll*z)
-            children();
-    }
+    rotate(axis_ref==undef?0:_orient_angles(axis_ref))
+    rotate(axis==undef?0:_orient_angles(axis))
+    rotate(axis==undef?0:roll*axis)
+    children();
 }
 
 
@@ -52,12 +48,14 @@ function _orient_t(orient, align, size) =
     let(bounds = _orient_bounds(orient, size))
     (hadamard(align, [abs(bounds.x/2),abs(bounds.y/2),abs(bounds.z/2)]));
 
-module size_align(size=[10,10,10], align=[0,0,0], orient=[0,0,1], orient_ref=[0,0,1], orient_roll=0)
+module size_align(size=[10,10,10], extra_size=[0,0,0], align=[0,0,0], extra_align=[0,0,0], orient=[0,0,1], orient_ref=[0,0,1], orient_roll=0)
 {
-    t = _orient_t(orient, align, size);
-    translate(t)
+    t = orient==undef?[0,0,0]:_orient_t(orient, align, size);
+    /*t_ = orient_ref==undef?[0,0,0]:_orient_t(orient_ref, align, size);*/
+    extra_t = (orient==undef||extra_size==undef)?[0,0,0]:_orient_t(orient, extra_align, extra_size);
+    translate(t+extra_t)
     {
-        orient(v=orient, vref=orient_ref, roll=orient_roll)
+        orient(axis=orient, axis_ref=orient_ref, roll=orient_roll)
         {
             children();
         }
