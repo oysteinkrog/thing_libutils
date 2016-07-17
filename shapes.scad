@@ -3,17 +3,17 @@ include <units.scad>
 use <misc.scad>
 use <transforms.scad>
 
-module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
+module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll)
     {
         cube(size+extrasize, center=true);
     }
 }
 
-module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0])
+module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll)
     {
         rcube(size=size+extrasize, rounding_radius=rounding_radius);
     }
