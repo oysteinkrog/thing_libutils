@@ -44,7 +44,7 @@ module cylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,0],
-        round_radius=undef,
+        round_radius=0,
         debug=false
         )
 {
@@ -70,13 +70,13 @@ module cylindera(
     // some orient hax here to properly support extra_align
     size_align(size=[sizexy,sizexy,h], extra_size=[extra_sizexy, extra_sizexy, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
     {
-        if(round_radius==undef)
+        if(round_radius>0)
         {
-            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
+            rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
         }
         else
         {
-            rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
+            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
         }
     }
 }
@@ -97,44 +97,24 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
     circle(radial_width);
 }
 
-module rcylinder(d=undef, r1=undef, r2=undef, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
+module rcylinder(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
 {
-    useDia = r == undef && (r1 == undef && r2 == undef);
+    d1_ = v_fallback(d1, [r*2, r1*2]);
+    d2_ = v_fallback(d2, [r*2, r2*2]);
 
-    r1_ = useDia?((d1==undef?undef:d1)/2):r1;
-    r2_ = useDia?((d2==undef?undef:d2)/2):r2;
-    r_= useDia?[d/2,d/2]:(r==undef?[r1_,r2_]:[r,r]);
+    r1_ = v_fallback(r1, [d/2, d1_/2]);
+    r2_ = v_fallback(r2, [d/2, d2_/2]);
+
+    r_ = [r1_,r2_];
+
     size_align(align=align, orient=orient)
-    /*translate([0,0,-h/2])*/
     hull()
     {
-        /*a = r_[0]-r_[1];*/
-        /*b = h;*/
-        /*c = pythag_hyp(a,b);*/
-        /*echo(c);*/
-        /*d = c;//pythag_leg(a,c);*/
-        /*echo(d);*/
-        /*translate([0,r1-round_radius,0])*/
-        /*cube([d,d,d]);*/
-        /*angle2 = -atan2(-h, r1-r2);*/
-        /*echo(angle2);*/
-        /*x2 = r2-r1 < 0 ? (round_radius*2*cos(angle2)) : (round_radius*2*sin(angle2));*/
-        /*echo(x2)*/
-        /*translate([0, 0, h/2-round_radius])*/
-        /*torus(radius=r_[1]-round_radius, radial_width=round_radius, align=[0,0,0]);*/
-
         for(z=[-1,1])
         translate([0, 0, z*(-h/2)])
         {
-            /*rd = abs(r1-r2);*/
-            /*angle1 = atan2(h, abs(r2-r1));*/
-            /*x1 = round_radius*2*cos(angle1);*/
-            /*echo(angle1, x1);*/
             r__=z!=-1?r_[0]:r_[1];
             torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
-
-            /*translate([0, 0, -round_radius])*/
-            /*cubea([r__*2,r__*2,5], align=[0,0,-z]);*/
         }
     }
 }
@@ -437,7 +417,8 @@ if(false)
     {
         c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
         color(c)
-        cylindera(h=20, r=r, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=100);
+        /*cylindera(h=20, r=r, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=100);*/
+        cylindera(h=20, r1=r, r2=r/2, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=16, round_radius=2);
     }
 }
 
