@@ -35,8 +35,8 @@ module stack(dist=10, distances=undef, axis=[0,0,1])
 module orient(axis=[0,0,1], axis_ref=[0,0,1], roll=0)
 {
     rotate(axis_ref==undef?0:_orient_angles(axis_ref))
-    rotate(axis==undef?0:_orient_angles(axis))
     rotate(axis==undef?0:roll*axis)
+    rotate(axis==undef?0:_orient_angles(axis))
     children();
 }
 
