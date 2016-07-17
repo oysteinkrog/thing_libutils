@@ -262,6 +262,69 @@ module rtriangle(o_len, a_len, depth, rounding_radius=2, align=[0,0,0], orient=[
     sphere(r=rounding_radius);
 }
 
+module teardrop(r, d, h=10, truncate=1, align=[0,0,0], orient=[0,1,0], roll=0)
+{
+    r_=d==undef?r:d/2;
+    d_=r==undef?d:r*2;
+
+    sx1 = r_ * sin(-45);
+    sx2 = r_ * -sin(-45);
+    sy = r_ * -cos(-45);
+    ex = 0;
+    ey = (sin(-135) + cos(-135)) * r_;
+
+    dx= ex-sx1;
+    dy = ey-sy;
+
+    eys = lerp(-r_,ey,1-truncate);
+
+    dys = eys-sy;
+    ex1 = sy+dys*dx/dy;
+    ex2 = -ex1;
+
+    size_align(size=[d,d,h], align=align, orient=orient, orient_ref=[0,0,1], roll=roll)
+    union()
+    {
+        linear_extrude(height = h, center = true, convexity = r_, twist = 0)
+        circle(r = r_, center = true);
+
+        linear_extrude(height = h, center = true, convexity = r_, twist = 0)
+        polygon(points = [
+                [sy, sx1],
+                [sy, sx2],
+                [eys, ex2],
+                [eys, ex1]],
+                paths = [[0, 1, 2, 3]]);
+    }
+}
+
+// test teardrop
+if(false)
+{
+    r=5*mm;
+    for(axis=concat(AXES,-AXES))
+    translate(axis*r*2)
+    {
+        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
+        color(c)
+        teardrop(r=r, h=20, orient=axis, align=axis);
+    }
+}
+
+// test cubea
+if(false)
+{
+    w=5*mm;
+    h=2*mm;
+    for(axis=concat(AXES,-AXES))
+    /*translate(axis)*/
+    {
+        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
+        color(c)
+        cubea([w,w,h], orient=axis, align=axis*3);
+    }
+}
+/**
 /*debug();*/
 
 module debug()
