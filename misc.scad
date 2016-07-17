@@ -161,3 +161,10 @@ function v_rotate(a, v)
  /*echo(rotate(90, [1,0,0]) * [0, 0, 1]);*/
 
 function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
+
+// echo(fallback(undef,1));
+function fallback(a, b) = a==undef?b:a;
+
+// echo(fallback(undef,[undef, 1]));
+function v_fallback(a,v,i=0) = (a!=undef || i > len(v)-1) ? a : v_fallback(v[i],v,i+1);
+
