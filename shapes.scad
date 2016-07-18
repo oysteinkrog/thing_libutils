@@ -50,33 +50,30 @@ module cylindera(
 {
     pi=3.1415926536;
 
-    useDia = r == undef && (r1 == undef && r2 == undef);
+    d1_ = v_fallback(d1, [r*2, r1*2]);
+    d2_ = v_fallback(d2, [r*2, r2*2]);
 
-    r1_ = useDia?((d1==undef?undef:d1)/2):r1;
-    r2_ = useDia?((d2==undef?undef:d2)/2):r2;
-    r_= useDia?d/2:(r==undef?0:r);
-    r1r2max = max(r1,r2) == undef ? max(d1,d2)/2 : max(r1,r2);
-    r__ = r_==undef? r1r2max : r_;
-    extra_r_ = useDia?((extra_d==undef?0:extra_d)/2):((extra_r==undef)?0:extra_r);
+    r1_ = v_fallback(r1, [d1_/2, d/2, r]);
+    r2_ = v_fallback(r2, [d2_/2, d/2, r]);
 
-    sizexy=r__*2;
-    extra_sizexy=extra_r_*2;
+    r_max = v_fallback(r, [max(r1_,r2_)]);
+
+    extra_r_ = v_fallback(extra_r, [0]);
 
     if(debug)
     {
         echo(useDia, h, r_, r1_, r2_, extra_r_, align);
     }
 
-    // some orient hax here to properly support extra_align
-    size_align(size=[sizexy,sizexy,h], extra_size=[extra_sizexy, extra_sizexy, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
+    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
     {
         if(round_radius>0)
         {
-            rcylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, round_radius=round_radius);
+            rcylinder(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, round_radius=round_radius);
         }
         else
         {
-            cylinder(h=h+extra_h, r=r_+extra_r_, r1=r1_, r2=r2_, center=true);
+            cylinder(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, center=true);
         }
     }
 }
@@ -244,8 +241,7 @@ module rtriangle(o_len, a_len, depth, rounding_radius=2, align=[0,0,0], orient=[
 
 module teardrop(r, d, h=10, truncate=1, align=[0,0,0], orient=[0,1,0], roll=0)
 {
-    r_=d==undef?r:d/2;
-    d_=r==undef?d:r*2;
+    r_= v_fallback(r, [d/2]);
 
     sx1 = r_ * sin(-45);
     sx2 = r_ * -sin(-45);
