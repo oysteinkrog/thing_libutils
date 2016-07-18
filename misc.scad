@@ -26,7 +26,7 @@ function clamp(v, v1, v2) = min(max(v,v1),v2);
 
 // from the start (or s'th element) to the e'th element - remember elements are zero based
 function v_sum(v,e=undef,start=0) = 
-let(e_= e==undef ? len(v)-1 : e)
+let(e_= fallback(e, len(v)-1))
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
