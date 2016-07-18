@@ -99,7 +99,7 @@ module screw_head(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
     difference()
     {
-        cylindera(d=head_d, h = override_h==undef?head_h:override_h);
+        cylindera(d=head_d, h = fallback(override_h,head_h));
         translate([0,0,head_h/2])
         cylindera(d=threadsize, h = head_d/2);
     }
@@ -112,7 +112,7 @@ module screw_head_cut(nut=MHexNutM3, tolerance=1.05, override_h=undef, orient=[0
     head_d = get_screw_head_d(nut)*tolerance;
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
     translate([0,0,-head_h/2])
-    cylindera(d=head_d, h=override_h==undef?head_h:override_h, align=[0,0,1]);
+    cylindera(d=head_d, h=fallback(override_h, head_h), align=[0,0,1]);
 }
 
 module screw_nut(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1], align=[0,0,0])
@@ -120,7 +120,7 @@ module screw_nut(nut=MHexNutM3, tolerance=1.00, override_h=undef, orient=[0,0,1]
     thickness = lookup(MHexNutThickness,nut)*tolerance;
     d = lookup(MHexNutWidthMin, nut)*tolerance;
     facets = lookup(MHexNutFacets, nut);
-    cylindera($fn=lookup(MHexNutFacets, nut), d=d, h=override_h==undef?thickness:override_h, orient=orient, align=align);
+    cylindera($fn=lookup(MHexNutFacets, nut), d=d, h=fallback(override_h, thickness), orient=orient, align=align);
 }
 
 module screw_nut_cut(nut=MHexNutM3, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
