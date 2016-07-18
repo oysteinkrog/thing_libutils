@@ -2,10 +2,11 @@ use <transforms.scad>;
 use <shapes.scad>
 include <bearing_data.scad>
 include <units.scad>
+include <misc.scad>
 
 module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=[0,0,0])
 {
-    h = (override_h==undef ? bearing_type[2] : override_h) + extra_h;
+    h = fallback(override_h, bearing_type[2]) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     difference()
     {
@@ -34,7 +35,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
 
-    ziptie_dist_ = (ziptie_dist==undef?bearing_type[3]/2:ziptie_dist);
+    ziptie_dist_ = fallback(ziptie_dist, bearing_type[3]/2);
 
     orient(orient)
     {
