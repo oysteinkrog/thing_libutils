@@ -22,14 +22,14 @@ module screw(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut=tru
 
     s = threadsize*tolerance;
     total_h = h;
-    size_align(size=[s, s, total_h], orient=orient, orient_ref=[0,0,-1], align=align)
+    size_align(size=[s, s, total_h], orient=-orient, orient_ref=[0,0,1], align=align)
     {
         translate([0,0,head_embed?-head_h:0])
         {
             if(with_head)
             {
                 translate([0,0,h/2+.01])
-                screw_head(nut, orient=[0,0,1], align=[0,0,1]);
+                screw_head(nut=nut, orient=[0,0,1], align=[0,0,1]);
             }
 
             screw_thread(thread=thread, h=h+.1, tolerance=tolerance, orient=[0,0,1], align=[0,0,0]);
@@ -59,10 +59,10 @@ module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut
             if(with_head)
             {
                 translate([0,0,h/2+.01])
-                screw_head_cut(nut, tolerance=1.25, override_h=1000, align=[0,0,1]);
+                screw_head_cut(nut=nut, tolerance=1.25, override_h=1000, align=[0,0,1]);
             }
 
-            screw_thread_cut(thread=thread, h=h+.1, tolerance=tolerance, align=[0,0,0]);
+            screw_thread_cut(thread=thread, h=h+.1, tolerance=tolerance, orient=[0,0,1], align=[0,0,0]);
 
             if(with_nut)
             {
@@ -74,7 +74,7 @@ module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut
 
     if($show_vit)
     {
-        %screw(nut, h, tolerance, head_embed, with_nut, nut_offset, orient, align);
+        %screw(nut=nut, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=orient, align=align);
     }
 }
 
