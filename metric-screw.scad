@@ -43,7 +43,7 @@ module screw(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut=tru
     }
 }
 
-module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, cut_access=true, orient=[0,0,1], align=[0,0,0])
+module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=[0,0,1], align=[0,0,0])
 {
     threadsize = lookup(ThreadSize, nut);
     head_h = get_screw_head_h(nut);
@@ -59,7 +59,7 @@ module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut
             if(with_head)
             {
                 translate([0,0,h/2+.01])
-                screw_head_cut(nut=nut, tolerance=1.25, override_h=1000, align=[0,0,1]);
+                screw_head_cut(nut=nut, tolerance=1.25, override_h=head_cut_h, align=[0,0,1]);
             }
 
             screw_thread_cut(thread=thread, h=h+.1, tolerance=tolerance, orient=[0,0,1], align=[0,0,0]);
@@ -67,7 +67,7 @@ module screw_cut(nut=MHexNutM3, h=10, tolerance=1.05, head_embed=false, with_nut
             if(with_nut)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
-                screw_nut_cut(nut=nut, tolerance=tolerance, align=[0,0,-1]);
+                screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, align=[0,0,-1]);
             }
         }
     }
