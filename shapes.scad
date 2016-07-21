@@ -3,21 +3,23 @@ include <units.scad>
 use <misc.scad>
 use <transforms.scad>
 
-module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0)
+module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll, , extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         cube(size+extrasize, center=true);
     }
 }
 
-module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0)
+module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         rcube(size=size+extrasize, rounding_radius=rounding_radius);
     }
 }
+
+/*cubea(size=[10,20,30], align=[0,-1,0], orient=[0,0,1], roll=10, extra_roll=-30, extra_roll_orient=[1,0,0]);*/
 
 module rcube(size=[20,20,20], rounding_radius=1)
 {
