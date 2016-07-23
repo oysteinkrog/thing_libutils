@@ -11,7 +11,7 @@ use <scad-utils/transformations.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
 function get_screw_head_h(thread) = lookup(ThreadSize, thread);
-function get_screw_head_d(thread) = 2 * lookup(ThreadSize, thread);
+function get_screw_head_d(thread) = 1.5 * lookup(ThreadSize, thread);
 
 module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=[0,0,1], align=[0,0,0])
 {
