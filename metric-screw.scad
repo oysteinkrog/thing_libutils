@@ -57,9 +57,11 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
     nut_h = get(MHexNutThickness,nut)*tolerance;
     head_h = get_screw_head_h(thread);
     threadsize = get(ThreadSize, thread_);
+    assert(threadsize != undef, "screw_cut: threadsize is undef!");
 
     s = threadsize*tolerance;
     total_h = h;
+    assert(s != undef, "screw_cut: s is undef!");
     size_align(size=[s, s, total_h], orient=-orient, orient_ref=[0,0,1], align=align)
     {
         translate([0,0,head_embed?-head_h:0])
