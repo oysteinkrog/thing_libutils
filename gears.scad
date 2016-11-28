@@ -1,3 +1,4 @@
+include <system.scad>
 include <gears-data.scad>
 
 // SPUR GEARS (all functions assume module/mm system!)
@@ -33,8 +34,8 @@ function spurgear_A_from_M(M) = M;
 /*function spurgear_WD_from_M(M) = let (DP = spurgear_DP_from_M(M)) DP>=20 ? (2.2/DP+.002) : 2.157*M;*/
 function spurgear_WD_from_M(M) = 2.157*M;
 
-function calc_gear_PD(gear) = lookup(GearMod,gear)*lookup(GearTeeth,gear);
-function calc_gear_OD(gear) = spurgear_OD_from_M_N(lookup(GearMod,gear),lookup(GearTeeth,gear));
+function calc_gear_PD(gear) = get(GearMod,gear)*get(GearTeeth,gear);
+function calc_gear_OD(gear) = spurgear_OD_from_M_N(get(GearMod,gear),get(GearTeeth,gear));
 
 // CD = (PD1+PD1)/2
 function calc_gears_center_distance(A, B) = (calc_gear_PD(A)+calc_gear_PD(B))/2;

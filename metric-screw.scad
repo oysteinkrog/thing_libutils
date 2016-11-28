@@ -10,8 +10,8 @@ include <metric-knurlnut-data.scad>
 use <scad-utils/transformations.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
-function get_screw_head_h(thread) = lookup(ThreadSize, thread);
-function get_screw_head_d(thread) = 2 * lookup(ThreadSize, thread);
+function get_screw_head_h(thread) = get(ThreadSize, thread);
+function get_screw_head_d(thread) = 2 * get(ThreadSize, thread);
 
 module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=[0,0,1], align=[0,0,0])
 {
@@ -21,8 +21,8 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw: Mismatched nut and thread");*/
 
     head_h = get_screw_head_h(nut);
-    nut_h = lookup(MHexNutThickness,nut)*tolerance;
-    threadsize = lookup(ThreadSize, thread_);
+    nut_h = get(MHexNutThickness,nut)*tolerance;
+    threadsize = get(ThreadSize, thread_);
 
     s = threadsize*tolerance;
     total_h = h;
@@ -94,14 +94,14 @@ module screw_thread(thread, h=10, tolerance=1.00, orient=[0,0,1], align=[0,0,0])
 {
     assert(thread!=undef, "screw_thread: thread is undef");
     // TODO render thread
-    threadsize = lookup(ThreadSize, thread);
+    threadsize = get(ThreadSize, thread);
     cylindera(d=threadsize, h=h, orient=orient, align=align);
 }
 
 module screw_thread_cut(thread, h=10, tolerance=1.05, orient=[0,0,1], align=[0,0,0])
 {
     assert(thread!=undef, "screw_thread_cut: thread is undef");
-    threadsize = lookup(ThreadSize, thread);
+    threadsize = get(ThreadSize, thread);
     cylindera(d=threadsize*tolerance, h=h, orient=orient, align=align);
 }
 
@@ -109,7 +109,7 @@ module screw_head(thread, tolerance=1.00, override_h=undef, orient=[0,0,1], alig
 {
     assert(thread!=undef, "screw_head: thread is undef");
 
-    threadsize = lookup(ThreadSize, thread);
+    threadsize = get(ThreadSize, thread);
     head_h = get_screw_head_h(thread);
     head_d = get_screw_head_d(thread);
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
@@ -125,7 +125,7 @@ module screw_head_cut(thread, tolerance=1.05, override_h=undef, orient=[0,0,1], 
 {
     assert(thread!=undef, "screw_head_cut: thread is undef");
 
-    threadsize = lookup(ThreadSize, thread);
+    threadsize = get(ThreadSize, thread);
     head_h = get_screw_head_h(thread);
     head_d = get_screw_head_d(thread)*tolerance;
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
@@ -137,18 +137,18 @@ module screw_nut(nut, tolerance=1.00, override_h=undef, orient=[0,0,1], align=[0
 {
     assert(nut!=undef, "screw_nut: nut is undef");
 
-    thickness = lookup(MHexNutThickness,nut)*tolerance;
-    d = lookup(MHexNutWidthMin, nut)*tolerance;
-    facets = lookup(MHexNutFacets, nut);
-    cylindera($fn=lookup(MHexNutFacets, nut), d=d, h=fallback(override_h, thickness), orient=orient, align=align);
+    thickness = get(MHexNutThickness,nut)*tolerance;
+    d = get(MHexNutWidthMin, nut)*tolerance;
+    facets = get(MHexNutFacets, nut);
+    cylindera($fn=get(MHexNutFacets, nut), d=d, h=fallback(override_h, thickness), orient=orient, align=align);
 }
 
 module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
 {
     assert(nut!=undef, "screw_nut_cut: nut is undef");
 
-    thickness = lookup(MHexNutThickness,nut)*tolerance;
-    d = lookup(MHexNutWidthMin, nut)*tolerance;
+    thickness = get(MHexNutThickness,nut)*tolerance;
+    d = get(MHexNutWidthMin, nut)*tolerance;
     size_align(size=[d,d,thickness], orient=orient, align=align)
     {
         translate([0,0,thickness/2])
@@ -169,12 +169,12 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
     assert(thread_ != undef, "nut_trap_cut: No nut or thread given");
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "nut_trap_cut: Mismatched nut and thread");*/
 
-    threadsize = lookup(ThreadSize, thread_);
+    threadsize = get(ThreadSize, thread_);
     head_h = get_screw_head_h(thread);
-    nut_h = lookup(MHexNutThickness,nut)+.5*mm;
+    nut_h = get(MHexNutThickness,nut)+.5*mm;
 
-    nut_width_min = lookup(MHexNutWidthMin, nut)+.1*mm;
-    nut_width_max = lookup(MHexNutWidthMax, nut)+.1*mm;
+    nut_width_min = get(MHexNutWidthMin, nut)+.1*mm;
+    nut_width_max = get(MHexNutWidthMax, nut)+.1*mm;
     s = nut_width_min;
     total_h = nut_h;
 
@@ -196,7 +196,7 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
                 orient(orient)
                 {
                     rotate([0,0,30])
-                    cylindera($fn=lookup(MHexNutFacets, nut), d=nut_width_max, h=nut_h, align=[0,0,0]);
+                    cylindera($fn=get(MHexNutFacets, nut), d=nut_width_max, h=nut_h, align=[0,0,0]);
                 }
 
                 orient(orient)
