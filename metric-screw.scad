@@ -55,7 +55,9 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw_cut: Mismatched nut and thread");*/
 
     nut_h = get(MHexNutThickness,nut)*tolerance;
-    head_h = get_screw_head_h(thread);
+    head_h = get_screw_head_h(thread_);
+    assert(head_h != undef, "screw_cut: head_h is undef!");
+
     threadsize = get(ThreadSize, thread_);
     assert(threadsize != undef, "screw_cut: threadsize is undef!");
 
