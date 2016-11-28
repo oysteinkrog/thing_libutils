@@ -23,12 +23,19 @@ module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,
 
 module rcube(size=[20,20,20], rounding_radius=1)
 {
-    hull()
-    for(x=[-(size[0]/2-rounding_radius),(size[0]/2-rounding_radius)])
-    for(y=[-(size[1]/2-rounding_radius),(size[1]/2-rounding_radius)])
-    for(z=[-(size[2]/2-rounding_radius),(size[2]/2-rounding_radius)])
-    translate([x,y,z])
-    sphere(r=rounding_radius);
+    if($preview_mode || rounding_radius == 0 || true)
+    {
+        cubea(size);
+    }
+    else
+    {
+        hull()
+        for(x=[-(size[0]/2-rounding_radius),(size[0]/2-rounding_radius)])
+        for(y=[-(size[1]/2-rounding_radius),(size[1]/2-rounding_radius)])
+        for(z=[-(size[2]/2-rounding_radius),(size[2]/2-rounding_radius)])
+        translate([x,y,z])
+        sphere(r=rounding_radius);
+    }
 }
 
 
@@ -98,23 +105,30 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
 
 module rcylinder(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
 {
-    d1_ = v_fallback(d1, [r*2, r1*2]);
-    d2_ = v_fallback(d2, [r*2, r2*2]);
-
-    r1_ = v_fallback(r1, [d/2, d1_/2]);
-    r2_ = v_fallback(r2, [d/2, d2_/2]);
-
-    r_ = [r1_,r2_];
-
-    size_align(align=align, orient=orient)
-    hull()
+    if($preview_mode || round_radius == 0 || true)
     {
-        for(z=[-1,1])
-        translate([0, 0, z*(-h/2)])
-        {
-            r__=z!=-1?r_[0]:r_[1];
-            torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
-        }
+        cylindera(d=d, d1=d1, d2=d2, r=r, r1=r1, r2=r2, h=h, align=align, orient=orient);
+    }
+    else
+    {
+        d1_ = v_fallback(d1, [r*2, r1*2]);
+        d2_ = v_fallback(d2, [r*2, r2*2]);
+
+        r1_ = v_fallback(r1, [d/2, d1_/2]);
+        r2_ = v_fallback(r2, [d/2, d2_/2]);
+
+        r_ = [r1_,r2_];
+
+        size_align(align=align, orient=orient)
+            hull()
+            {
+                for(z=[-1,1])
+                    translate([0, 0, z*(-h/2)])
+                    {
+                        r__=z!=-1?r_[0]:r_[1];
+                        torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
+                    }
+            }
     }
 }
 
