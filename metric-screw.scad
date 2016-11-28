@@ -217,11 +217,6 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
     }
 }
 
-function get(key, dict) =
-    let(x = search(key, dict))
-    let(kv = dict[x[0]])
-    kv[1];
-
 
 if(false)
 {
