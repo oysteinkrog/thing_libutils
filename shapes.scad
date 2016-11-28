@@ -23,7 +23,7 @@ module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,
 
 module rcube(size=[20,20,20], rounding_radius=1)
 {
-    if($preview_mode || rounding_radius == 0 || true)
+    if($preview_mode || rounding_radius == 0)
     {
         cubea(size);
     }
