@@ -140,7 +140,8 @@ module screw_nut(nut, tolerance=1.00, override_h=undef, orient=[0,0,1], align=[0
     thickness = get(MHexNutThickness,nut)*tolerance;
     d = get(MHexNutWidthMin, nut)*tolerance;
     facets = get(MHexNutFacets, nut);
-    cylindera($fn=get(MHexNutFacets, nut), d=d, h=fallback(override_h, thickness), orient=orient, align=align);
+    nut_hex_radius = hex_radius(get(MHexNutWidthMax, nut))+.1;
+    cylindera($fn=get(MHexNutFacets, nut), r=nut_hex_radius, h=fallback(override_h, thickness), orient=orient, align=align);
 }
 
 module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
@@ -162,6 +163,8 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
     }
 }
 
+function hex_radius(hexSize) = hexSize/2/sin(60);
+
 module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*mm, trap_h=10, trap_axis=[0,-1,0], orient=[0,0,1], align=[0,0,0])
 {
     nut_thread = get(MHexNutThread, nut);
@@ -171,13 +174,14 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 
     threadsize = get(ThreadSize, thread_);
     head_h = get_screw_head_h(thread);
-    nut_h = get(MHexNutThickness,nut)+.5*mm;
+    nut_h = get(MHexNutThickness, nut) +.5*mm;
 
-    nut_width_min = get(MHexNutWidthMin, nut)+.1*mm;
-    nut_width_max = get(MHexNutWidthMax, nut)+.1*mm;
-    s = nut_width_min;
+    // nut width is average of min/max
+    nut_width = v_avg([get(MHexNutWidthMin, nut),get(MHexNutWidthMax, nut)]);
+
+    nut_hex_radius = hex_radius(nut_width)+.1*mm;
+    s = nut_hex_radius;
     total_h = nut_h;
-
     size_align(size=[s, s, total_h], orient=orient, orient_ref=[0,0,1], align=align)
     {
         translate([0,0,nut_h/2-.1])
@@ -196,11 +200,11 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
                 orient(orient)
                 {
                     rotate([0,0,30])
-                    cylindera($fn=get(MHexNutFacets, nut), d=nut_width_max, h=nut_h, align=[0,0,0]);
+                    cylindera($fn=get(MHexNutFacets, nut), r=nut_hex_radius, h=nut_h, align=[0,0,0]);
                 }
 
                 orient(orient)
-                cubea(size=[nut_width_min,nut_width_min,nut_h], align=[0,0,0]);
+                cubea(size=[nut_width,nut_width,nut_h], align=[0,0,0]);
             }
         }
 
