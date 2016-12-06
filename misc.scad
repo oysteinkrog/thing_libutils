@@ -183,3 +183,15 @@ module assert(bool, msg = "")
         echo("", assertion_failed());
     }
 }
+
+function fn_from_r(r) =
+                    $fn > 0.0 ?
+                    ($fn >= 3 ? $fn : 3)
+                    :
+                    ceil(max(min(360.0 / $fa, r*2*PI / $fs), 5));
+
+function fn_from_d(d) =
+                    $fn > 0.0 ?
+                    ($fn >= 3 ? $fn : 3)
+                    :
+                    ceil(max(min(360.0 / $fa, d*PI / $fs), 5));
