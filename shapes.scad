@@ -170,30 +170,38 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
 {
     outer_d = d+thickness/2;
     inner_d = d-thickness/2;
-    size_align(size=[outer_d, outer_d, h], orient=orient, align=align)
+    taper_h = taper_h == undef ? min(h/4, (outer_d-inner_d)/2) : max(taper_h,h/2);
+    taper_ = taper && taper_h > 0;
+    size_align(size=[outer_d, outer_d, h], orient=orient, align=align);
     difference()
     {
-        /*hull()*/
         union()
         {
-            cylindera(h=h-taper_h*2, d=outer_d, orient=[0,0,1], align=[0,0,0]);
-            taper_h = taper_h == undef ? (outer_d-inner_d)/4 : taper_h;
-            /*taper_h_ = pythag_leg(taper_h, outer_d-inner_d);*/
-            /*echo(taper_h_);*/
-            if(taper)
+            cylindera(h=h-(taper_?taper_h*2:0), d=outer_d, orient=[0,0,1], align=[0,0,0]);
+            if(taper_)
             {
                 for(z=[-1,1])
                 translate([0,0,z*(h/2-taper_h)])
                 mirror([0,0,z==-1?1:0])
-                difference()
-                {
-                    cylindera(d1=outer_d, d2=outer_d-inner_d/4, h=taper_h*2, align=[0,0,1]);
-                    cylindera(d1=inner_d, d2=outer_d, h=taper_h*2+.1, align=[0,0,1]);
-                }
+                cylindera(d1=outer_d, d2=outer_d-inner_d/4, h=taper_h, align=[0,0,1]);
             }
         }
+        if(taper_)
+        {
+            for(z=[-1,1])
+            translate([0,0,z*(h/2-taper_h)])
+            mirror([0,0,z==-1?1:0])
+            cylindera(d1=inner_d, d2=outer_d, h=taper_h+.1, align=[0,0,1]);
 
-        cylindera(h=h+.4, d=inner_d, orient=[0,0,1], align=[0,0,0]);
+            // override fn for inner cylinder cut, to ensure same fragments as taper
+            // this ensures cleaner mesh
+            fn = fn_from_d(d=outer_d);
+            cylindera(h=h+.2+taper_h, d=inner_d, orient=[0,0,1], align=[0,0,0], $fn=fn);
+        }
+        else
+        {
+            cylindera(h=h+.2, d=inner_d, orient=[0,0,1], align=[0,0,0]);
+        }
     }
 }
 
@@ -373,7 +381,12 @@ module test_triangles()
 
 if(false)
 {
-    /*hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);*/
+    stack(axis=XAXIS, dist=15)
+    {
+        hollow_cylinder(thickness=5, h=10, taper=false, orient=[0,0,1], align=[0,0,1]);
+        hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);
+    }
+
     /*cylindera(d=10, h=10, orient=[0,0,1], align=[0,0,1]);*/
     /*translate([10,0,0])*/
     /*{*/
