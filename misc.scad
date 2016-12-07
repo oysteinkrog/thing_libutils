@@ -29,11 +29,13 @@ function v_sum(v,e=undef,start=0) =
 let(e_= fallback(e, len(v)-1))
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
+function v_avg(v,e=undef,start=0) = v_sum(v,e,start) / (len(v));
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
 function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
 function v_min(v, m, start=0) = [for(i=[start:1:len(v)-1]) min(v[i],m)];
 function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,v2)];
+
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
 function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) v_sum(v,i)];
