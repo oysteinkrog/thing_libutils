@@ -2,13 +2,14 @@ include <shapes.scad>
 include <transforms.scad>
 include <timing-belts-data.scad>
 
+function belt_t2_thickness(belt) = get(TimingBeltBackThick, belt) * 1.05 * 2 + get(TimingBeltMaxHeight, belt) * 1.05;
+
 module test()
 {
     for(preview=[true, false])
     for(belt_i=[0:len(AllTimingBelts)-1])
     {
         belt=AllTimingBelts[belt_i];
-        echo(belt[0][1]);
 
         translate((preview?50*mm:0)*YAXIS + belt_i*30*mm*ZAXIS)
         stack(axis=XAXIS, dist=2*30*mm)
@@ -43,8 +44,8 @@ module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT
 
 module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orient=ZAXIS, align=[0,0,0])
 {
-    pitch = belt[TimingBeltPitch][1];
-    bk = belt[TimingBeltBackThick][1];
+    pitch = get(TimingBeltPitch, belt);
+    bk = get(TimingBeltBackThick, belt);
     av=360/2/r/3.14159*pitch;
 
     nn=ceil(angle/av);
@@ -102,8 +103,8 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
 //inner module
 module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=ZAXIS, align=[0,0,0]) {
 
-    pitch = belt[TimingBeltPitch][1];
-    bk = belt[TimingBeltBackThick][1];
+    pitch = get(TimingBeltPitch, belt);
+    bk = get(TimingBeltBackThick, belt);
     n = ceil(len/pitch);
 
     s = [len,belt_width,belt_width];
@@ -135,9 +136,9 @@ module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=ZAXIS,
 
 module draw_tooth(belt, n, belt_width)
 {
-    pitch = belt[TimingBeltPitch][1];
-    bk = belt[TimingBeltBackThick][1];
-    p = belt[TimingBeltToothPolygon][1];
+    pitch = get(TimingBeltPitch, belt);
+    bk = get(TimingBeltBackThick, belt);
+    p = get(TimingBeltToothPolygon, belt);
 
     translate([pitch*n,0,0])
     linear_extrude(height=belt_width)
