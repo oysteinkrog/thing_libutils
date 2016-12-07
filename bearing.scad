@@ -30,7 +30,7 @@ module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=
     }
 }
 
-module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, orient=[1,0,0], ziptie_dist=undef, with_zips=true, show_zips=false)
+module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, orient=[1,0,0], ziptie_dist=undef, with_zips=true)
 {
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
@@ -59,8 +59,10 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
         // for linear rod
         cylindera(d=bearing_type[0]+1*mm, h=100, orient=[0,0,1]);
 
-        if(show_zips)
+        if($show_vit)
         {
+            %bearing(bearing_type=bearing_type);
+
             for(z=[-1,1])
             translate([0,0,z*ziptie_dist_])
             {
