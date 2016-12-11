@@ -1,3 +1,4 @@
+use <system.scad>
 use <scad-utils/linalg.scad>
 use <scad-utils/lists.scad>
 
@@ -11,7 +12,6 @@ function vec_0(v3) = vec_i(v3,0);
 function vec_1(v3) = vec_i(v3,1);
 function vec_2(v3) = vec_i(v3,2);
 
-function vec_add(vec,v) = [for(vv=vec) vv+v];
 
 function v_itrlen(vec) = [0:1:len(vec)-1];
 
@@ -29,6 +29,10 @@ function v_sum(v,e=undef,start=0) =
 let(e_= fallback(e, len(v)-1))
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
+function v_i(vec,i) = [for(vv=vec) vv[i]];
+function v_get(vec,key) = [for(vv=vec) get(key, vv)];
+function v_add(vec,v) = [for(vv=vec) vv+v];
+function v_sub(vec,v) = [for(vv=vec) vv+v];
 function v_avg(v,e=undef,start=0) = v_sum(v,e,start) / (len(v));
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
