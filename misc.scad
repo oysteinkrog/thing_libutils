@@ -42,7 +42,7 @@ function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,
 
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
-function v_cumsum(v, start=0) = [for(i=[start:1:len(v)-1]) v_sum(v,i)];
+function v_cumsum(v, start=0, end) = [for(i=[start:1:end==undef?len(v)-1:end]) v_sum(v,i)];
 
 // filter/remove a val from a vec
 function filter(vec,val=undef) = [for(v=vec) if(v!=val) v];
