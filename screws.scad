@@ -220,48 +220,36 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 }
 
 
+// all nuts
 if(false)
 {
-    nut1 = NutHexM3;
-    nut2 = NutHexM5;
-    nut3 = NutKnurlInsertM3_3_42;
-    nut4 = NutKnurlInsertM3_5_42;
+    for(nuti=[0:1:len(AllNut)-1])
+    {
+        nut = AllNut[nuti];
+        v_threadsize = v_get(AllNut,ThreadSize);
+        v_nutwidth = v_get(AllNut,NutWidthMin);
+        dist = v_cumsum(v_nutwidth, 0, nuti)[nuti]*1.2;
+        translate(XAXIS*dist)
+        rotate([0,0,30])
+        screw(nut=nut, h=get(NutWidthMax, nut)*5, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
+    }
+}
 
-    /*translate([0,20,0])*/
-    /*translate([0,20,0])*/
-    /*for(axis1=[0:len(AXES)-1])*/
-    /*[>for(axis2=AXES)<]*/
-    /*translate(20*AXES[axis1])*/
-    /*{*/
-        /*ta = v_rotate(90, AXES[axis1])*AXES[axis1];*/
-        /*echo(AXES[axis1], ta);*/
-        /*nut_trap_cut(nut=nut1, trap_axis=ta, orient=AXES[axis1]);*/
-    /*}*/
-
-    /*stack(d=30, axis=[1,0,0])*/
-    /*{*/
-        /*stack(d=20, axis=[0,1,0])*/
-        /*{*/
-            /*nut_trap_cut(nut=nut1, trap_axis=[0,0,1], orient=[1,0,0]);*/
-            /*nut_trap_cut(nut=nut1, trap_axis=[0,0,1], orient=[-1,0,0]);*/
-        /*}*/
-
-        /*stack(d=20, axis=[1,0,0])*/
-        /*{*/
-            /*nut_trap_cut(nut=nut1, trap_axis=[0,0,1], orient=[0,1,0]);*/
-
-            /*nut_trap_cut(nut=nut1, trap_axis=[0,0,1], orient=[0,-1,0]);*/
-        /*}*/
-    /*}*/
-
+if(false)
+{
     box_w = 40;
     box_h = 10;
     box_d = 10;
     o = 10;
 
     /*$show_vit = true;*/
-    $fs= 0.5;
-    $fa = 4;
+    $fs= 0.1;
+    $fa = 5;
+
+    nut1 = NutHexM3;
+    nut2 = NutHexM5;
+    nut3 = NutKnurlInsertM3_3_42;
+    nut4 = NutKnurlInsertM3_5_42;
 
     difference()
     {
