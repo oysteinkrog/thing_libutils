@@ -51,6 +51,16 @@ namespace generator
                 AppendTable(prefix, stringBuilder, entryName, properties, entry);
                 stringBuilder.AppendLine();
             }
+
+            stringBuilder.Append($"All{prefix} = [");
+            foreach (var entry in entries)
+            {
+                var entryName = $"{prefix}{entry.ExtraPrefix}{keyName(entry)}";
+                entryName = SanitizeOpenScadVariableName(entryName);
+                stringBuilder.AppendLine(entryName+",");
+            }
+            stringBuilder.Append("];");
+
         }
 
         private static string SanitizeOpenScadVariableName(string entryName)
