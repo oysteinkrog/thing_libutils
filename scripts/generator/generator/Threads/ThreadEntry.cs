@@ -1,8 +1,9 @@
-﻿using UnitsNet;
+﻿using System.Xml.Serialization;
+using UnitsNet;
 
-namespace generator.MetricThread
+namespace generator.Threads
 {
-    public sealed class MetricThreadEntry
+    public sealed class ThreadEntry : IObjectEntry 
     {
         public Length Size { get; set; }
 
@@ -35,5 +36,8 @@ namespace generator.MetricThread
         {
             return $"Thread{ThreadKeySimple}";
         }
+
+        [XmlIgnore]
+        public string ExtraPrefix => string.Empty;
     }
 }

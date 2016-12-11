@@ -57,30 +57,31 @@
   <ItemGroup>
     <Compile Include="GenerationCommon.cs" />
     <Compile Include="LengthMillimeterConverter.cs" />
-    <Compile Include="MetricHexagonNut\MetricHexagonNut.cs" />
-    <Compile Include="MetricHexagonNut\MetricHexagonNutEntry.cs" />
-    <Compile Include="MetricHexagonNut\MetricHexagonNutEntryMap.cs" />
-    <Compile Include="MetricThread\MetricThread.cs" />
-    <Compile Include="MetricThread\MetricThreadEntry.cs" />
-    <Compile Include="MetricThread\MetricThreadEntryMap.cs" />
+    <Compile Include="Nuts\INutEntry.cs" />
+    <Compile Include="IObjectEntry.cs" />
+    <Compile Include="Nuts\NutHexThinEntry.cs" />
+    <Compile Include="Nuts\NutMetricKnurl.cs" />
+    <Compile Include="Nuts\NutMetricHex.cs" />
+    <Compile Include="Nuts\NutHexEntry.cs" />
+    <Compile Include="Nuts\NutMetricHexEntryMap.cs" />
+    <Compile Include="Threads\ThreadMetric.cs" />
+    <Compile Include="Threads\ThreadEntry.cs" />
+    <Compile Include="Threads\ThreadMetricEntryMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\data\iso261-extended-MetricThread.csv">
-      <Link>MetricThread\iso261-extended-MetricThread.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\data\iso4032-MetricHexagonNut.csv">
-      <Link>MetricHexagonNut\iso4032-MetricHexagonNut.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\data\iso4035-MetricHexagonThinNut.csv">
-      <Link>MetricHexagonNut\iso4035-MetricHexagonThinNut.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="App.config" />
+    <Content Include="Nuts\iso4032-NutMetricHex.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Nuts\iso4035-NutMetricHexThin.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
+    <Content Include="Threads\iso261-ThreadMetric-extended.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

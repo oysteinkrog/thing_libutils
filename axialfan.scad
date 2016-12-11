@@ -2,7 +2,7 @@
 include <units.scad>
 include <shapes.scad>
 include <transforms.scad>
-include <metric-screw.scad>
+include <screws.scad>
 include <MCAD/boxes.scad>
 
 module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius=3, blade_angle=-45, bore_dia_walls=1.5, orient=[0,0,1], align=[0,0,0])

@@ -8,7 +8,7 @@ namespace generator
     /// <summary>
     ///     Converts a Double to and from a string.
     /// </summary>
-    internal class LengthMillimeterConverter : DefaultTypeConverter
+    internal sealed class LengthMillimeterConverter : DefaultTypeConverter
     {
         /// <summary>
         ///     Converts the string to an object.

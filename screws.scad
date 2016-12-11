@@ -3,9 +3,9 @@ include <shapes.scad>
 include <transforms.scad>
 include <misc.scad>
 
-include <metric-thread-data.scad>
-include <metric-hexnut-data.scad>
-include <metric-knurlnut-data.scad>
+include <thread-data.scad>
+include <nut-data.scad>
+include <nut-knurl-data.scad>
 
 use <scad-utils/transformations.scad>
 
@@ -15,13 +15,13 @@ function get_screw_head_d(thread) = 2 * get(ThreadSize, thread);
 
 module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=[0,0,1], align=[0,0,0])
 {
-    nut_thread = get(MHexNutThread, nut);
+    nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
     assert(thread_ != undef, "screw: No nut or thread given");
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw: Mismatched nut and thread");*/
 
     head_h = get_screw_head_h(nut);
-    nut_h = get(MHexNutThickness,nut)*tolerance;
+    nut_h = get(NutThickness,nut)*tolerance;
     threadsize = get(ThreadSize, thread_);
 
     s = threadsize*tolerance;
@@ -49,12 +49,12 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
 
 module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=[0,0,1], align=[0,0,0])
 {
-    nut_thread = get(MHexNutThread, nut);
+    nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
     assert(thread_ != undef, "screw_cut: No nut or thread given");
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw_cut: Mismatched nut and thread");*/
 
-    nut_h = get(MHexNutThickness,nut)*tolerance;
+    nut_h = get(NutThickness,nut)*tolerance;
     head_h = get_screw_head_h(thread_);
     assert(head_h != undef, "screw_cut: head_h is undef!");
 
@@ -137,19 +137,19 @@ module screw_nut(nut, tolerance=1.00, override_h=undef, orient=[0,0,1], align=[0
 {
     assert(nut!=undef, "screw_nut: nut is undef");
 
-    thickness = get(MHexNutThickness,nut)*tolerance;
-    d = get(MHexNutWidthMin, nut)*tolerance;
-    facets = get(MHexNutFacets, nut);
-    nut_hex_radius = hex_radius(get(MHexNutWidthMax, nut))+.1;
-    cylindera($fn=get(MHexNutFacets, nut), r=nut_hex_radius, h=fallback(override_h, thickness), orient=orient, align=align);
+    thickness = get(NutThickness,nut)*tolerance;
+    d = get(NutWidthMin, nut)*tolerance;
+    facets = get(NutFacets, nut);
+    nut_hex_radius = hex_radius(get(NutWidthMax, nut))+.1;
+    cylindera($fn=get(NutFacets, nut), r=nut_hex_radius, h=fallback(override_h, thickness), orient=orient, align=align);
 }
 
 module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=[0,0,1], align=[0,0,0])
 {
     assert(nut!=undef, "screw_nut_cut: nut is undef");
 
-    thickness = get(MHexNutThickness,nut)*tolerance;
-    d = get(MHexNutWidthMin, nut)*tolerance;
+    thickness = get(NutThickness,nut)*tolerance;
+    d = get(NutWidthMin, nut)*tolerance;
     size_align(size=[d,d,thickness], orient=orient, align=align)
     {
         translate([0,0,thickness/2])
@@ -167,18 +167,16 @@ function hex_radius(hexSize) = hexSize/2/sin(60);
 
 module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*mm, trap_h=10, trap_axis=[0,-1,0], orient=[0,0,1], align=[0,0,0])
 {
-    nut_thread = get(MHexNutThread, nut);
+    nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
     assert(thread_ != undef, "nut_trap_cut: No nut or thread given");
     /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "nut_trap_cut: Mismatched nut and thread");*/
 
     threadsize = get(ThreadSize, thread_);
     head_h = get_screw_head_h(thread);
-    nut_h = get(MHexNutThickness, nut) +.5*mm;
+    nut_h = get(NutThickness, nut) +.5*mm;
 
-    // nut width is average of min/max
-    nut_width = v_avg([get(MHexNutWidthMin, nut),get(MHexNutWidthMax, nut)]);
-
+    nut_width = get(NutWidthMin, nut);
     nut_hex_radius = hex_radius(nut_width)+.1*mm;
     s = nut_hex_radius;
     total_h = nut_h;
@@ -200,7 +198,7 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
                 orient(orient)
                 {
                     rotate([0,0,30])
-                    cylindera($fn=get(MHexNutFacets, nut), r=nut_hex_radius, h=nut_h, align=[0,0,0]);
+                    cylindera($fn=get(NutFacets, nut), r=nut_hex_radius, h=nut_h, align=[0,0,0]);
                 }
 
                 orient(orient)
@@ -224,10 +222,10 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 
 if(false)
 {
-    nut1 = MHexNutM3;
-    nut2 = MHexNutM5;
-    nut3 = MKnurlInsertNutM3_3_42;
-    nut4 = MKnurlInsertNutM3_5_42;
+    nut1 = NutHexM3;
+    nut2 = NutHexM5;
+    nut3 = NutKnurlInsertM3_3_42;
+    nut4 = NutKnurlInsertM3_5_42;
 
     /*translate([0,20,0])*/
     /*translate([0,20,0])*/
@@ -256,18 +254,18 @@ if(false)
         /*}*/
     /*}*/
 
-    box_w = 100;
+    box_w = 40;
     box_h = 10;
     box_d = 10;
     o = 10;
 
-    $show_vit = true;
+    /*$show_vit = true;*/
     $fs= 0.5;
     $fa = 4;
 
     difference()
     {
-        cubea([box_w,box_d/2,box_h], align=[1,1,1]);
+        rcubea([box_w,box_d,box_h], align=[1,0,1]);
 
         test_cuts();
     }
@@ -290,14 +288,14 @@ module test_cuts()
         translate([5,0,0])
         stack(dist=10,axis=[1,0,0])
         {
-            screw_cut(nut=nut1, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
-            screw_cut(thread=ThreadM5, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
-            screw_cut(nut=nut1, h=box_h, head_embed=false, orient=[0,0,1], align=[0,0,1]);
+            /*screw_cut(nut=nut1, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);*/
+            /*screw_cut(thread=ThreadM5, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);*/
+            /*screw_cut(nut=nut1, h=box_h, head_embed=false, orient=[0,0,1], align=[0,0,1]);*/
 
-            screw_cut(nut=nut1, h=box_h*mm, nut_offset=0*mm, head_embed=true, orient=[0,0,-1], align=[0,0,1]);
-            screw_cut(nut=nut2, h=box_h*mm, nut_offset=3*mm, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
-            screw_cut(nut=nut3, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
-            screw_cut(nut=nut4, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
+            /*screw_cut(nut=nut1, h=box_h*mm, nut_offset=0*mm, head_embed=true, orient=[0,0,-1], align=[0,0,1]);*/
+            /*screw_cut(nut=nut2, h=box_h*mm, nut_offset=3*mm, head_embed=false, orient=[0,0,-1], align=[0,0,1]);*/
+            /*screw_cut(nut=nut3, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);*/
+            /*screw_cut(nut=nut4, h=box_h, head_embed=false, orient=[0,0,-1], align=[0,0,1]);*/
 
             /*translate([0,5,0])*/
             translate([0,0,box_h/2])

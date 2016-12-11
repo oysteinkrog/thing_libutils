@@ -1,10 +1,10 @@
 using CsvHelper.Configuration;
 
-namespace generator.MetricThread
+namespace generator.Threads
 {
-    internal sealed class MetricThreadEntryMap : CsvClassMap<MetricThreadEntry>
+    internal sealed class ThreadMetricEntryMap : CsvClassMap<ThreadEntry>
     {
-        public MetricThreadEntryMap()
+        public ThreadMetricEntryMap()
         {
             Map(m => m.Size)
                 .Index(0).TypeConverter<LengthMillimeterConverter>();

@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using generator.MetricThread;
+using generator.Threads;
 
-namespace generator.MetricHexagonNut
+namespace generator.Nuts
 {
-    internal sealed class MetricHexagonNutEntryMap : CsvClassMap<MetricHexagonNutEntry>
+    internal sealed class NutMetricHexEntryMap : CsvClassMap<NutHexEntry>
     {
-        private readonly List<MetricThreadEntry> _metricThreadEntries;
+        private readonly List<ThreadEntry> _metricThreadEntries;
 
-        public MetricHexagonNutEntryMap(List<MetricThreadEntry> metricThreadEntries)
+        public NutMetricHexEntryMap(List<ThreadEntry> metricThreadEntries)
         {
             _metricThreadEntries = metricThreadEntries;
 
@@ -29,9 +29,9 @@ namespace generator.MetricHexagonNut
 
         internal class LookupMetricThreadConverter : DefaultTypeConverter
         {
-            private readonly List<MetricThreadEntry> _metricThreadEntries;
+            private readonly List<ThreadEntry> _metricThreadEntries;
 
-            public LookupMetricThreadConverter(List<MetricThreadEntry> metricThreadEntries)
+            public LookupMetricThreadConverter(List<ThreadEntry> metricThreadEntries)
             {
                 _metricThreadEntries = metricThreadEntries;
             }
@@ -46,12 +46,12 @@ namespace generator.MetricHexagonNut
             /// </returns>
             public override object ConvertFromString(TypeConverterOptions options, string text)
             {
-                MetricThreadEntry metricThreadEntry =
+                ThreadEntry threadEntry =
                     _metricThreadEntries.Find(
                         v => v.ThreadKeySimple.Trim().Equals(text.Trim(), StringComparison.InvariantCultureIgnoreCase));
-                if (metricThreadEntry != null)
+                if (threadEntry != null)
                 {
-                    return metricThreadEntry;
+                    return threadEntry;
                 }
                 return text;
             }
