@@ -15,10 +15,10 @@ namespace generator.Nuts
         {
             var entries = new List<INutEntry>();
 
-            entries.AddRange(ParseNutsFromData<NutHexEntry>(@"NutMetricHex\iso4032-NutMetricHex.csv",
+            entries.AddRange(ParseNutsFromData<NutHexEntry>(@"Nuts\iso4032-NutMetricHex.csv",
                 new NutMetricHexEntryMap(metricThreadEntries)));
 
-            entries.AddRange(ParseNutsFromData<NutHexThinEntry>(@"NutMetricHex\iso4032-NutMetricHexThin.csv",
+            entries.AddRange(ParseNutsFromData<NutHexThinEntry>(@"Nuts\iso4035-NutMetricHexThin.csv",
                 new NutMetricHexEntryMap(metricThreadEntries)));
 
             return entries;

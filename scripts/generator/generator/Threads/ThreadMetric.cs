@@ -13,7 +13,7 @@ namespace generator.Threads
         {
             List<ThreadEntry> entries;
 
-            using (var file = File.OpenText(@"ThreadMetric\iso261-ThreadMetric-extended.csv"))
+            using (var file = File.OpenText(@"Threads\iso261-ThreadMetric-extended.csv"))
             {
                 // skip two header lines
                 file.ReadLine();
