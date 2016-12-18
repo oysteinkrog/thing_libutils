@@ -60,9 +60,11 @@
     <Compile Include="Nuts\INutEntry.cs" />
     <Compile Include="IObjectEntry.cs" />
     <Compile Include="Nuts\NutHexThinEntry.cs" />
+    <Compile Include="Nuts\NutKnurlEntry.cs" />
     <Compile Include="Nuts\NutMetricHex.cs" />
     <Compile Include="Nuts\NutHexEntry.cs" />
     <Compile Include="Nuts\NutMetricHexEntryMap.cs" />
+    <Compile Include="Nuts\NutMetricKnurl.cs" />
     <Compile Include="Threads\ThreadMetric.cs" />
     <Compile Include="Threads\ThreadEntry.cs" />
     <Compile Include="Threads\ThreadMetricEntryMap.cs" />
