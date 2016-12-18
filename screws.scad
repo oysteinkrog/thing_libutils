@@ -5,7 +5,6 @@ include <misc.scad>
 
 include <thread-data.scad>
 include <nut-data.scad>
-include <nut-knurl-data.scad>
 
 use <scad-utils/transformations.scad>
 
@@ -248,8 +247,8 @@ if(false)
 
     nut1 = NutHexM3;
     nut2 = NutHexM5;
-    nut3 = NutKnurlInsertM3_3_42;
-    nut4 = NutKnurlInsertM3_5_42;
+    nut3 = NutKnurlM3_3_42;
+    nut4 = NutKnurlM3_5_42;
 
     difference()
     {

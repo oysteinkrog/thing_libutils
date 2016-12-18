@@ -46,7 +46,7 @@ namespace generator
             stringBuilder.AppendLine();
             foreach (var entry in entries)
             {
-                var entryName = $"{prefix}{entry.ExtraPrefix}{keyName(entry)}";
+                var entryName = $"{prefix}{entry.ExtraPrefix}{keyName(entry)}{entry.ExtraSuffix}";
                 entryName = SanitizeOpenScadVariableName(entryName);
                 AppendTable(prefix, stringBuilder, entryName, properties, entry);
                 stringBuilder.AppendLine();
@@ -55,7 +55,7 @@ namespace generator
             stringBuilder.Append($"All{prefix} = [");
             foreach (var entry in entries)
             {
-                var entryName = $"{prefix}{entry.ExtraPrefix}{keyName(entry)}";
+                var entryName = $"{prefix}{entry.ExtraPrefix}{keyName(entry)}{entry.ExtraSuffix}";
                 entryName = SanitizeOpenScadVariableName(entryName);
                 stringBuilder.AppendLine(entryName+",");
             }

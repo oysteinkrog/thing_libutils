@@ -39,5 +39,8 @@ namespace generator.Threads
 
         [XmlIgnore]
         public string ExtraPrefix => string.Empty;
+
+        [XmlIgnore]
+        public string ExtraSuffix { get; }
     }
 }

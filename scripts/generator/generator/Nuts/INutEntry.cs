@@ -5,11 +5,11 @@ namespace generator.Nuts
 {
     public interface INutEntry : IObjectEntry
     {
-        Length HoleDia { get; set; }
-        Length WidthMin { get; set; }
-        Length Thickness { get; set; }
-        Length WidthMax { get; set; }
-        ThreadEntry Thread { get; set; }
+        Length HoleDia { get; }
+        Length WidthMin { get; }
+        Length Thickness { get; }
+        Length WidthMax { get; }
+        ThreadEntry Thread { get; }
         int Facets { get; }
     }
 }

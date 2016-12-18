@@ -1,4 +1,5 @@
-﻿using generator.Nuts;
+﻿using System.Linq;
+using generator.Nuts;
 using generator.Threads;
 
 namespace generator
@@ -10,10 +11,8 @@ namespace generator
             var threads = ThreadMetric.Parse();
             ThreadMetric.Generate(threads);
             var nuts = NutMetricHex.Parse(threads);
-            NutMetricHex.Generate(nuts);
-
             var knurlNuts = NutMetricKnurl.Parse(threads);
-            NutMetricKnurl.Generate(nuts);
+            NutMetricHex.Generate(nuts.Concat(knurlNuts).ToList());
         }
     }
 }

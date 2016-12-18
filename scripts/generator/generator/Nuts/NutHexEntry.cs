@@ -17,5 +17,8 @@ namespace generator.Nuts
 
         [XmlIgnore]
         public virtual string ExtraPrefix => "Hex";
+
+        [XmlIgnore]
+        public string ExtraSuffix { get; }
     }
 }
