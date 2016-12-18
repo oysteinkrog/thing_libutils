@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using CsvHelper;
+using CsvHelper.Configuration;
 using generator.Threads;
 
 namespace generator.Nuts
@@ -14,56 +15,45 @@ namespace generator.Nuts
         {
             var entries = new List<INutEntry>();
 
-            using (var file = File.OpenText(@"NutMetricHex\iso4032-NutMetricHex.csv"))
-            {
-                // skip header
-                file.ReadLine();
-                using (var csv = new CsvReader(file))
-                {
-                    csv.Configuration.HasHeaderRecord = true;
-                    csv.Configuration.CultureInfo = CultureInfo.InvariantCulture;
-                    csv.Configuration.RegisterClassMap(new NutMetricHexEntryMap(metricThreadEntries));
+            entries.AddRange(ParseNutsFromData<NutHexEntry>(@"NutMetricHex\iso4032-NutMetricHex.csv",
+                new NutMetricHexEntryMap(metricThreadEntries)));
 
-                    while (csv.Read())
-                    {
-                        try
-                        {
-                            var entry = csv.GetRecord<NutHexEntry>();
-                            entries.Add(entry);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-                }
-            }
+            entries.AddRange(ParseNutsFromData<NutHexThinEntry>(@"NutMetricHex\iso4032-NutMetricHexThin.csv",
+                new NutMetricHexEntryMap(metricThreadEntries)));
 
-            using (var file = File.OpenText(@"NutMetricHex\iso4035-NutMetricHexThin.csv"))
-            {
-                // skip header
-                file.ReadLine();
-                using (var csv = new CsvReader(file))
-                {
-                    csv.Configuration.HasHeaderRecord = true;
-                    csv.Configuration.CultureInfo = CultureInfo.InvariantCulture;
-                    csv.Configuration.RegisterClassMap(new NutMetricHexEntryMap(metricThreadEntries));
-
-                    while (csv.Read())
-                    {
-                        try
-                        {
-                            var entry = csv.GetRecord<NutHexThinEntry>();
-                            entries.Add(entry);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-                }
-            }
             return entries;
+        }
+
+        private static IEnumerable<T> ParseNutsFromData<T>(string filePath, CsvClassMap classMap) where T : class, INutEntry 
+        {
+            using (var file = File.OpenText(filePath))
+            {
+                // skip header
+                file.ReadLine();
+                using (var csv = new CsvReader(file))
+                {
+                    csv.Configuration.HasHeaderRecord = true;
+                    csv.Configuration.CultureInfo = CultureInfo.InvariantCulture;
+                    csv.Configuration.RegisterClassMap(classMap);
+
+                    while (csv.Read())
+                    {
+                        T entry = null;
+                        try
+                        {
+                            entry = csv.GetRecord<T>();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                        if(entry != null)
+                        {
+                            yield return entry;
+                        }
+                    }
+                }
+            }
         }
 
         public static void Generate(List<INutEntry> nuts)
