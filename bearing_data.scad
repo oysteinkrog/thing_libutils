@@ -22,6 +22,17 @@ bearing_bronze_10_16_12 = [10,16,12,0,16];
 bearing_bronze_10_16_18 = [10,16,18,12,16];
 bearing_bronze_12_18_18 = [12,18,18,9,18];
 
+// SKF linear ball bearings
+// http://www.skf.com/binary/21-245746/Linear-bearings-and-units---4182_2-EN(1).pdf
+bearing_LBBR12 = [12, 19, 28, 23, 20];
+
+// PBC linear ball bearings
+// http://www.skf.com/binary/21-245746/Linear-bearings-and-units---4182_2-EN(1).pdf
+bearing_KHP12 = [12, 19, 28, 23, 20];
+
+// Bosch Rexroth linear ball bearing
+bearing_KBC12 = [12, 19, 28, 23, 20];
+
 // http://imagehost.vendio.com/a/35107431/view/6565.jpg
 bearing_LM3UU = [3, 7, 10];
 bearing_LM4UU = [4, 8, 12];
