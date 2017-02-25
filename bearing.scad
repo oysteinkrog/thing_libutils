@@ -30,14 +30,15 @@ module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=
     }
 }
 
-module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, orient=[1,0,0], ziptie_dist=undef, with_zips=true)
+module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=[0,0,0], orient=[0,0,1], ziptie_dist=undef, with_zips=true)
 {
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
 
     ziptie_dist_ = fallback(ziptie_dist, bearing_type[3]/2);
 
-    orient(orient)
+    h = fallback(override_h, bearing_type[2]) + extra_h;
+    size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     {
         // Main bearing cut
         cylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=[0,0,1]);
