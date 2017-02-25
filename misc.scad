@@ -66,6 +66,7 @@ function v_z(v) = [0,0,v[2]];
 
 function v_xy(v) = [v[0],v[1],0];
 function v_xyz(v) = [v[0],v[1],v[2]];
+function v_yz(v) = [0,v[1],v[2]];
 
 //-- Calculate the module of a vector
 function v_mod(v) = (sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]));
