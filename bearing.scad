@@ -57,7 +57,7 @@ module bearing_mount_holes(bearing_type, ziptie_type=[2*mm, 3*mm], ziptie_bearin
         }
 
         // for linear rod
-        cylindera(d=bearing_type[0]+1*mm, h=100, orient=[0,0,1]);
+        cylindera(d=bearing_type[0]+2*mm, h=100, orient=[0,0,1]);
 
         if($show_vit)
         {
