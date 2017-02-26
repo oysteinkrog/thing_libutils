@@ -87,14 +87,6 @@ module cylindera(
     }
 }
 
-/*translate([10,0,0])*/
-/*rotate_extrude()*/
-        /*translate([10-2,2,0])*/
-/*$fa = 5.6;*/
-/*$fs = 0.3;*/
-/*circle(r = 100);*/
-/*torus(10, 2, align=[0,0,0], orient=[0,0,1]);*/
-
 module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
 {
     size_align(size=[radius*2+radial_width*2, radius*2+radial_width*2, radial_width*2], align=align, orient=orient)
@@ -103,30 +95,61 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
     circle(radial_width);
 }
 
-module rcylindera(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
+module rcylindera(
+        h=10,
+        r=undef,
+        r1=undef,
+        r2=undef,
+        d=undef,
+        d1=undef,
+        d2=undef,
+        align=[0,0,0],
+        orient=[0,0,1],
+        extra_h=0,
+        extra_r=undef,
+        extra_d=undef,
+        extra_align=[0,0,0],
+        round_radius=2,
+        debug=false
+        )
 {
-    if($preview_mode || round_radius == 0)
+    pi=3.1415926536;
+
+    d1_ = v_fallback(d1, [r*2, r1*2]);
+    d2_ = v_fallback(d2, [r*2, r2*2]);
+
+    r1_ = v_fallback(r1, [d1_/2, d/2, r]);
+    r2_ = v_fallback(r2, [d2_/2, d/2, r]);
+
+    r_max = v_fallback(r, [max(r1_,r2_)]);
+
+    h_ = h+extra_h;
+
+    extra_r_ = v_fallback(extra_r, [0]);
+
+    if(debug)
     {
-        cylindera(d=d, d1=d1, d2=d2, r=r, r1=r1, r2=r2, h=h, align=align, orient=orient);
+        echo(useDia, h, r_, r1_, r2_, extra_r_, align);
     }
-    else
+
+    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
     {
-        d1_ = v_fallback(d1, [r*2, r1*2]);
-        d2_ = v_fallback(d2, [r*2, r2*2]);
-
-        r1_ = v_fallback(r1, [d/2, d1_/2]);
-        r2_ = v_fallback(r2, [d/2, d2_/2]);
-
-        r_ = [r1_,r2_];
-
-        size_align(align=align, orient=orient)
-        hull()
+        if($preview_mode || round_radius == 0)
         {
-            for(z=[-1,1])
-            translate([0, 0, z*(-h/2)])
+            cylindera(h=h_, r1=r1_+extra_r_, r2=r2_+extra_r_);
+        }
+        else
+        {
+            r_ = [r1_,r2_];
+
+            hull()
             {
-                r__=z!=-1?r_[0]:r_[1];
-                torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
+                for(z=[-1,1])
+                translate([0, 0, z*(-h_/2)])
+                {
+                    r__=z!=-1?r_[0]:r_[1];
+                    torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
+                }
             }
         }
     }
@@ -443,7 +466,7 @@ if(false)
         c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
         color(c)
         /*cylindera(h=20, r=r, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=100);*/
-        cylindera(h=20, r1=r, r2=r/2, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=16, round_radius=2);
+        rcylindera(h=20, r1=r, r2=r/2, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=16);
     }
 }
 
