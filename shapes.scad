@@ -105,7 +105,7 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
 
 module rcylindera(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
 {
-    if($preview_mode || round_radius == 0 || true)
+    if($preview_mode || round_radius == 0)
     {
         cylindera(d=d, d1=d1, d2=d2, r=r, r1=r1, r2=r2, h=h, align=align, orient=orient);
     }
@@ -120,15 +120,15 @@ module rcylindera(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], ori
         r_ = [r1_,r2_];
 
         size_align(align=align, orient=orient)
-            hull()
+        hull()
+        {
+            for(z=[-1,1])
+            translate([0, 0, z*(-h/2)])
             {
-                for(z=[-1,1])
-                    translate([0, 0, z*(-h/2)])
-                    {
-                        r__=z!=-1?r_[0]:r_[1];
-                        torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
-                    }
+                r__=z!=-1?r_[0]:r_[1];
+                torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
             }
+        }
     }
 }
 
