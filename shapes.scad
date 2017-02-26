@@ -78,7 +78,7 @@ module cylindera(
     {
         if(round_radius>0)
         {
-            rcylinder(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, round_radius=round_radius);
+            rcylindera(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, round_radius=round_radius);
         }
         else
         {
@@ -103,7 +103,7 @@ module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
     circle(radial_width);
 }
 
-module rcylinder(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
+module rcylindera(d, d1, d2, r, r1, r2, h=10, round_radius=2, align=[0,0,0], orient=[0,0,1])
 {
     if($preview_mode || round_radius == 0 || true)
     {
