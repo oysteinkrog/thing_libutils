@@ -190,7 +190,7 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 
     nut_width_min = get(NutWidthMin, nut);
     nut_facets = get(NutFacets, nut);
-    nut_dia = nut_dia(nut)+.1*mm;
+    nut_dia = nut_dia(nut);
     total_h = nut_h;
     size_align(size=[nut_dia, nut_dia, total_h], orient=orient, orient_ref=[0,0,1], align=align)
     {
