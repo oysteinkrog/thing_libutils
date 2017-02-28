@@ -241,7 +241,7 @@ if(false)
         v_threadsize = v_get(AllNut,ThreadSize);
         v_nutwidthmin = v_get(AllNut,NutWidthMin);
         dist = v_cumsum(v_nutwidthmin, 0, nuti)[nuti]*1.2;
-        translate(XAXIS*dist)
+        translate(X*dist)
         rotate([0,0,30])
         screw(nut=nut, h=get(NutWidthMax, nut)*5, head_embed=false, orient=[0,0,-1], align=[0,0,1]);
     }

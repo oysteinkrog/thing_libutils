@@ -404,7 +404,7 @@ module test_triangles()
 
 if(false)
 {
-    stack(axis=XAXIS, dist=15)
+    stack(axis=X, dist=15)
     {
         hollow_cylinder(thickness=5, h=10, taper=false, orient=[0,0,1], align=[0,0,1]);
         hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);
