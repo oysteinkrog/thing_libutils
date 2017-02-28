@@ -33,6 +33,9 @@ bearing_KHP12 = [12, 19, 28, 23, 20];
 // Bosch Rexroth linear ball bearing
 bearing_KBC12 = [12, 19, 28, 23, 20];
 
+bearing_KH1026 = [12, 19, 28, 23, 20];
+bearing_KH1228 = [12, 19, 28, 23, 20];
+
 // http://imagehost.vendio.com/a/35107431/view/6565.jpg
 bearing_LM3UU = [3, 7, 10];
 bearing_LM4UU = [4, 8, 12];
