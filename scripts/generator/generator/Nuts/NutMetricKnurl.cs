@@ -8,7 +8,7 @@ namespace generator.Nuts
     {
         public static List<INutEntry> Parse(List<ThreadEntry> metricThreadEntries)
         {
-            var threadM3 = metricThreadEntries.Find(v => v.ThreadKeySimple == "M3");
+            var threadM3 = metricThreadEntries.Find(v => v.KeySimple == "M3");
             var entries = new List<INutEntry>
             {
                 new NutKnurlEntry

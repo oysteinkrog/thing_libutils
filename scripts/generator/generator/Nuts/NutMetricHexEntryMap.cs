@@ -48,7 +48,7 @@ namespace generator.Nuts
             {
                 ThreadEntry threadEntry =
                     _metricThreadEntries.Find(
-                        v => v.ThreadKeySimple.Trim().Equals(text.Trim(), StringComparison.InvariantCultureIgnoreCase));
+                        v => v.KeySimple.Trim().Equals(text.Trim(), StringComparison.InvariantCultureIgnoreCase));
                 if (threadEntry != null)
                 {
                     return threadEntry;

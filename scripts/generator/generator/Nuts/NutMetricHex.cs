@@ -62,7 +62,7 @@ namespace generator.Nuts
 
             GenerationCommon.AppendHeader(output, new List<string> {"units.scad", "thread-data.scad"});
 
-            GenerationCommon.GenerateScadLib("Nut", nuts, v => v.Thread.ThreadKeySimple.ToString(), output);
+            GenerationCommon.GenerateScadLib("Nut", nuts, v => v.Thread.KeySimple.ToString(), output);
 
             File.WriteAllText("nut-data.scad", output.ToString());
         }

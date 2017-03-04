@@ -35,7 +35,7 @@ namespace generator.Threads
             var output = new StringBuilder();
             GenerationCommon.AppendHeader(output, new List<string> {"units.scad"});
 
-            GenerationCommon.GenerateScadLib("Thread", entries, v => v.ThreadKeySimple, output);
+            GenerationCommon.GenerateScadLib("Thread", entries, v => v.KeySimple, output);
 
             File.WriteAllText("thread-data.scad", output.ToString());
         }

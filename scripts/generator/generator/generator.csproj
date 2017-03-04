@@ -55,8 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bearings\Linear\LinearBearingFlangeCutEntryMap.cs" />
+    <Compile Include="Bearings\Linear\LinearBearingFlangeRoundEntryMap.cs" />
+    <Compile Include="Bearings\Linear\LinearBearingFlangeSquareEntryMap.cs" />
+    <Compile Include="Converters\SeperatorConverter.cs" />
     <Compile Include="GenerationCommon.cs" />
-    <Compile Include="LengthMillimeterConverter.cs" />
+    <Compile Include="Converters\MassGramConverter.cs" />
+    <Compile Include="Converters\LengthMillimeterConverter.cs" />
     <Compile Include="Nuts\INutEntry.cs" />
     <Compile Include="IObjectEntry.cs" />
     <Compile Include="Nuts\NutHexThinEntry.cs" />
@@ -65,11 +70,14 @@
     <Compile Include="Nuts\NutHexEntry.cs" />
     <Compile Include="Nuts\NutMetricHexEntryMap.cs" />
     <Compile Include="Nuts\NutMetricKnurl.cs" />
-    <Compile Include="Threads\ThreadMetric.cs" />
-    <Compile Include="Threads\ThreadEntry.cs" />
-    <Compile Include="Threads\ThreadMetricEntryMap.cs" />
+    <Compile Include="Bearings\Linear\LinearBearing.cs" />
+    <Compile Include="Bearings\Linear\LinearBearingEntry.cs" />
+    <Compile Include="Bearings\Linear\LinearBearingClipsEntryMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threads\ThreadEntry.cs" />
+    <Compile Include="Threads\ThreadMetric.cs" />
+    <Compile Include="Threads\ThreadMetricEntryMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -79,11 +87,42 @@
     <Content Include="Nuts\iso4035-NutMetricHexThin.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Bearings\Linear\LM.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\Linear motion - THK.ods">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LM-L.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LME.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMF-L.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMF.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMH.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMK-L.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMK.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\LMH-L.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Threads\iso261-ThreadMetric-extended.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

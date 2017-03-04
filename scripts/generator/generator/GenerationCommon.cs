@@ -95,9 +95,17 @@ namespace generator
             {
                 stringValue = string.Format(CultureInfo.InvariantCulture, "{0}*mm", ((Length) value).Millimeters);
             }
+            else if (value is Mass)
+            {
+                stringValue = string.Format(CultureInfo.InvariantCulture, "{0}*g", ((Mass) value).Grams);
+            }
             else if (value is string)
             {
                 stringValue = $"\"{((string)value).Trim()}\"";
+            }
+            else if (value is null)
+            {
+                stringValue = "undef";
             }
             else
             {

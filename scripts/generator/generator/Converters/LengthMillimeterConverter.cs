@@ -22,10 +22,16 @@ namespace generator
         {
             var numberStyle = options.NumberStyle;
             var style = numberStyle.HasValue ? numberStyle.GetValueOrDefault() : NumberStyles.Float;
-            double result;
-            if (double.TryParse(text, style, options.CultureInfo, out result))
+            if (double.TryParse(text, style, options.CultureInfo, out double result))
                 return Length.FromMillimeters(result);
-            return base.ConvertFromString(options, text);
+            try
+            {
+                return base.ConvertFromString(options, text);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

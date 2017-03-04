@@ -8,9 +8,9 @@ namespace generator.Threads
         {
             Map(m => m.Size)
                 .Index(0).TypeConverter<LengthMillimeterConverter>();
-            Map(m => m.ThreadKey)
+            Map(m => m.Key)
                 .Index(1);
-            Map(m => m.ThreadKeySimple)
+            Map(m => m.KeySimple)
                 .Index(2);
 
             Map(m => m.PitchMm)
