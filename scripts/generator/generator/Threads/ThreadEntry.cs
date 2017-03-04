@@ -7,8 +7,8 @@ namespace generator.Threads
     {
         public Length Size { get; set; }
 
-        public string ThreadKey { get; set; }
-        public string ThreadKeySimple { get; set; }
+        public string Key { get; set; }
+        public string KeySimple { get; set; }
 
         public Length PitchMm { get; set; }
 
@@ -34,7 +34,7 @@ namespace generator.Threads
 
         public override string ToString()
         {
-            return $"Thread{ThreadKeySimple}";
+            return $"Thread{KeySimple}";
         }
 
         [XmlIgnore]
