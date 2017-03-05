@@ -11,30 +11,30 @@ module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=
     }
 }
 
-module rcubea(size=[10,10,10], rounding_radius=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
+module rcubea(size=[10,10,10], round_r=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
 {
     size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
-        rcube(size=size+extrasize, rounding_radius=rounding_radius);
+        rcube(size=size+extrasize, round_r=round_r);
     }
 }
 
 /*cubea(size=[10,20,30], align=[0,-1,0], orient=[0,0,1], roll=10, extra_roll=-30, extra_roll_orient=[1,0,0]);*/
 
-module rcube(size=[20,20,20], rounding_radius=1)
+module rcube(size=[20,20,20], round_r=1)
 {
-    if($preview_mode || rounding_radius == 0)
+    if($preview_mode || round_r == 0)
     {
         cubea(size);
     }
     else
     {
         hull()
-        for(x=[-(size[0]/2-rounding_radius),(size[0]/2-rounding_radius)])
-        for(y=[-(size[1]/2-rounding_radius),(size[1]/2-rounding_radius)])
-        for(z=[-(size[2]/2-rounding_radius),(size[2]/2-rounding_radius)])
+        for(x=[-(size[0]/2-round_r),(size[0]/2-round_r)])
+        for(y=[-(size[1]/2-round_r),(size[1]/2-round_r)])
+        for(z=[-(size[2]/2-round_r),(size[2]/2-round_r)])
         translate([x,y,z])
-        sphere(r=rounding_radius);
+        sphere(r=round_r);
     }
 }
 
@@ -53,7 +53,7 @@ module cylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,0],
-        round_radius=0,
+        round_r=0,
         debug=false
         )
 {
@@ -76,9 +76,9 @@ module cylindera(
 
     size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
     {
-        if(round_radius>0)
+        if(round_r>0)
         {
-            rcylindera(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, round_radius=round_radius);
+            rcylindera(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, round_r=round_r);
         }
         else
         {
@@ -109,7 +109,7 @@ module rcylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,0],
-        round_radius=2,
+        round_r=2,
         debug=false
         )
 {
@@ -134,7 +134,7 @@ module rcylindera(
 
     size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
     {
-        if($preview_mode || round_radius == 0)
+        if($preview_mode || round_r == 0)
         {
             cylindera(h=h_, r1=r1_+extra_r_, r2=r2_+extra_r_);
         }
@@ -148,7 +148,7 @@ module rcylindera(
                 translate([0, 0, z*(-h_/2)])
                 {
                     r__=z!=-1?r_[0]:r_[1];
-                    torus(radius=r__-round_radius/2, radial_width=round_radius/2, align=[0,0,z]);
+                    torus(radius=r__-round_r/2, radial_width=round_r/2, align=[0,0,z]);
                 }
             }
         }
@@ -256,12 +256,12 @@ module triangle(o_len, a_len, depth, align=[0,0,0], orient=[0,0,1])
  * @param number depth How wide/deep the triangle is in the 3rd dimension
  * @todo a better way ?
  */
-module rtriangle(o_len, a_len, depth, rounding_radius=2, align=[0,0,0], orient=[0,0,1])
+module rtriangle(o_len, a_len, depth, round_r=2, align=[0,0,0], orient=[0,0,1])
 {
-    size = [a_len-rounding_radius, depth-rounding_radius, o_len-rounding_radius];
-    r_x = rounding_radius;
-    r_y = rounding_radius;
-    r_z = -rounding_radius;
+    size = [a_len-round_r, depth-round_r, o_len-round_r];
+    r_x = round_r;
+    r_y = round_r;
+    r_z = -round_r;
 
     hyp = pythag_hyp(o_len,a_len);
     a_z = atan(a_len/o_len);
@@ -278,12 +278,12 @@ module rtriangle(o_len, a_len, depth, rounding_radius=2, align=[0,0,0], orient=[
 
     size_align(size=size, align=align, orient=orient)
     /*hull()*/
-    for(x=[-(size[0]/2)+rounding_radius,(size[0]/2)-r_x])
-    for(y=[-(size[1]/2)+rounding_radius,(size[1]/2)-r_y])
-    for(z=[-(size[2]/2)+rounding_radius,(size[2]/2)-r_z])
+    for(x=[-(size[0]/2)+round_r,(size[0]/2)-r_x])
+    for(y=[-(size[1]/2)+round_r,(size[1]/2)-r_y])
+    for(z=[-(size[2]/2)+round_r,(size[2]/2)-r_z])
     translate([x,y,z])
     if(x<=1 || z<=1)
-    sphere(r=rounding_radius);
+    sphere(r=round_r);
 }
 
 module teardrop(r, d, h=10, truncate=1, align=[0,0,0], orient=[0,1,0], roll=0)
@@ -438,7 +438,7 @@ if(false)
     /*sphere(30/2);*/
 
     /*translate([30,0,0])*/
-    /*rcubea(s=[35,35,35], rounding_radius=10);*/
+    /*rcubea(s=[35,35,35], round_r=10);*/
     /*rcubea(s=[35,35,35], align=[0,-1,0]);*/
 
     /*translate([60,0,0])*/
