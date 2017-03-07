@@ -34,7 +34,9 @@ module rcube(size=[20,20,20], round_r=1)
         for(y=[-(size[1]/2-round_r),(size[1]/2-round_r)])
         for(z=[-(size[2]/2-round_r),(size[2]/2-round_r)])
         translate([x,y,z])
-        sphere(r=round_r);
+        {
+            sphere(r=round_r);
+        }
     }
 }
 
@@ -87,11 +89,12 @@ module cylindera(
     }
 }
 
-module torus(radius, radial_width, align=[0,0,0], orient=[0,0,1])
+module torus(r=undef, radius=5, radial_width, align=[0,0,0], orient=[0,0,1])
 {
-    size_align(size=[radius*2+radial_width*2, radius*2+radial_width*2, radial_width*2], align=align, orient=orient)
+    r_ = fallback(r, radius);
+    size_align(size=[r_*2+radial_width*2, r_*2+radial_width*2, radial_width*2], align=align, orient=orient)
     rotate_extrude()
-    translate([radius, 0, 0])
+    translate(r_*X)
     circle(radial_width);
 }
 
@@ -109,12 +112,10 @@ module rcylindera(
         extra_r=undef,
         extra_d=undef,
         extra_align=[0,0,0],
-        round_r=2,
+        round_r=1,
         debug=false
         )
 {
-    pi=3.1415926536;
-
     d1_ = v_fallback(d1, [r*2, r1*2]);
     d2_ = v_fallback(d2, [r*2, r2*2]);
 
@@ -148,7 +149,7 @@ module rcylindera(
                 translate([0, 0, z*(-h_/2)])
                 {
                     r__=z!=-1?r_[0]:r_[1];
-                    torus(radius=r__-round_r/2, radial_width=round_r/2, align=[0,0,z]);
+                    torus(radius=r__-round_r/2, radial_width=round_r, align=[0,0,z]);
                 }
             }
         }
@@ -214,7 +215,7 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
             for(z=[-1,1])
             translate([0,0,z*(h/2-taper_h)])
             mirror([0,0,z==-1?1:0])
-            cylindera(d1=inner_d, d2=outer_d, h=taper_h+.1, align=[0,0,1]);
+            cylindera(d1=inner_d, d2=outer_d, h=taper_h+.1, align=[0,0,1], extra_h=.2);
 
             // override fn for inner cylinder cut, to ensure same fragments as taper
             // this ensures cleaner mesh
@@ -223,7 +224,7 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
         }
         else
         {
-            cylindera(h=h+.2, d=inner_d, orient=[0,0,1], align=[0,0,0]);
+            cylindera(h=h, d=inner_d, orient=[0,0,1], align=[0,0,0], extra_h=.4);
         }
     }
 }
@@ -456,6 +457,25 @@ if(false)
 /*cylindera(d=10, h=10, orient=[0,1,0], align=[0,0,1]);*/
 }
 
+if(false)
+{
+    /*cubea();*/
+    /*rcubea(size=[10,10,10]);*/
+
+    is_build = true;
+    $fs = is_build ? 0.5 : 2;
+    $fa = is_build ? 4 : 12;
+
+    stack(axis=X, dist=15)
+    {
+        cylindera(h=10,r=5);
+
+        rcylindera(h=10,r=5);
+
+
+        rcubea([10,10,10]);
+    }
+}
 
 if(false)
 {
