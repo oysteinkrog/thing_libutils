@@ -18,23 +18,23 @@ module test()
             rotate([90,0,0])
             belt_path(orient=X, len=30*mm, $preview_mode=preview);
 
-            belt_len(belt=belt, belt_width=10, len=30*mm, align=[0,0,0], orient=X, $preview_mode=preview);
-            belt_angle(belt=belt, r=20, belt_width=10, angle=180, align=[0,0,0], $preview_mode=preview);
+            belt_len(belt=belt, belt_width=10, len=30*mm, align=N, orient=X, $preview_mode=preview);
+            belt_angle(belt=belt, r=20, belt_width=10, angle=180, align=N, $preview_mode=preview);
         }
     }
 }
 
-module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT2_2, align=[0,0,0], orient=Z)
+module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT2_2, align=N, orient=Z)
 {
     size_align(size=[pulley_d, belt_width, len], align=align, orient=orient)
     {
         for(y=[-1,1])
         translate([0,pulley_d/2,0])
         rotate([180,0,0])
-        belt_len(belt=belt, belt_width=belt_width, len=len, align=[0,0,0], orient=Z);
+        belt_len(belt=belt, belt_width=belt_width, len=len, align=N, orient=Z);
 
         translate([0,-pulley_d/2,0])
-        belt_len(belt=belt, belt_width=belt_width, len=len, align=[0,0,0], orient=Z);
+        belt_len(belt=belt, belt_width=belt_width, len=len, align=N, orient=Z);
 
         for(i=[-1,1])
         translate([0,0,i*len/2])
@@ -42,7 +42,7 @@ module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT
     }
 }
 
-module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orient=Z, align=[0,0,0])
+module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orient=Z, align=N)
 {
     pitch = get(TimingBeltPitch, belt);
     bk = get(TimingBeltBackThick, belt);
@@ -69,7 +69,7 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
                 {
                     x = (r-bk)*2/sqrt(2);
                     rotate([0,0,45])
-                    cubea(size=[x, x, belt_width+.2], align=[0,0,0]);
+                    cubea(size=[x, x, belt_width+.2], align=N);
                 }
             }
         }
@@ -101,7 +101,7 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
 }
 
 //inner module
-module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=Z, align=[0,0,0]) {
+module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=Z, align=N) {
 
     pitch = get(TimingBeltPitch, belt);
     bk = get(TimingBeltBackThick, belt);

@@ -10,7 +10,7 @@ module linup(arr=undef)
     }
 }
 
-module stack(dist=10, distances=undef, axis=[0,0,1])
+module stack(dist=10, distances=undef, axis=Z)
 {
     if($children>0)
     {
@@ -32,14 +32,14 @@ module stack(dist=10, distances=undef, axis=[0,0,1])
     }
 }
 
-module orient_(axis=[0,0,1], roll=0)
+module orient_(axis=Z, roll=0)
 {
     rotate(axis==undef?0:roll*axis)
     rotate(axis==undef?0:_orient_angles(axis))
     children();
 }
 
-module orient(axis=[0,0,1], axis_ref=[0,0,1], roll=0, extra_roll, extra_roll_orient)
+module orient(axis=Z, axis_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
     rotate(extra_roll_orient==undef||extra_roll==undef?0:extra_roll*extra_roll_orient)
 
@@ -62,11 +62,11 @@ function _orient_t(orient, align, size) =
     let(bounds = _orient_bounds(orient, size))
     (hadamard(align, [abs(bounds.x/2),abs(bounds.y/2),abs(bounds.z/2)]));
 
-module size_align(size=[10,10,10], extra_size=[0,0,0], align=[0,0,0], extra_align=[0,0,0], orient=[0,0,1], orient_ref=[0,0,1], roll=0, extra_roll, extra_roll_orient)
+module size_align(size=[10,10,10], extra_size=N, align=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    t = orient==undef?[0,0,0]:_orient_t(orient, align, size);
-    /*t_ = orient_ref==undef?[0,0,0]:_orient_t(orient_ref, align, size);*/
-    extra_t = (orient==undef||extra_size==undef)?[0,0,0]:_orient_t(orient, extra_align, extra_size);
+    t = orient==undef?N:_orient_t(orient, align, size);
+    /*t_ = orient_ref==undef?N:_orient_t(orient_ref, align, size);*/
+    extra_t = (orient==undef||extra_size==undef)?N:_orient_t(orient, extra_align, extra_size);
     translate(t+extra_t)
     {
         orient(axis=orient, axis_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)

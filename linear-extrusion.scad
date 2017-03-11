@@ -1,9 +1,9 @@
 use <shapes.scad>
 use <transforms.scad>
 
-module linear_extrusion(h=10, center=true, align=[0,0,0], orient=[0,0,1])
+module linear_extrusion(h=10, center=true, align=N, orient=Z)
 {
-    size_align(size=[20,20,h], align=align, orient=orient, orient_ref=[0,0,1])
+    size_align(size=[20,20,h], align=align, orient=orient, orient_ref=Z)
     {
         linear_extrude(height = h, center = true, convexity = 10, twist = 0)
         {

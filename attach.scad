@@ -38,7 +38,7 @@ module vectorz(l=10, l_arrow=4, mark=false)
     //-- Draw the mark
     if (mark) {
       translate([0,0,lb/2+l_arrow/2])
-      translate([1,0,0])
+      translate(X)
         cubea([2,0.3,l_arrow*0.8]);
     }
 
@@ -88,13 +88,13 @@ module vector(v,l=0, l_arrow=4, mark=false)
   //---- SAME CALCULATIONS THAN THE ORIENTATE OPERATOR!
   //-- Calculate the rotation axis
 
-  vref = [0,0,1];
+  vref = Z;
   raxis = v_cross(vref,v);
 
   //-- Calculate the angle between the vectors
   ang = v_anglev(vref,v);
 
-  raxis_=ang==180&&raxis==[0,0,0]?[1,0,0]:raxis;
+  raxis_=ang==180&&raxis==N?X:raxis;
 
   //-- orientate the vector
   //-- Draw the vector. The vector length is given either
@@ -168,7 +168,7 @@ module attach(a, b, roll=0)
     ang = v_anglev(vref,v);
     //--------------------------------------------------------.-
 
-    raxis_=ang==180&&raxis==[0,0,0]?[1,0,0]:raxis;
+    raxis_=ang==180&&raxis==N?X:raxis;
 
     //-- Apply the transformations to the child ---------------------------
 

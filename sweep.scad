@@ -35,7 +35,7 @@ function calculate_twist(A,B) = let(D = transpose_3(B) * A)
 function construct_transform_path_mod(path, closed=false) = let(
         l = len(path),
         tangents = [ for (i=[0:l-1]) tangent_path(path, i)],
-        local_rotations = construct_torsion_minimizing_rotations(concat([[0,0,1]],tangents)),
+        local_rotations = construct_torsion_minimizing_rotations(concat([Z],tangents)),
         rotations = accumulate_rotations(local_rotations),
         twist = closed ? calculate_twist(rotations[0], rotations[l-1]) : 0
         )  [ for (i = [0:l-1]) construct_rt(rotations[i], path[i]) * rotation([0,0,twist*i/(l-1)])];

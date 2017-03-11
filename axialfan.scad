@@ -5,7 +5,7 @@ include <transforms.scad>
 include <screws.scad>
 include <MCAD/boxes.scad>
 
-module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius=3, blade_angle=-45, bore_dia_walls=1.5, orient=[0,0,1], align=[0,0,0])
+module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius=3, blade_angle=-45, bore_dia_walls=1.5, orient=Z, align=N)
 {
     s = [width, width, depth];
     size_align(size=s, orient=orient, orient_ref=[0,0,-1], align=align)
@@ -21,8 +21,8 @@ module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius
 
             difference()
             {
-                cylindera(d=bore_diameter, h=depth+.2, orient=[0,0,1]);
-                cylindera(d=bore_diameter/2 + 2*mm, h=depth+.2, orient=[0,0,1]);
+                cylindera(d=bore_diameter, h=depth+.2, orient=Z);
+                cylindera(d=bore_diameter/2 + 2*mm, h=depth+.2, orient=Z);
             }
 
             for(x=[-1,1])
@@ -37,7 +37,7 @@ module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius
 }
 
 
-module axialfan_cut(width, depth, tolerance=.3*mm, mount_dist, screw_l, thread, head_embed=true, orient=[0,0,1], align=[0,0,0])
+module axialfan_cut(width, depth, tolerance=.3*mm, mount_dist, screw_l, thread, head_embed=true, orient=Z, align=N)
 {
     s = [width, width, depth];
     size_align(size=s, orient=orient, orient_ref=[0,0,-1], align=align)
@@ -71,6 +71,6 @@ module axialfan_blades(width, depth, angle)
 
 if(false)
 {
-    axialfan(width=40*mm, depth=10.5*mm, mount_dist=32*mm, thread=ThreadM3, orient=[0,1,0], align=[0,0,0]);
-    %axialfan_cut(width=40*mm, depth=10.5*mm, mount_dist=32*mm, screw_l=25*mm, thread=ThreadM3, orient=[0,1,0], align=[0,0,0]);
+    axialfan(width=40*mm, depth=10.5*mm, mount_dist=32*mm, thread=ThreadM3, orient=Y, align=N);
+    %axialfan_cut(width=40*mm, depth=10.5*mm, mount_dist=32*mm, screw_l=25*mm, thread=ThreadM3, orient=Y, align=N);
 }

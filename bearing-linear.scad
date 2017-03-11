@@ -5,7 +5,7 @@ include <shapes.scad>
 include <screws.scad>
 include <bearing-linear-data.scad>
 
-module linear_bearing(bearing, part, align=[0,0,0], orient=Z, offset_flange=false)
+module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
 {
     model = get(LinearBearingModel, bearing);
     width_x = fallback(get(LinearBearingFlangeCutDiameter, bearing),LinearBearingOuterDiameter);

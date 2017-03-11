@@ -4,16 +4,16 @@ include <bearing_data.scad>
 include <units.scad>
 include <misc.scad>
 
-module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=[0,0,0])
+module bearing(bearing_type, extra_h=0, override_h=undef, orient=Z, align=N)
 {
     h = fallback(override_h, bearing_type[2]) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     difference()
     {
         // outer
-        cylindera(h=h, d=bearing_type[1], align=[0,0,0]);
+        cylindera(h=h, d=bearing_type[1], align=N);
         // inner
-        cylindera(h=h+.1, d=bearing_type[0], align=[0,0,0]);
+        cylindera(h=h+.1, d=bearing_type[0], align=N);
         // clips
         if(len(bearing_type) > 3)
         {
@@ -30,7 +30,7 @@ module bearing(bearing_type, extra_h=0, override_h=undef, orient=[0,0,1], align=
     }
 }
 
-module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=[0,0,0], orient=[0,0,1], ziptie_dist=undef, with_zips=true)
+module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=N, orient=Z, ziptie_dist=undef, with_zips=true)
 {
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
@@ -41,7 +41,7 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_typ
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     {
         // Main bearing cut
-        cylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=[0,0,1]);
+        cylindera(h=bearing_type[2]*tolerance, d=bearing_type[1]*tolerance, orient=Z);
 
         if(with_zips)
         {
@@ -52,13 +52,13 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_typ
                             thickness = ziptie_thickness*2,
                             h = ziptie_width,
                             taper=false,
-                            orient=[0,0,1],
-                            align=[0,0,0]
+                            orient=Z,
+                            align=N
                             );
         }
 
         // for linear rod
-        cylindera(d=bearing_type[0]+2*mm, h=100, orient=[0,0,1]);
+        cylindera(d=bearing_type[0]+2*mm, h=100, orient=Z);
 
         if($show_vit)
         {
@@ -72,7 +72,7 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_typ
                         thickness = ziptie_thickness,
                         h = ziptie_width,
                         taper=false,
-                        orient=[0,0,1],
+                        orient=Z,
                         align=[0,0,-z]
                         );
             }
@@ -83,7 +83,7 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_typ
 if(false)
 {
     b=bearing_igus_rj4jp_01_12;
-    bearing_mount_holes(b, orient=[0,0,1]);
+    bearing_mount_holes(b, orient=Z);
     translate([30,0,0])
-    bearing(b, orient=[0,0,1]);
+    bearing(b, orient=Z);
 }

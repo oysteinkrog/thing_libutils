@@ -7,7 +7,7 @@ pulley_2GT_20T       = [8.65*mm, 16*mm, 12*mm, 16*mm, 1.15*mm, 5*mm];
 
 function pulley_height(pulley) = pulley[1]==undef?pulley[0]:pulley[1];
 
-module pulley(pulley=pulley_2GT_20T, flip=false, align=[0,0,0], orient = [0,0,1])
+module pulley(pulley=pulley_2GT_20T, flip=false, align=N, orient = Z)
 {
     is_idler = pulley[1] == undef;
     pulley_full(
@@ -24,7 +24,7 @@ module pulley(pulley=pulley_2GT_20T, flip=false, align=[0,0,0], orient = [0,0,1]
             );
 }
 
-module pulley_full(h, inner_d, outer_d, bore, walls, is_idler=false, full_h, flip=false, align=[0,0,0], orient = [0,0,1])
+module pulley_full(h, inner_d, outer_d, bore, walls, is_idler=false, full_h, flip=false, align=N, orient = Z)
 {
     size_align(size=[outer_d, outer_d, full_h==undef?h:full_h], align=align, orient=orient)
     {
@@ -36,29 +36,29 @@ module pulley_full(h, inner_d, outer_d, bore, walls, is_idler=false, full_h, fli
         {
             union()
             {
-                cylindera(d = outer_d, h = walls, align=[0,0,1], orient=[0,0,1]);
+                cylindera(d = outer_d, h = walls, align=Z, orient=Z);
 
-                translate([0,0,0])
-                cylindera(d = inner_d, h = h, align=[0,0,1], orient=[0,0,1]);
+                translate(N)
+                cylindera(d = inner_d, h = h, align=Z, orient=Z);
 
                 translate([0,0,h-walls])
-                cylindera(d = outer_d, h = walls, align=[0,0,1], orient=[0,0,1]);
+                cylindera(d = outer_d, h = walls, align=Z, orient=Z);
 
                 translate([0,0,h])
                 if(!is_idler)
                 {
-                    cylindera(d = outer_d, h = full_h-h, align=[0,0,1], orient=[0,0,1]);
+                    cylindera(d = outer_d, h = full_h-h, align=Z, orient=Z);
                 }
             }
             translate([0,0,-.1])
-            cylindera(d = bore, h = full_h+.2, align=[0,0,1], orient=[0,0,1]);
+            cylindera(d = bore, h = full_h+.2, align=Z, orient=Z);
         }
     }
 }
 
 if(false)
 {
-    /*pulley(pulley_2GT_20T_idler, align=[0,0,1], orient=[0,0,1]);*/
-    pulley(pulley_2GT_20T, align=[0,0,1], orient=[0,0,-1], flip=false);
-    /*pulley(pulley_2GT_20T, align=[0,0,-1], orient=[0,0,1], flip=false);*/
+    /*pulley(pulley_2GT_20T_idler, align=Z, orient=Z);*/
+    pulley(pulley_2GT_20T, align=Z, orient=[0,0,-1], flip=false);
+    /*pulley(pulley_2GT_20T, align=[0,0,-1], orient=Z, flip=false);*/
 }

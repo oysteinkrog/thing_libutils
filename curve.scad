@@ -124,16 +124,16 @@ function path_sweepalong(path) = [for(k=path) place_mat()*k];
 function path_placealong(path) = [for(k=path) place_mat()*k*rotation([180,90,0])];
 
 function place_mat() =
-    translation([0,0,0])
+    translation(N)
     *
-    rotation([0,0,0])
+    rotation(N)
     ;
 
 shape_debug = rectangle_profile([0.5,0.5]);
 
 
 // non-interpolated
-translate([0,0,0])
+translate(N)
 {
     color("black")
     {

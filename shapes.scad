@@ -3,23 +3,23 @@ include <units.scad>
 use <misc.scad>
 use <transforms.scad>
 
-module cubea(size=[10,10,10], align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
+module cubea(size=[10,10,10], align=N, extrasize=N, extrasize_align=N, orient=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll, , extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=Z, roll=roll, , extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         cube(size+extrasize, center=true);
     }
 }
 
-module rcubea(size=[10,10,10], round_r=1, align=[0,0,0], extrasize=[0,0,0], extrasize_align=[0,0,0], orient=[0,0,1], roll=0, extra_roll, extra_roll_orient)
+module rcubea(size=[10,10,10], round_r=1, align=N, extrasize=N, extrasize_align=N, orient=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=[0,0,1], roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=Z, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         rcube(size=size+extrasize, round_r=round_r);
     }
 }
 
-/*cubea(size=[10,20,30], align=[0,-1,0], orient=[0,0,1], roll=10, extra_roll=-30, extra_roll_orient=[1,0,0]);*/
+/*cubea(size=[10,20,30], align=[0,-1,0], orient=Z, roll=10, extra_roll=-30, extra_roll_orient=X);*/
 
 module rcube(size=[20,20,20], round_r=1)
 {
@@ -49,12 +49,12 @@ module cylindera(
         d=undef,
         d1=undef,
         d2=undef,
-        align=[0,0,0],
-        orient=[0,0,1],
+        align=N,
+        orient=Z,
         extra_h=0,
         extra_r=undef,
         extra_d=undef,
-        extra_align=[0,0,0],
+        extra_align=N,
         round_r=0,
         debug=false
         )
@@ -76,7 +76,7 @@ module cylindera(
         echo(useDia, h, r_, r1_, r2_, extra_r_, align);
     }
 
-    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
+    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=Z, align=align, extra_align=extra_align)
     {
         if(round_r>0)
         {
@@ -89,7 +89,7 @@ module cylindera(
     }
 }
 
-module torus(r=undef, radius=5, radial_width, align=[0,0,0], orient=[0,0,1])
+module torus(r=undef, radius=5, radial_width, align=N, orient=Z)
 {
     r_ = fallback(r, radius);
     size_align(size=[r_*2+radial_width*2, r_*2+radial_width*2, radial_width*2], align=align, orient=orient)
@@ -106,12 +106,12 @@ module rcylindera(
         d=undef,
         d1=undef,
         d2=undef,
-        align=[0,0,0],
-        orient=[0,0,1],
+        align=N,
+        orient=Z,
         extra_h=0,
         extra_r=undef,
         extra_d=undef,
-        extra_align=[0,0,0],
+        extra_align=N,
         round_r=1,
         debug=false
         )
@@ -133,7 +133,7 @@ module rcylindera(
         echo(useDia, h, r_, r1_, r2_, extra_r_, align);
     }
 
-    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=[0,0,1], align=align, extra_align=extra_align)
+    size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=Z, align=align, extra_align=extra_align)
     {
         if($preview_mode || round_r == 0)
         {
@@ -181,16 +181,16 @@ module pie_slice_shape(r, start_angle, end_angle) {
 
 // positive angles go from start to end counterclockwise
 // negative angles are allowed
-module pie_slice(r, start_angle, end_angle, h, orient=[0,0,1], align=[0,0,0])
+module pie_slice(r, start_angle, end_angle, h, orient=Z, align=N)
 {
-    size_align(size=[r*2, r*2, h], orient=orient, orient_ref=[0,0,1], align=align)
+    size_align(size=[r*2, r*2, h], orient=orient, orient_ref=Z, align=align)
     linear_extrude(h)
     {
         pie_slice_shape(r, start_angle, end_angle);
     }
 }
 
-module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orient=[0,0,1], align=[0,0,0])
+module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orient=Z, align=N)
 {
     outer_d = d+thickness/2;
     inner_d = d-thickness/2;
@@ -201,13 +201,13 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
     {
         union()
         {
-            cylindera(h=h-(taper_?taper_h*2:0), d=outer_d, orient=[0,0,1], align=[0,0,0]);
+            cylindera(h=h-(taper_?taper_h*2:0), d=outer_d, orient=Z, align=N);
             if(taper_)
             {
                 for(z=[-1,1])
                 translate([0,0,z*(h/2-taper_h)])
                 mirror([0,0,z==-1?1:0])
-                cylindera(d1=outer_d, d2=outer_d-inner_d/4, h=taper_h, align=[0,0,1]);
+                cylindera(d1=outer_d, d2=outer_d-inner_d/4, h=taper_h, align=Z);
             }
         }
         if(taper_)
@@ -215,16 +215,16 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
             for(z=[-1,1])
             translate([0,0,z*(h/2-taper_h)])
             mirror([0,0,z==-1?1:0])
-            cylindera(d1=inner_d, d2=outer_d, h=taper_h+.1, align=[0,0,1], extra_h=.2);
+            cylindera(d1=inner_d, d2=outer_d, h=taper_h+.1, align=Z, extra_h=.2);
 
             // override fn for inner cylinder cut, to ensure same fragments as taper
             // this ensures cleaner mesh
             fn = fn_from_d(d=outer_d);
-            cylindera(h=h+.2+taper_h, d=inner_d, orient=[0,0,1], align=[0,0,0], $fn=fn);
+            cylindera(h=h+.2+taper_h, d=inner_d, orient=Z, align=N, $fn=fn);
         }
         else
         {
-            cylindera(h=h, d=inner_d, orient=[0,0,1], align=[0,0,0], extra_h=.4);
+            cylindera(h=h, d=inner_d, orient=Z, align=N, extra_h=.4);
         }
     }
 }
@@ -238,7 +238,7 @@ module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orie
  * @param number depth How wide/deep the triangle is in the 3rd dimension
  * @todo a better way ?
  */
-module triangle(o_len, a_len, depth, align=[0,0,0], orient=[0,0,1])
+module triangle(o_len, a_len, depth, align=N, orient=Z)
 {
     size_align(size=[a_len, depth, o_len], align=align, orient=orient)
     rotate([90,0,0])
@@ -257,7 +257,7 @@ module triangle(o_len, a_len, depth, align=[0,0,0], orient=[0,0,1])
  * @param number depth How wide/deep the triangle is in the 3rd dimension
  * @todo a better way ?
  */
-module rtriangle(o_len, a_len, depth, round_r=2, align=[0,0,0], orient=[0,0,1])
+module rtriangle(o_len, a_len, depth, round_r=2, align=N, orient=Z)
 {
     size = [a_len-round_r, depth-round_r, o_len-round_r];
     r_x = round_r;
@@ -268,12 +268,12 @@ module rtriangle(o_len, a_len, depth, round_r=2, align=[0,0,0], orient=[0,0,1])
     a_z = atan(a_len/o_len);
 
     translate([0,0,size[2]+2])
-    color([1,0,0])
+    color(X)
     rotate([90,90,0])
     pie_slice(r=2, start_angle=0, end_angle=a_z, h=depth);
 
     /*translate([size[0]+4,0,0])*/
-    /*color([1,0,0])*/
+    /*color(X)*/
     /*rotate([90,90,0])*/
     /*pie_slice(r=2, start_angle=90, end_angle=90+a_z, h=depth);*/
 
@@ -287,7 +287,7 @@ module rtriangle(o_len, a_len, depth, round_r=2, align=[0,0,0], orient=[0,0,1])
     sphere(r=round_r);
 }
 
-module teardrop(r, d, h=10, truncate=1, align=[0,0,0], orient=[0,1,0], roll=0)
+module teardrop(r, d, h=10, truncate=1, align=N, orient=Y, roll=0)
 {
     r_= v_fallback(r, [d/2]);
 
@@ -306,7 +306,7 @@ module teardrop(r, d, h=10, truncate=1, align=[0,0,0], orient=[0,1,0], roll=0)
     ex1 = sy+dys*dx/dy;
     ex2 = -ex1;
 
-    size_align(size=[d,d,h], align=align, orient=orient, orient_ref=[0,0,1], roll=roll)
+    size_align(size=[d,d,h], align=align, orient=orient, orient_ref=Z, roll=roll)
     union()
     {
         linear_extrude(height = h, center = true, convexity = r_, twist = 0)
@@ -358,11 +358,11 @@ module debug()
 
     /*triangle_a(45, 5, 5);*/
     /*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,-1]);*/
-    /*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,1]);*/
+    /*triangle(15, 10, 5, align=[1,1,1], orient=Z);*/
 
-    triangle(10, 30, 5, align=[1,1,1], orient=[0,0,1]);
+    triangle(10, 30, 5, align=[1,1,1], orient=Z);
     translate([0,-10,0])
-    rtriangle(10, 30, 5, align=[1,1,1], orient=[0,0,1]);
+    rtriangle(10, 30, 5, align=[1,1,1], orient=Z);
 }
 
 /**
@@ -407,21 +407,21 @@ if(false)
 {
     stack(axis=X, dist=15)
     {
-        hollow_cylinder(thickness=5, h=10, taper=false, orient=[0,0,1], align=[0,0,1]);
-        hollow_cylinder(thickness=5, h=10, taper=true, orient=[0,0,1], align=[0,0,1]);
+        hollow_cylinder(thickness=5, h=10, taper=false, orient=Z, align=Z);
+        hollow_cylinder(thickness=5, h=10, taper=true, orient=Z, align=Z);
     }
 
-    /*cylindera(d=10, h=10, orient=[0,0,1], align=[0,0,1]);*/
+    /*cylindera(d=10, h=10, orient=Z, align=Z);*/
     /*translate([10,0,0])*/
     /*{*/
-    /*hollow_cylinder(d=10, thickness=4, h=10, taper=true, taper_h=.5, orient=[0,0,1], align=[0,0,1]);*/
-    /*cylindera(d=8, h=10, orient=[0,0,1], align=[0,0,1]);*/
+    /*hollow_cylinder(d=10, thickness=4, h=10, taper=true, taper_h=.5, orient=Z, align=Z);*/
+    /*cylindera(d=8, h=10, orient=Z, align=Z);*/
     /*}*/
 
     /*%pie_slice(r=10, start_angle=-30, end_angle=270, h=10);*/
 
-    /*cubea([10,10,10],[1,0,0]);*/
-    /*%cubea([10,10,10],[1,0,0],[5,5,5],[1,1,1]);*/
+    /*cubea([10,10,10],X);*/
+    /*%cubea([10,10,10],X,[5,5,5],[1,1,1]);*/
 
     /*%cubea([10,10,10],[-1,0,1]);*/
     /*%cubea([10,10,10],[-1,0,1],[1,1,1],[-1,0,1]);*/
@@ -433,7 +433,7 @@ if(false)
     /*%cylindera(h=10, d=10, align=[1,-1,1], extra_d=5, extra_h=2, extra_align=[-1,-1,1], $fn=100);*/
     /*%cylindera(h=10, d=10, align=[1,1,1], extra_d=5, extra_h=2, extra_align=[1,1,1], $fn=100);*/
 
-    /*%cylindera(h=10, d=10, align=[1,0,0], extra_d=10);*/
+    /*%cylindera(h=10, d=10, align=X, extra_d=10);*/
 
     /*hull_pairwise()*/
     /*sphere(30/2);*/
@@ -446,15 +446,15 @@ if(false)
     /*sphere(30/2);*/
 
 
-    cylindera(h=20, r=5*mm, align=[0,1,0], orient=[0,0,1], $fn=100);
+    cylindera(h=20, r=5*mm, align=Y, orient=Z, $fn=100);
 
-/*size_align(size=[5,5,20], orient=[0,1,0], orient_ref=[0,0,1])*/
-/*size_align(size=[5,5,20], orient=[0,1,0], orient_ref=[0,1,0], align=[0,1,0])*/
-/*size_align(size=[5,20,5], orient=[0,0,1], orient_ref=[0,1,0], align=[0,0,0])*/
+/*size_align(size=[5,5,20], orient=Y, orient_ref=Z)*/
+/*size_align(size=[5,5,20], orient=Y, orient_ref=Y, align=Y)*/
+/*size_align(size=[5,20,5], orient=Z, orient_ref=Y, align=N)*/
 /*rotate([90,0,0])*/
 /*cylinder(d=5, h=20, center=true);*/
 
-/*cylindera(d=10, h=10, orient=[0,1,0], align=[0,0,1]);*/
+/*cylindera(d=10, h=10, orient=Y, align=Z);*/
 }
 
 if(false)
@@ -492,26 +492,26 @@ if(false)
 
 if(false)
 {
-    stack(dist=50, axis=[0,1,0])
+    stack(dist=50, axis=Y)
     {
         stack(dist=10, axis=[0,0,-1])
         {
             /*cylindera(orient=[0,0,-1], align=[0,0,-1]);*/
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,1], align=[0,0,-1]);
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,-1], align=[0,0,1]);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=Z, align=[0,0,-1]);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,-1], align=Z);
             /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=[0,0,-1]);*/
             /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=[0,0,-1]);*/
             /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=[0,0,-1]);*/
         }
 
-        stack(dist=10, axis=[0,1,0])
+        stack(dist=10, axis=Y)
         {
-            /*cylindera(orient=[0,1,0], align=[0,1,0]);*/
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,-1,0], align=[0,1,0]);
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,1,0], align=[0,1,0]);
-            pie_slice(r=30, h=5, start_angle=-90, end_angle=180, orient=[0,1,0], align=[0,1,0]);
-            pie_slice(r=30, h=5, start_angle=90, end_angle=270, orient=[0,1,0], align=[0,1,0]);
-            pie_slice(r=30, h=5, start_angle=0, end_angle=270, orient=[0,1,0], align=[0,1,0]);
+            /*cylindera(orient=Y, align=Y);*/
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,-1,0], align=Y);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=Y, align=Y);
+            pie_slice(r=30, h=5, start_angle=-90, end_angle=180, orient=Y, align=Y);
+            pie_slice(r=30, h=5, start_angle=90, end_angle=270, orient=Y, align=Y);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=270, orient=Y, align=Y);
         }
     }
 }
