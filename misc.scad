@@ -153,6 +153,7 @@ function is_string(x) =
 		? false // if undef, a boolean or a number
 		: len(str(x,x)) == len(x)*2; // if an array, this is false
 
+
 // FUNCTION: is_array(x)
 //   Returns true if x is an array, false otherwise.
 function is_array(x) = is_string(x) ? false : len(x) != undef;
@@ -177,11 +178,45 @@ function v_rotate(a, v)
 
 function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
 
-// echo(fallback(undef,1));
+if($test_mode)
+{
+    assert_v(fallback(undef,1), 1);
+}
+
 function fallback(a, b) = a==undef?b:a;
 
 // echo(fallback(undef,[undef, 1]));
 function v_fallback(a,v,i=0) = (a!=undef || i > len(v)-1) ? a : v_fallback(v[i],v,i+1);
+
+function zip(a,b,start=0,end) = [for(i=[start:1:fallback(end,len(a)-1)]) [a[i],b[i]] ];
+function zip_v(v,start=0,end) = [for(i=[start:1:fallback(end,len(v[0])-1)]) v_i(v,i) ];
+
+if($test_mode)
+{
+    vec_a = [0,4];
+    vec_b = [1,5];
+    vec_c = [2,6];
+    vec_d = [3,7];
+    assert_v(zip(vec_a,vec_b),[[0,1],[4,5]]);
+    assert_v(zip_v([vec_a,vec_b]),[[0,1],[4,5]]);
+    assert_v(zip_v([vec_a,vec_b,vec_c,vec_d]), [[0,1,2,3],[4,5,6,7]]);
+}
+
+function vv_fallback(v,start=0,end) = 
+let(z = zip_v(v))
+[
+for(i=[start:1:fallback(end,len(v[0])-1)])
+    v_fallback(v=z[i],i=0)
+];
+
+if($test_mode)
+{
+    vec_a=[ 10,  U,   U, 40 ];
+    vec_b=[ 10,  U,  30,  U ];
+    vec_c=[  U, 20,   U, 40 ];
+    assert(v_fallback(a=5, v=vec_a), 5);
+    assert_v(vv_fallback(v=[vec_a, vec_b,vec_c]), [10,20,30,40]);
+}
 
 function fn_from_r(r) =
                     $fn > 0.0 ?
@@ -195,4 +230,11 @@ function fn_from_d(d) =
                     :
                     ceil(max(min(360.0 / $fa, d*PI / $fs), 5));
 
-
+module assert_v(val, expected, message)
+{
+    if(val != expected)
+    {
+        echo("assertion, unexpected value", val, expected);
+        assert(val == expected, message);
+    }
+}
