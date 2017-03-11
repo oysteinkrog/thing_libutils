@@ -7,6 +7,8 @@ ZAXIS = [0,0,1];
 
 AXES = [X,Y,Z];
 
+U = undef;
+
 function get(key, dict) =
     let(x = search(key, dict))
     let(kv = dict[x[0]])
