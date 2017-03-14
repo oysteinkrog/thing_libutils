@@ -33,7 +33,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
     d = get(LinearBearingInnerDiameter, bearing);
     D = get(LinearBearingOuterDiameter, bearing);
     s = [width_x, width_y, h];
-    if(part==undef)
+    if(part==U)
     {
         difference()
         {
@@ -51,7 +51,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
         // flange
         translate(-Z*h/2)
         {
-            if(flange_side != undef)
+            if(flange_side != U)
             {
                 // LMK
                 intersection()
@@ -61,10 +61,10 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
                     rcubea(size=[flange_d, flange_d, flange_h], orient=Z, align=Z, round_r=1);
                 }
             }
-            else if(flange_d != undef)
+            else if(flange_d != U)
             {
                 // LMH
-                if(flange_d_cut != undef)
+                if(flange_d_cut != U)
                 {
                     intersection()
                     {
@@ -73,7 +73,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
                     }
                 }
                 // LMF
-                else if(flange_d != undef)
+                else if(flange_d != U)
                 {
                     rcylindera(h=flange_h, d=flange_d, orient=Z, align=Z, round_r=1);
                 }
@@ -90,7 +90,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
             cylindera(h=h, d=d, orient=Z, align=Z, extra_h=.2);
 
             // clips
-            if(clip_dist != undef)
+            if(clip_dist != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
@@ -99,7 +99,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
             }
 
             // flange
-            if(flange_side != undef)
+            if(flange_side != U)
             {
                 // LMK
                 // screw cut
@@ -109,7 +109,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
                 translate(x*X*flange_pcd/2*sqrt(2)/2)
                 screw_cut(thread=ThreadM4, h=10*mm, orient=Z, align=Z);
             }
-            else if(flange_d_cut != undef)
+            else if(flange_d_cut != U)
             {
                 // LMH
                 // screw cut
@@ -119,7 +119,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
                 translate(x*X*get(LinearBearingFlangeCutMountHoleDistSide, bearing)/2)
                 screw_cut(thread=ThreadM4, h=10*mm, orient=Z, align=Z);
             }
-            else if(flange_d != undef)
+            else if(flange_d != U)
             {
                 // LMF
                 // screw cut

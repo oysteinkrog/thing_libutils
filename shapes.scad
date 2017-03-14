@@ -43,17 +43,17 @@ module rcube(size=[20,20,20], round_r=1)
 
 module cylindera(
         h=10,
-        r=undef,
-        r1=undef,
-        r2=undef,
-        d=undef,
-        d1=undef,
-        d2=undef,
+        r=U,
+        r1=U,
+        r2=U,
+        d=U,
+        d1=U,
+        d2=U,
         align=N,
         orient=Z,
         extra_h=0,
-        extra_r=undef,
-        extra_d=undef,
+        extra_r=U,
+        extra_d=U,
         extra_align=N,
         round_r=0,
         debug=false
@@ -89,7 +89,7 @@ module cylindera(
     }
 }
 
-module torus(r=undef, radius=5, radial_width, align=N, orient=Z)
+module torus(r=U, radius=5, radial_width, align=N, orient=Z)
 {
     r_ = fallback(r, radius);
     size_align(size=[r_*2+radial_width*2, r_*2+radial_width*2, radial_width*2], align=align, orient=orient)
@@ -100,17 +100,17 @@ module torus(r=undef, radius=5, radial_width, align=N, orient=Z)
 
 module rcylindera(
         h=10,
-        r=undef,
-        r1=undef,
-        r2=undef,
-        d=undef,
-        d1=undef,
-        d2=undef,
+        r=U,
+        r1=U,
+        r2=U,
+        d=U,
+        d1=U,
+        d2=U,
         align=N,
         orient=Z,
         extra_h=0,
-        extra_r=undef,
-        extra_d=undef,
+        extra_r=U,
+        extra_d=U,
         extra_align=N,
         round_r=1,
         debug=false
@@ -190,11 +190,11 @@ module pie_slice(r, start_angle, end_angle, h, orient=Z, align=N)
     }
 }
 
-module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=undef, orient=Z, align=N)
+module hollow_cylinder(d=10, thickness=1, h=10, taper=false, taper_h=U, orient=Z, align=N)
 {
     outer_d = d+thickness/2;
     inner_d = d-thickness/2;
-    taper_h = taper_h == undef ? min(h/4, (outer_d-inner_d)/2) : max(taper_h,h/2);
+    taper_h = taper_h == U ? min(h/4, (outer_d-inner_d)/2) : max(taper_h,h/2);
     taper_ = taper && taper_h > 0;
     size_align(size=[outer_d, outer_d, h], orient=orient, align=align);
     difference()

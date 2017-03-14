@@ -25,7 +25,7 @@ function transform_post(vec_m, t) = [for(m=vec_m) m*t];
 function clamp(v, v1, v2) = min(max(v,v1),v2);
 
 // from the start (or s'th element) to the e'th element - remember elements are zero based
-function v_sum(v,e=undef,start=0) = 
+function v_sum(v,e=U,start=0) =
 let(e_= fallback(e, len(v)-1))
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
@@ -33,7 +33,7 @@ function v_i(vec,i) = [for(vv=vec) vv[i]];
 function v_get(vec,key) = [for(vv=vec) get(key, vv)];
 function v_add(vec,v) = [for(vv=vec) vv+v];
 function v_sub(vec,v) = [for(vv=vec) vv+v];
-function v_avg(v,e=undef,start=0) = v_sum(v,e,start) / (len(v));
+function v_avg(v,e=U,start=0) = v_sum(v,e,start) / (len(v));
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
 function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
@@ -42,10 +42,10 @@ function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,
 
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
-function v_cumsum(v, start=0, end) = [for(i=[start:1:end==undef?len(v)-1:end]) v_sum(v,i)];
+function v_cumsum(v, start=0, end) = [for(i=[start:1:end==U?len(v)-1:end]) v_sum(v,i)];
 
 // filter/remove a val from a vec
-function filter(vec,val=undef) = [for(v=vec) if(v!=val) v];
+function filter(vec,val=U) = [for(v=vec) if(v!=val) v];
 
 function vec_pair_double_transform_post(vec,t1,t2)=
     flatten(
@@ -142,21 +142,21 @@ if(false)
 {
     vec=[ 10, 20, 30, 40 ];
     echo("v_sum=", v_sum(vec,2,1)); // is 20+30=50
-    echo("v_sum=", v_sum(vec)); 
+    echo("v_sum=", v_sum(vec));
     echo("v_cumsum=", v_cumsum(vec));
 }
 
 // FUNCTION: is_String(x)
 //   Returns true if x is a string, false otherwise.
 function is_string(x) =
-	x == undef || len(x) == undef
-		? false // if undef, a boolean or a number
+	x == U || len(x) == U
+		? false // if U, a boolean or a number
 		: len(str(x,x)) == len(x)*2; // if an array, this is false
 
 
 // FUNCTION: is_array(x)
 //   Returns true if x is an array, false otherwise.
-function is_array(x) = is_string(x) ? false : len(x) != undef;
+function is_array(x) = is_string(x) ? false : len(x) != U;
 
 function identity(d)        = d == 0 ? 1 : [for(y=[1:d]) [for(x=[1:d]) x == y ? 1 : 0] ];
 function unit_vector(v)     = let(x=v[0], y=v[1], z=v[2]) [x/norm(v), y/norm(v), z/norm(v)];
@@ -180,13 +180,13 @@ function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
 
 if($test_mode)
 {
-    assert_v(fallback(undef,1), 1);
+    assert_v(fallback(U,1), 1);
 }
 
-function fallback(a, b) = a==undef?b:a;
+function fallback(a, b) = a==U?b:a;
 
-// echo(fallback(undef,[undef, 1]));
-function v_fallback(a,v,i=0) = (a!=undef || i > len(v)-1) ? a : v_fallback(v[i],v,i+1);
+// echo(fallback(U,[U, 1]));
+function v_fallback(a,v,i=0) = (a!=U || i > len(v)-1) ? a : v_fallback(v[i],v,i+1);
 
 function zip(a,b,start=0,end) = [for(i=[start:1:fallback(end,len(a)-1)]) [a[i],b[i]] ];
 function zip_v(v,start=0,end) = [for(i=[start:1:fallback(end,len(v[0])-1)]) v_i(v,i) ];
@@ -202,7 +202,7 @@ if($test_mode)
     assert_v(zip_v([vec_a,vec_b,vec_c,vec_d]), [[0,1,2,3],[4,5,6,7]]);
 }
 
-function vv_fallback(v,start=0,end) = 
+function vv_fallback(v,start=0,end) =
 let(z = zip_v(v))
 [
 for(i=[start:1:fallback(end,len(v[0])-1)])

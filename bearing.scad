@@ -5,7 +5,7 @@ include <bearing_data.scad>
 include <units.scad>
 include <misc.scad>
 
-module bearing(bearing_type, extra_h=0, override_h=undef, orient=Z, align=N)
+module bearing(bearing_type, extra_h=0, override_h=U, orient=Z, align=N)
 {
     h = fallback(override_h, bearing_type[2]) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
@@ -31,7 +31,7 @@ module bearing(bearing_type, extra_h=0, override_h=undef, orient=Z, align=N)
     }
 }
 
-module bearing_mount_holes(bearing_type, extra_h=0, override_h=undef, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=N, orient=Z, ziptie_dist=undef, with_zips=true)
+module bearing_mount_holes(bearing_type, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=N, orient=Z, ziptie_dist=U, with_zips=true)
 {
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;

@@ -16,8 +16,8 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
-    assert(thread_ != undef, "screw: No nut or thread given");
-    /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw: Mismatched nut and thread");*/
+    assert(thread_ != U, "screw: No nut or thread given");
+    /*assert(nut!=U && thread!=U && nut_thread != thread_, "screw: Mismatched nut and thread");*/
 
     head_h = get_screw_head_h(nut);
     nut_h = get(NutThickness,nut)*tolerance;
@@ -37,7 +37,7 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
 
             screw_thread(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
-            if(with_nut && nut != undef)
+            if(with_nut && nut != U)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
                 screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=[0,0,-1]);
@@ -47,7 +47,7 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
         if($show_vit)
         {
             translate([0,0,head_embed?-head_h:0])
-            if(with_nut && nut != undef)
+            if(with_nut && nut != U)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
                 %screw_nut(nut=nut, align=[0,0,-1]);
@@ -60,19 +60,19 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
-    assert(thread_ != undef, "screw_cut: No nut or thread given");
-    /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "screw_cut: Mismatched nut and thread");*/
+    assert(thread_ != U, "screw_cut: No nut or thread given");
+    /*assert(nut!=U && thread!=U && nut_thread != thread_, "screw_cut: Mismatched nut and thread");*/
 
     nut_h = get(NutThickness,nut)*tolerance;
     head_h = get_screw_head_h(thread_);
-    assert(head_h != undef, "screw_cut: head_h is undef!");
+    assert(head_h != U, "screw_cut: head_h is U!");
 
     threadsize = get(ThreadSize, thread_);
-    assert(threadsize != undef, "screw_cut: threadsize is undef!");
+    assert(threadsize != U, "screw_cut: threadsize is U!");
 
     s = threadsize*tolerance;
     total_h = h;
-    assert(s != undef, "screw_cut: s is undef!");
+    assert(s != U, "screw_cut: s is U!");
     size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
     {
         translate([0,0,head_embed?-head_h:0])
@@ -85,7 +85,7 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
 
             screw_thread_cut(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
-            if(with_nut && nut != undef)
+            if(with_nut && nut != U)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
                 screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, align=[0,0,-1]);
@@ -101,7 +101,7 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
 
 module screw_thread(thread, h=10, tolerance=1.00, orient=Z, align=N)
 {
-    assert(thread!=undef, "screw_thread: thread is undef");
+    assert(thread!=U, "screw_thread: thread is undef");
     // TODO render thread
     threadsize = get(ThreadSize, thread);
     cylindera(d=threadsize, h=h, orient=orient, align=align);
@@ -109,14 +109,14 @@ module screw_thread(thread, h=10, tolerance=1.00, orient=Z, align=N)
 
 module screw_thread_cut(thread, h=10, tolerance=1.05, orient=Z, align=N)
 {
-    assert(thread!=undef, "screw_thread_cut: thread is undef");
+    assert(thread!=U, "screw_thread_cut: thread is undef");
     threadsize = get(ThreadSize, thread);
     cylindera(d=threadsize*tolerance, h=h, orient=orient, align=align);
 }
 
-module screw_head(thread, tolerance=1.00, override_h=undef, orient=Z, align=N)
+module screw_head(thread, tolerance=1.00, override_h=U, orient=Z, align=N)
 {
-    assert(thread!=undef, "screw_head: thread is undef");
+    assert(thread!=U, "screw_head: thread is undef");
 
     threadsize = get(ThreadSize, thread);
     head_h = get_screw_head_h(thread);
@@ -130,9 +130,9 @@ module screw_head(thread, tolerance=1.00, override_h=undef, orient=Z, align=N)
     }
 }
 
-module screw_head_cut(thread, tolerance=1.05, override_h=undef, orient=Z, align=N)
+module screw_head_cut(thread, tolerance=1.05, override_h=U, orient=Z, align=N)
 {
-    assert(thread!=undef, "screw_head_cut: thread is undef");
+    assert(thread!=U, "screw_head_cut: thread is undef");
 
     threadsize = get(ThreadSize, thread);
     head_h = get_screw_head_h(thread);
@@ -142,9 +142,9 @@ module screw_head_cut(thread, tolerance=1.05, override_h=undef, orient=Z, align=
     cylindera(d=head_d, h=fallback(override_h, head_h), align=Z);
 }
 
-module screw_nut(nut, tolerance=1.00, override_h=undef, orient=Z, align=N)
+module screw_nut(nut, tolerance=1.00, override_h=U, orient=Z, align=N)
 {
-    assert(nut!=undef, "screw_nut: nut is undef");
+    assert(nut!=U, "screw_nut: nut is undef");
 
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_facets = get(NutFacets, nut);
@@ -154,7 +154,7 @@ module screw_nut(nut, tolerance=1.00, override_h=undef, orient=Z, align=N)
 
 module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
 {
-    assert(nut!=undef, "screw_nut_cut: nut is undef");
+    assert(nut!=U, "screw_nut_cut: nut is undef");
 
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_dia = nut_dia(nut);
@@ -181,8 +181,8 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
-    assert(thread_ != undef, "nut_trap_cut: No nut or thread given");
-    /*assert(nut!=undef && thread!=undef && nut_thread != thread_, "nut_trap_cut: Mismatched nut and thread");*/
+    assert(thread_ != U, "nut_trap_cut: No nut or thread given");
+    /*assert(nut!=U && thread!=U && nut_thread != thread_, "nut_trap_cut: Mismatched nut and thread");*/
 
     threadsize = get(ThreadSize, thread_);
     head_h = get_screw_head_h(thread);

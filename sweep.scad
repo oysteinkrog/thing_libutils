@@ -68,12 +68,12 @@ module sweep_t(shape, path_transforms, closed=false, t_pre=identity4(), t_post=i
 {
     /*path_transforms_mod = path_transforms;*/
     path_transforms_mod =
-        t_pre==undef?
-        t_post==undef?
+        t_pre==U?
+        t_post==U?
         path_transforms
         : transform_post(path_transforms, t_post)
         :
-        t_post==undef?
+        t_post==U?
         transform_pre(path_transforms, t_pre)
         : transform_pp(path_transforms, t_pre, t_post)
         ;
