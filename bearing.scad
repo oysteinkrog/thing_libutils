@@ -23,8 +23,8 @@ module bearing(bearing_type, extra_h=0, override_h=U, orient=Z, align=N)
             translate([0,0,z*bearing_type[3]/2])
             difference()
             {
-                cylindera(h=1*mm, d=bearing_type[2]+1, align=[0,0,-z]);
-                cylindera(h=1*mm+.1, d=bearing_type[4]-clip_depth, align=[0,0,-z]);
+                cylindera(h=1*mm, d=bearing_type[2]+1, align=-z*Z);
+                cylindera(h=1*mm+.1, d=bearing_type[4]-clip_depth, align=-z*Z);
             }
 
         }
@@ -74,7 +74,7 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=U, ziptie_type=[2
                         h = ziptie_width,
                         taper=false,
                         orient=Z,
-                        align=[0,0,-z]
+                        align=-z*Z
                         );
             }
         }

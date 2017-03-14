@@ -19,7 +19,7 @@ module rcubea(size=[10,10,10], round_r=1, align=N, extrasize=N, extrasize_align=
     }
 }
 
-/*cubea(size=[10,20,30], align=[0,-1,0], orient=Z, roll=10, extra_roll=-30, extra_roll_orient=X);*/
+/*cubea(size=[10,20,30], align=-Y, orient=Z, roll=10, extra_roll=-30, extra_roll_orient=X);*/
 
 module rcube(size=[20,20,20], round_r=1)
 {
@@ -149,7 +149,7 @@ module rcylindera(
                 translate([0, 0, z*(-h_/2)])
                 {
                     r__=z!=-1?r_[0]:r_[1];
-                    torus(radius=r__-round_r/2, radial_width=round_r, align=[0,0,z]);
+                    torus(radius=r__-round_r/2, radial_width=round_r, align=z*Z);
                 }
             }
         }
@@ -357,7 +357,7 @@ module debug()
     $fa = 1;
 
     /*triangle_a(45, 5, 5);*/
-    /*triangle(15, 10, 5, align=[1,1,1], orient=[0,0,-1]);*/
+    /*triangle(15, 10, 5, align=[1,1,1], orient=-Z);*/
     /*triangle(15, 10, 5, align=[1,1,1], orient=Z);*/
 
     triangle(10, 30, 5, align=[1,1,1], orient=Z);
@@ -440,7 +440,7 @@ if(false)
 
     /*translate([30,0,0])*/
     /*rcubea(s=[35,35,35], round_r=10);*/
-    /*rcubea(s=[35,35,35], align=[0,-1,0]);*/
+    /*rcubea(s=[35,35,35], align=-Y);*/
 
     /*translate([60,0,0])*/
     /*sphere(30/2);*/
@@ -494,20 +494,20 @@ if(false)
 {
     stack(dist=50, axis=Y)
     {
-        stack(dist=10, axis=[0,0,-1])
+        stack(dist=10, axis=-Z)
         {
-            /*cylindera(orient=[0,0,-1], align=[0,0,-1]);*/
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=Z, align=[0,0,-1]);
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,0,-1], align=Z);
-            /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=[0,0,-1]);*/
-            /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=[0,0,-1]);*/
-            /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=[0,0,-1]);*/
+            /*cylindera(orient=-Z, align=-Z);*/
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=Z, align=-Z);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=-Z, align=Z);
+            /*pie_slice(r=30, h=5, start_angle=-90, end_angle=180, align=-Z);*/
+            /*pie_slice(r=30, h=5, start_angle=90, end_angle=270, align=-Z);*/
+            /*pie_slice(r=30, h=5, start_angle=0, end_angle=270, align=-Z);*/
         }
 
         stack(dist=10, axis=Y)
         {
             /*cylindera(orient=Y, align=Y);*/
-            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=[0,-1,0], align=Y);
+            pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=-Y, align=Y);
             pie_slice(r=30, h=5, start_angle=0, end_angle=120, orient=Y, align=Y);
             pie_slice(r=30, h=5, start_angle=-90, end_angle=180, orient=Y, align=Y);
             pie_slice(r=30, h=5, start_angle=90, end_angle=270, orient=Y, align=Y);
