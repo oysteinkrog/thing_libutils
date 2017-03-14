@@ -133,6 +133,61 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
     }
 }
 
+module linear_bearing_mount(bearing, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=1.01, align=N, orient=Z, ziptie_dist=U, with_zips=true)
+{
+    ziptie_thickness = ziptie_type[0];
+    ziptie_width = ziptie_type[1]+0.6*mm;
+
+    ziptie_dist_ = fallback(ziptie_dist, get(LinearBearingClipsDistance,bearing)/2);
+
+    bearing_ID = get(LinearBearingInnerDiameter, bearing);
+    bearing_OD = get(LinearBearingOuterDiameter, bearing);
+    bearing_L = get(LinearBearingLength, bearing);
+
+    h = fallback(override_h, bearing_L) + extra_h;
+    size_align(size=[bearing_OD,bearing_OD,h], align=align ,orient=orient)
+    {
+        // Main bearing cut
+        cylindera(h=bearing_L*tolerance, d=bearing_OD*tolerance, orient=Z);
+
+        if(with_zips)
+        {
+            for(z=[-1,1])
+                translate([0,0,z*ziptie_dist_ - z*1/2])
+                    hollow_cylinder(
+                            d=bearing_OD+ziptie_bearing_distance+ziptie_thickness,
+                            thickness = ziptie_thickness*2,
+                            h = ziptie_width,
+                            taper=false,
+                            orient=Z,
+                            align=N
+                            );
+        }
+
+        // for linear rod
+        cylindera(d=bearing_ID+2*mm, h=100, orient=Z);
+
+        if($show_vit)
+        {
+            %linear_bearing(bearing=bearing);
+
+            for(z=[-1,1])
+            translate([0,0,z*ziptie_dist_])
+            {
+                %hollow_cylinder(
+                        d=bearing_OD+ziptie_bearing_distance+ziptie_thickness,
+                        thickness = ziptie_thickness,
+                        h = ziptie_width,
+                        taper=false,
+                        orient=Z,
+                        align=-z*Z
+                        );
+            }
+        }
+    }
+}
+
+
 // all
 if(false)
 {
@@ -145,7 +200,15 @@ if(false)
         bearing = AllLinearBearing[i];
         dist=dist_cumsum[i];
         translate(X*dist)
-        linear_bearing(bearing=bearing, align=Z);
+        {
+            linear_bearing(bearing=bearing, align=Z);
+            translate((v_width[i]/2 + 3*mm)*-Y)
+            rotate(-90*Z)
+            text(get(LinearBearingModel, bearing), size=v_width[i]*.8, valign="center", halign="left");
+
+            translate((v_width[i] + 10*mm)*Y)
+            linear_bearing_mount(bearing=bearing, align=Z);
+        }
     }
 }
 
