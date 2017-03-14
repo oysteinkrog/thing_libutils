@@ -95,7 +95,7 @@ module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
                 translate(Z*h/2)
                 for(z=[-1,1])
                 translate(z*Z*clip_dist/2)
-                hollow_cylinder(d=clip_dia, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
+                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
             }
 
             // flange
