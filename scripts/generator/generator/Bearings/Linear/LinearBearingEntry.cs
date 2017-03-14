@@ -19,7 +19,11 @@ namespace generator.Bearings.Linear
     {
     }
 
-    public class LinearBearingEntry : IObjectEntry 
+    public sealed class LinearBearingBushing : LinearBearingEntry
+    {
+    }
+
+    public class LinearBearingEntry : IObjectEntry
     {
         public string Model { get; set; }
         public int BallRows { get; set; }
@@ -32,7 +36,7 @@ namespace generator.Bearings.Linear
 
         public Length Length { get; set; }
 //        public string LengthTolerance { get; set; }
-        
+
         public Length? ClipsDistance { get; set; }
         public Length? ClipsGrooveDepth { get; set; }
         public Length? ClipsDiameter { get; set; }
@@ -54,7 +58,7 @@ namespace generator.Bearings.Linear
         }
 
         [XmlIgnore]
-        public string ExtraPrefix => string.Empty;
+        public virtual string ExtraPrefix => string.Empty;
 
         [XmlIgnore]
         public string ExtraSuffix { get; }

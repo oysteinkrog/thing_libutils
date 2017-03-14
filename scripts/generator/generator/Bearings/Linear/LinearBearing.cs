@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
+using UnitsNet;
 
 namespace generator.Bearings.Linear
 {
@@ -24,14 +25,18 @@ namespace generator.Bearings.Linear
             entries.AddRange(ReadCsv<LinearBearingFlangeSquareEntryMap, LinearBearingFlangeSquareEntry>(@"Bearings\Linear\LMK-L.csv"));
             entries.AddRange(ReadCsv<LinearBearingFlangeCutEntryMap, LinearBearingFlangeCutEntry>(@"Bearings\Linear\LMH.csv"));
             entries.AddRange(ReadCsv<LinearBearingFlangeCutEntryMap, LinearBearingFlangeCutEntry>(@"Bearings\Linear\LMH-L.csv"));
+            entries.AddRange(ReadCsv<LinearBearingBushingMap, LinearBearingBushing>(@"Bearings\Linear\SKF bushings.csv", 2));
             return entries;
         }
 
-        private static List<TOut> ReadCsv<TMap, TOut>(string fileName) where TMap : CsvClassMap
+        private static List<TOut> ReadCsv<TMap, TOut>(string fileName, int linesToSkipInBeginning = 0) where TMap : CsvClassMap
         {
             List<TOut> entries;
             var lines = File.ReadAllLines(fileName);
-//            lines = lines.Take(lines.Length - 1).Skip(5).ToArray();
+            if(linesToSkipInBeginning > 0)
+            {
+                lines = lines.Skip(linesToSkipInBeginning).ToArray();
+            }
             var str = string.Join(Environment.NewLine, lines);
 
             using (MemoryStream stream = new MemoryStream())
