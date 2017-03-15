@@ -89,3 +89,36 @@ module hull_pairwise()
     }
 }
 
+module proj_extrude_axis(axis=Z, h=5, offset=0)
+{
+    translate(-offset*axis)
+    hull()
+    {
+        orient(Z, axis_ref=axis)
+        {
+            orient(Z, axis_ref=axis)
+            translate(h/2*axis)
+            orient(axis, axis_ref=Z)
+            linear_extrude(h, center=true)
+            projection()
+            orient(axis, axis_ref=Z)
+            translate(offset*axis)
+            children();
+
+            orient(axis, axis_ref=Z)
+            translate(offset*axis)
+            children();
+        }
+    }
+}
+
+if(false)
+{
+    for(a=AXES)
+    proj_extrude_axis(axis=a, offset=20)
+    {
+        /*translate(20*a)*/
+        sphere(d=20);
+    }
+
+}
