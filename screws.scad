@@ -203,17 +203,17 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 
         hull()
         {
-            orient(-orient)
+            orient(axis=Z, axis_ref=orient)
             translate(-.15*mm*trap_axis)
-            stack(dist=trap_h, axis=trap_axis)
+            stack(dist=trap_h, axis=-trap_axis)
             {
-                orient(orient)
+                orient(axis=orient, axis_ref=Z)
                 {
                     rotate([0,0,30])
                     cylindera($fn=nut_facets, d=nut_dia, h=nut_h, align=N);
                 }
 
-                orient(orient)
+                orient(axis=orient, axis_ref=Z)
                 cubea(size=[nut_width_min,nut_width_min,nut_h], align=N);
             }
         }

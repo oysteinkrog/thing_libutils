@@ -33,25 +33,19 @@ module stack(dist=10, distances=U, axis=Z)
     }
 }
 
-module orient_(axis=Z, roll=0)
-{
-    rotate(axis==U?0:roll*axis)
-    rotate(axis==U?0:_orient_angles(axis))
-    children();
-}
 
-module orient(axis=Z, axis_ref=Z, roll=0, extra_roll, extra_roll_orient)
+module orient(axis=U, axis_ref=U, roll=0, extra_roll, extra_roll_orient)
 {
     rotate(extra_roll_orient==U||extra_roll==U?0:extra_roll*extra_roll_orient)
 
     // orient to reference axis
-    rotate(axis_ref==U?0:_orient_angles(axis_ref))
+    multmatrix(axis_ref==U?0:v_rotate(90, axis_ref))
 
     // roll around orient axis
     rotate(axis==U?0:roll*axis)
 
     // orient to axis
-    rotate(axis==U?0:_orient_angles(axis))
+    multmatrix(axis==U?0:v_rotate(90, axis))
     children();
 }
 
@@ -89,23 +83,20 @@ module hull_pairwise()
     }
 }
 
-module proj_extrude_axis(axis=Z, h=5, offset=0)
+module proj_extrude_axis(axis=Z, h=1, offset=0, cut=false)
 {
     translate(-offset*axis)
     hull()
     {
-        orient(Z, axis_ref=axis)
+        orient(axis, axis_ref=Z)
         {
+            linear_extrude(h, center=false)
+            projection(cut=cut)
             orient(Z, axis_ref=axis)
-            translate(h/2*axis)
-            orient(axis, axis_ref=Z)
-            linear_extrude(h, center=true)
-            projection()
-            orient(axis, axis_ref=Z)
             translate(offset*axis)
             children();
 
-            orient(axis, axis_ref=Z)
+            orient(Z, axis_ref=axis)
             translate(offset*axis)
             children();
         }
@@ -114,11 +105,25 @@ module proj_extrude_axis(axis=Z, h=5, offset=0)
 
 if(false)
 {
-    for(a=AXES)
-    proj_extrude_axis(axis=a, offset=20)
+    for(a=concat(AXES,-AXES))
+    translate(5*a)
     {
-        /*translate(20*a)*/
-        sphere(d=20);
+        c= v_abs(a*.3 + v_clamp(v_sign(a),0,1)*.7);
+        color(c)
+        proj_extrude_axis(axis=a)
+        {
+            translate(20*a)
+            sphere(d=10);
+        }
     }
-
 }
+
+if(false)
+{
+    translate(Y*10)
+    proj_extrude_axis(axis=Y, offset=10)
+    {
+        sphere(d=10);
+    }
+}
+
