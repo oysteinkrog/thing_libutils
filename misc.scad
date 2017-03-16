@@ -69,14 +69,15 @@ function v_xyz(v) = [v[0],v[1],v[2]];
 function v_yz(v) = [0,v[1],v[2]];
 function v_z(v) = [0,0,v[2]];
 
-//-- Calculate the module of a vector
+//-- Calculate the module/magnitude of a vector
 function v_mod(v) = (sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]));
 
-//-- Calculate the cros product of two vectors
+//-- Calculate the cross product of two vectors
 function v_cross(u,v) = [
   u[1]*v[2] - v[1]*u[2],
-  -(u[0]*v[2] - v[0]*u[2]) ,
-  u[0]*v[1] - v[0]*u[1]];
+  u[2]*v[0] - v[2]*u[0],
+  u[0]*v[1] - v[0]*u[1]
+];
 
 //-- Calculate the dot product of two vectors
 function v_dot(u,v) = u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
