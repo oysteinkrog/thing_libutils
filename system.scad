@@ -10,7 +10,7 @@ N = NAXIS;
 
 AXES = [X,Y,Z];
 
-U = U;
+U = undef;
 
 function get(key, dict) =
     let(x = search(key, dict))
