@@ -231,6 +231,13 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
     }
 }
 
+if(false)
+{
+    all_axes()
+    translate($axis*15*mm)
+    color($color)
+    screw(nut=NutHexM3, h=10*mm, orient=$axis, align=$axis);
+}
 
 // all nuts
 if(false)
