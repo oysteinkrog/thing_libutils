@@ -112,19 +112,15 @@ module all_axes()
     }
 }
 
+// test proj_extruder_axis
 if(false)
 {
-    for(a=concat(AXES,-AXES))
-    translate(5*a)
-    {
-        c= v_abs(a*.3 + v_clamp(v_sign(a),0,1)*.7);
-        color(c)
-        proj_extrude_axis(axis=a)
-        {
-            translate(20*a)
-            sphere(d=10);
-        }
-    }
+    all_axes()
+    color($color)
+    translate(5*$axis)
+    proj_extrude_axis(axis=$axis)
+    translate(20*$axis)
+    sphere(d=10);
 }
 
 if(false)

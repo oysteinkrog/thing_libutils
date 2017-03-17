@@ -326,13 +326,10 @@ module teardrop(r, d, h=10, truncate=1, align=N, orient=Y, roll=0)
 if(false)
 {
     r=5*mm;
-    for(axis=concat(AXES,-AXES))
-    translate(axis*r*2)
-    {
-        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
-        color(c)
-        teardrop(r=r, h=20, orient=axis, align=axis);
-    }
+    all_axes()
+    translate($axis*r*2)
+    color($color)
+    teardrop(r=r, h=20, orient=$axis, align=$axis);
 }
 
 // test cubea
@@ -340,13 +337,9 @@ if(false)
 {
     w=5*mm;
     h=2*mm;
-    for(axis=concat(AXES,-AXES))
-    /*translate(axis)*/
-    {
-        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
-        color(c)
-        cubea([w,w,h], orient=axis, align=axis*3);
-    }
+    all_axes()
+    color($color)
+    cubea([w,w,h], orient=$axis, align=$axis*3);
 }
 /**
 /*debug();*/
@@ -480,14 +473,10 @@ if(false)
 if(false)
 {
     r=5*mm;
-    for(axis=concat(AXES,-AXES))
-    translate(axis*r*2)
-    {
-        c= v_abs(axis*.3 + v_clamp(v_sign(axis),0,1)*.7);
-        color(c)
-        /*cylindera(h=20, r=r, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=100);*/
-        rcylindera(h=20, r1=r, r2=r/2, align=axis, orient=axis, extra_h=r, extra_align=-axis, $fn=16);
-    }
+    all_axes()
+    translate($axis*r*2)
+    color($color)
+    rcylindera(h=20, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);
 }
 
 if(false)
