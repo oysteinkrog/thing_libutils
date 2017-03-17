@@ -23,6 +23,10 @@ namespace generator.Bearings.Linear
     {
     }
 
+    public sealed class LinearBearingMiniature : LinearBearingEntry
+    {
+    }
+
     public class LinearBearingEntry : IObjectEntry
     {
         public string Model { get; set; }

@@ -26,6 +26,7 @@ namespace generator.Bearings.Linear
             entries.AddRange(ReadCsv<LinearBearingFlangeCutEntryMap, LinearBearingFlangeCutEntry>(@"Bearings\Linear\LMH.csv"));
             entries.AddRange(ReadCsv<LinearBearingFlangeCutEntryMap, LinearBearingFlangeCutEntry>(@"Bearings\Linear\LMH-L.csv"));
             entries.AddRange(ReadCsv<LinearBearingBushingMap, LinearBearingBushing>(@"Bearings\Linear\SKF bushings.csv", 2));
+            entries.AddRange(ReadCsv<LinearBearingMiniatureMap, LinearBearingMiniature>(@"Bearings\Linear\KH miniature ball bearings.csv", 1));
             return entries;
         }
 

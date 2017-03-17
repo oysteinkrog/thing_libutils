@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bearings\Linear\LinearBearingMiniatureMap.cs" />
     <Compile Include="Bearings\Linear\LinearBearingBushingMap.cs" />
     <Compile Include="Bearings\Linear\LinearBearingFlangeCutEntryMap.cs" />
     <Compile Include="Bearings\Linear\LinearBearingFlangeRoundEntryMap.cs" />
@@ -119,6 +120,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Bearings\Linear\SKF bushings.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Bearings\Linear\KH miniature ball bearings.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
