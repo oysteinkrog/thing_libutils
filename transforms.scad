@@ -103,6 +103,15 @@ module proj_extrude_axis(axis=Z, h=1, offset=0, cut=false)
     }
 }
 
+module all_axes()
+{
+    for($axis=concat(AXES,-AXES))
+    {
+        $color = v_abs($axis*.3 + v_clamp(v_sign($axis),0,1)*.7);
+        children();
+    }
+}
+
 if(false)
 {
     for(a=concat(AXES,-AXES))
