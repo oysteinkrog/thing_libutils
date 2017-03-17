@@ -1,5 +1,5 @@
 include <units.scad>
-include <shapes.scad>
+use <shapes.scad>
 
 // h, full_h, inner_d, outer_d, walls, bore
 pulley_2GT_20T_idler = [8.65*mm, U, 12*mm, 18*mm, 1*mm, 5*mm];

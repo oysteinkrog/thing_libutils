@@ -1,12 +1,10 @@
 include <system.scad>
-include <shapes.scad>
-include <transforms.scad>
-include <misc.scad>
-
 include <thread-data.scad>
 include <nut-data.scad>
 
-use <scad-utils/transformations.scad>
+use <shapes.scad>
+use <transforms.scad>
+use <misc.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
 function get_screw_head_h(thread) = get(ThreadSize, thread);

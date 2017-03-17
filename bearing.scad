@@ -1,8 +1,9 @@
 include <system.scad>
+include <units.scad>
+
 use <transforms.scad>;
 use <shapes.scad>
 include <bearing_data.scad>
-include <units.scad>
 include <misc.scad>
 
 module bearing(bearing_type, extra_h=0, override_h=U, orient=Z, align=N)

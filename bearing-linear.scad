@@ -1,8 +1,10 @@
 include <units.scad>
 include <system.scad>
-include <transforms.scad>
-include <shapes.scad>
-include <screws.scad>
+
+use <misc.scad>
+use <transforms.scad>
+use <shapes.scad>
+use <screws.scad>
 include <bearing-linear-data.scad>
 
 module linear_bearing(bearing, part, align=N, orient=Z, offset_flange=false)
