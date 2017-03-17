@@ -1,25 +1,24 @@
+/*use <../scad-utils/transformations.scad>*/
 include <system.scad>
 include <units.scad>
 use <misc.scad>
 use <transforms.scad>
 
-module cubea(size=[10,10,10], align=N, extrasize=N, extrasize_align=N, orient=Z, roll=0, extra_roll, extra_roll_orient)
+module cubea(size=[10,10,10], align=N, extrasize=N, extrasize_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=Z, roll=roll, , extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         cube(size+extrasize, center=true);
     }
 }
 
-module rcubea(size=[10,10,10], round_r=1, align=N, extrasize=N, extrasize_align=N, orient=Z, roll=0, extra_roll, extra_roll_orient)
+module rcubea(size=[10,10,10], round_r=1, align=N, extrasize=N, extrasize_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=Z, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    size_align(size=size,extra_size=extrasize, align=align, extra_align=extrasize_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     {
         rcube(size=size+extrasize, round_r=round_r);
     }
 }
-
-/*cubea(size=[10,20,30], align=-Y, orient=Z, roll=10, extra_roll=-30, extra_roll_orient=X);*/
 
 module rcube(size=[20,20,20], round_r=1)
 {
@@ -470,13 +469,33 @@ if(false)
     }
 }
 
+
+if(false)
+{
+    all_axes()
+    translate($axis*r*2)
+    color($color)
+    orient(axis=$axis, axis_ref=Z)
+    translate(Z*10)
+    rcylindera(r1=5, r2=3, h=10);
+}
+
 if(false)
 {
     r=5*mm;
     all_axes()
     translate($axis*r*2)
     color($color)
-    rcylindera(h=20, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);
+    {
+        orient(axis=$axis, axis_ref=Z)
+        hull()
+        {
+            cubea(size=[5,8,7]);
+            translate(5*Z)
+            cubea(size=[2,2,2]);
+        }
+    }
+    /*rcylindera(h=20, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);*/
 }
 
 if(false)

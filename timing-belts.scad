@@ -7,20 +7,19 @@ function belt_t2_thickness(belt) = get(TimingBeltBackThick, belt) * 1.05 * 2 + g
 module test()
 {
     for(preview=[true, false])
-    /*for(preview=[true])*/
     for(belt_i=[0:len(AllTimingBelts)-1])
-    /*for(belt_i=[0:0])*/
     {
         belt=AllTimingBelts[belt_i];
 
         translate((preview?50*mm:0)*Y + belt_i*30*mm*Z)
-        stack(axis=X, dist=50*mm)
+        stack(axis=X, dist=2*30*mm)
         {
-            /*rotate([90,0,0])*/
-            belt_path(belt=belt, orient=X, len=30*mm, $preview_mode=preview);
 
-            belt_len(belt=belt, belt_width=10, len=40*mm, align=N, orient=X, $preview_mode=preview);
-            belt_angle(belt=belt, r=10, belt_width=10, angle=180, orient=X, align=N, $preview_mode=preview);
+            rotate([90,0,0])
+            belt_path(orient=X, len=30*mm, $preview_mode=preview);
+
+            belt_len(belt=belt, belt_width=10, len=30*mm, align=N, orient=X, $preview_mode=preview);
+            belt_angle(belt=belt, r=20, belt_width=10, angle=180, align=N, $preview_mode=preview);
         }
     }
 }
@@ -29,16 +28,17 @@ module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT
 {
     size_align(size=[pulley_d, belt_width, len], align=align, orient=orient)
     {
-        for(x=[-1,1])
-        translate([0,x*pulley_d/2,0])
-        rotate((x<0?0:180)*Z)
-        belt_len(belt=belt, belt_width=belt_width, len=len, align=N, orient=Y);
+        for(y=[-1,1])
+        translate([0,pulley_d/2,0])
+        rotate([180,0,0])
+        belt_len(belt=belt, belt_width=belt_width, len=len, align=N, orient=Z);
 
-        for(z=[-1,1])
-        translate([0,0,z*len/2])
-        rotate(90*Z)
-        rotate(-z*90*Y)
-        belt_angle(belt=belt, r=pulley_d/2, belt_width=belt_width, angle=180, orient=-X*z);
+        translate([0,-pulley_d/2,0])
+        belt_len(belt=belt, belt_width=belt_width, len=len, align=N, orient=Z);
+
+        for(i=[-1,1])
+        translate([0,0,i*len/2])
+        belt_angle(belt=belt, r=pulley_d/2, belt_width=belt_width, angle=180, orient=-X*i);
     }
 }
 
@@ -52,7 +52,6 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
     ang=av*nn;
 
     s=[r+bk,r+bk,belt_width];
-    rotate(Z*90)
     size_align(size=s, align=align, orient=orient)
     translate([0,-r,0])
     {
@@ -86,13 +85,13 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
                     for(i=[0:nn])
                     {
                         translate ([0,r,-belt_width/2])
-                        rotate ([0,0,-av*i])
+                        rotate ([0,0,av*i])
                         translate ([0,-r,0])
                         draw_tooth(belt,0,belt_width);
                     }
 
                     translate ([0,r,-belt_width/2])
-                    rotate([0,0,90])
+                    rotate([0,0,-90])
                     rotate_extrude(angle = angle)
                     polygon([[r,0],[r+bk,0],[r+bk,belt_width],[r,belt_width]]);
                 }
@@ -109,7 +108,6 @@ module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=Z, ali
     n = ceil(len/pitch);
 
     s = [len,belt_width,belt_width];
-    rotate(-90*X)
     size_align(size=s, align=align, orient=orient, orient_ref=X)
     {
         if($preview_mode)

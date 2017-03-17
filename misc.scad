@@ -89,9 +89,18 @@ function v_unitv(v) = v/v_mod(v);
 function v_anglev(u,v) = acos( v_dot(u,v) / (v_mod(u)*v_mod(v)) );
 
 function _orient_angles(zaxis)=
-[-asin(zaxis.y / norm(zaxis)),
+[
+    -asin(zaxis.y / norm(zaxis)),
     atan2(zaxis.x, zaxis.z),
-    0];
+    0
+];
+
+/*function _orient_angles_(v)=*/
+/*[*/
+    /*-atan2(sqrt(v.x*v.x+v.y*v.y), v.z),*/
+    /*0,*/
+    /*-atan2(v.x, v.z)*/
+/*];*/
 
 //matrix rotation functions
 function _rotate_x_matrix(a)=

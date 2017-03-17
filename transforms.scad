@@ -1,3 +1,4 @@
+/*include <../scad-utils/transformations.scad>*/
 include <system.scad>
 use <misc.scad>
 
@@ -39,16 +40,33 @@ module orient(axis=U, axis_ref=U, roll=0, extra_roll, extra_roll_orient)
     rotate(extra_roll_orient==U||extra_roll==U?0:extra_roll*extra_roll_orient)
 
     // orient to reference axis
+    /*rotate(axis_ref==U?0:_orient_angles(axis_ref))*/
+    /*multmatrix(axis_ref==U?0:v_rotate(90, axis_ref))*/
+    rotate(axis_ref==U?0:_orient_angles(axis_ref))
+
+    // roll around orient axis
+    rotate(axis==U?0:roll*axis)
+
+    // orient to axis
+    /*multmatrix(axis==U?0:v_rotate(90, axis))*/
+    rotate(axis==U?0:_orient_angles(axis))
+    children();
+}
+
+module orient_(axis=U, axis_ref=U, roll=0, extra_roll, extra_roll_orient)
+{
+    rotate(extra_roll_orient==U||extra_roll==U?0:extra_roll*extra_roll_orient)
+
+    // orient to reference axis
     multmatrix(axis_ref==U?0:v_rotate(90, axis_ref))
 
     // roll around orient axis
     rotate(axis==U?0:roll*axis)
 
     // orient to axis
-    multmatrix(axis==U?0:v_rotate(90, axis))
+    multmatrix(axis_ref==U?0:v_rotate(90, axis))
     children();
 }
-
 
 function _orient_bounds(orient, size) =
     (_rotate_matrix(_orient_angles(orient)) * [size.x,size.y,size.z,1]);
@@ -88,15 +106,15 @@ module proj_extrude_axis(axis=Z, h=1, offset=0, cut=false)
     translate(-offset*axis)
     hull()
     {
-        orient(axis, axis_ref=Z)
+        orient_(axis=axis, axis_ref=Z)
         {
             linear_extrude(h, center=false)
             projection(cut=cut)
-            orient(Z, axis_ref=axis)
+            orient_(axis=Z, axis_ref=axis)
             translate(offset*axis)
             children();
 
-            orient(Z, axis_ref=axis)
+            orient_(axis=Z, axis_ref=axis)
             translate(offset*axis)
             children();
         }

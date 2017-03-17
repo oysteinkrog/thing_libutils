@@ -234,9 +234,9 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_l_extra=2*
 if(false)
 {
     all_axes()
-    translate($axis*15*mm)
+    translate($axis*5*mm)
     color($color)
-    screw(nut=NutHexM3, h=10*mm, orient=$axis, align=$axis);
+    screw(nut=NutHexM3, h=10*mm, orient=-$axis, align=$axis);
 }
 
 // all nuts
@@ -256,62 +256,72 @@ if(false)
 
 if(false)
 {
-    box_w = 40*mm;
-    box_h = 10*mm;
+    box_w = 150*mm;
     box_d = 10*mm;
+    box_h = 10*mm;
     o = 10*mm;
 
-    /*$show_vit = true;*/
-    $fs= 0.2;
-    $fa = 4;
+    $show_vit = true;
+    /*$fs= 0.2;*/
+    /*$fa = 4;*/
 
     nut1 = NutHexM3;
     nut2 = NutHexM5;
     nut3 = NutKnurlM3_3_42;
     nut4 = NutKnurlM3_5_42;
 
+    /*all_axes()*/
+    /*for($axis=[X])*/
+    /*color($color)*/
+    /*translate($axis*15)*/
+    /*echo($axis)*/
+
+    /*orient(axis=$axis, axis_ref=-X)*/
+    for(y=[-1,1])
+    translate(-y*Y*20*mm)
     difference()
     {
-        /*rcubea([box_w,box_d/2,box_h], align=[1,-1,1]);*/
-        rcubea([box_w,box_d,box_h], align=[1,0,1]);
-
-        test_cuts();
+        cubea([box_w,box_d,box_h], align=X+Z);
+        test_cuts(orient=y*Z);
+        /*%test_cuts(orient=y, axis_ref=-Z);*/
     }
+
 }
 
-module test_cuts()
+module test_cuts(orient)
 {
     union()
     {
-        offset = 0;
-        /*offset = -5;*/
-        translate([0,offset,0])
+        /*offset = 0;*/
+        offset = -5;
+        /*translate([0,offset,0])*/
+        /*translate([5,0,-5])*/
         translate([5,0,0])
         stack(dist=10,axis=X)
         {
-            screw_cut(nut=nut1, h=box_h, head_embed=false, orient=Z, align=Z);
-            /*screw_cut(thread=ThreadM5, h=box_h, head_embed=false, orient=-Z, align=Z);*/
-            /*screw_cut(nut=nut1, h=box_h, head_embed=false, orient=Z, align=Z);*/
+            screw_cut(nut=nut1, h=box_h, head_embed=false, orient=orient, align=Z);
+            screw_cut(thread=ThreadM5, h=box_h, head_embed=false, orient=orient, align=Z);
+            screw_cut(nut=nut1, h=box_h, head_embed=false, orient=orient, align=Z);
 
-            /*screw_cut(nut=nut1, h=box_h, nut_offset=0*mm, head_embed=true, orient=-Z, align=Z);*/
-            /*screw_cut(nut=nut2, h=box_h, nut_offset=3*mm, head_embed=false, orient=-Z, align=Z);*/
-            screw_cut(nut=nut3, h=box_h, head_embed=false, orient=Z, align=Z);
-            screw_cut(nut=nut4, h=box_h, head_embed=false, orient=Z, align=Z);
+            screw_cut(nut=nut1, h=box_h, nut_offset=0*mm, head_embed=true, orient=orient, align=Z);
+            screw_cut(nut=nut2, h=box_h, nut_offset=3*mm, head_embed=false, orient=orient, align=Z);
+            screw_cut(nut=nut3, h=box_h, head_embed=false, orient=orient, align=Z);
+            screw_cut(nut=nut4, h=box_h, head_embed=false, orient=orient, align=Z);
 
             translate([0,0,-5*mm])
-            screw_cut(nut=nut3, h=box_h, head_embed=false, orient=Z, align=Z);
+            screw_cut(nut=nut3, h=box_h, head_embed=false, orient=orient, align=Z);
 
             translate([0,0,box_h/2])
-                nut_trap_cut(nut=nut1, h=5, head_embed=false, trap_h=10, trap_axis=-Y, orient=-Z, align=N);
+            nut_trap_cut(nut=nut1, h=5, head_embed=false, trap_h=10, trap_axis=-Y, orient=orient, align=N);
 
-            /*translate([0,0,box_h/2])*/
-                /*nut_trap_cut(nut=nut1, h=5, head_embed=false, trap_h=10, trap_axis=Y, orient=Z, align=N);*/
+            translate([0,0,box_h/2])
+            nut_trap_cut(nut=nut1, h=5, head_embed=false, trap_h=10, trap_axis=Y, orient=orient, align=N);
 
-            /*translate([0,0,box_h/2])*/
-                /*nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_l_extra=2*mm, trap_axis=Z, orient=Y, align=N);*/
+            translate([0,0,box_h/2])
+            nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_l_extra=2*mm, trap_axis=Z, orient=orient, align=N);
 
-            /*translate([0,0,box_h/2])*/
-                /*nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_l_extra=2*mm, trap_axis=-Z, orient=Y, align=N);*/
+            translate([0,0,box_h/2])
+            nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_l_extra=2*mm, trap_axis=-Z, orient=orient, align=N);
         }
     }
 }
