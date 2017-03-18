@@ -190,6 +190,13 @@ function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
 
 if($test_mode)
 {
+    assert(lerp(-1, 1, 0) == -1);
+    assert(lerp1(-1, 1, .5) == 0);
+    assert(lerp1(-1, 1, 1) == 1);
+}
+
+if($test_mode)
+{
     assert_v(fallback(U,1), 1);
 }
 
@@ -248,3 +255,21 @@ module assert_v(val, expected, message)
         assert(val == expected, message);
     }
 }
+
+function spread(v0,v1,a) =
+a>=2 ?
+    [for(i=[0:1/(a-1):1]) lerp(v0,v1,i)]
+:
+    [lerp(v0,v1,.5)]
+;
+
+if($test_mode)
+{
+    assert_v(spread(-1, 1, 1), [0]);
+    assert_v(spread(-1, 1, 2), [-1,1]);
+    assert_v(spread(-1, 1, 3), [-1,0,1]);
+    // fails because of float inaccuracy
+    /*assert_v(spread(-1, 1, 4), [-1,-1/3,1/3,1]);*/
+    assert_v(spread(-1, 1, 5), [-1,-.5,0,.5,1]);
+}
+
