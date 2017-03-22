@@ -88,12 +88,12 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
                 screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, align=-Z);
             }
-        }
-    }
 
-    if($show_vit)
-    {
-        %screw(nut=nut, thread=thread, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=orient, align=align);
+            if($show_vit)
+            {
+                %screw(nut=nut, thread=thread, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=-Z, align=N);
+            }
+        }
     }
 }
 
@@ -201,7 +201,7 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_offset=0*m
         else
         {
             translate([0,0,nut_h/2+screw_offset])
-            screw_thread_cut(thread=thread_, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
+            screw_thread_cut($show_vit=false, thread=thread_, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
         }
 
         hull()
