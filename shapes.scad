@@ -152,7 +152,7 @@ module rcylindera(
                 translate([0, 0, z*(-h_/2)])
                 {
                     r__=z!=-1?r_[0]:r_[1];
-                    torus(radius=r__-round_r/2, radial_width=round_r, align=z*Z);
+                    torus(radius=r__-round_r, radial_width=round_r, align=z*Z);
                 }
             }
         }
@@ -529,5 +529,23 @@ if(false)
             pie_slice(r=30, h=5, start_angle=90, end_angle=270, orient=Y, align=Y);
             pie_slice(r=30, h=5, start_angle=0, end_angle=270, orient=Y, align=Y);
         }
+    }
+}
+
+if(false)
+{
+    /*$fs = 0.5;*/
+    /*$fa = 4;*/
+
+    r=5;
+    hull()
+    {
+        stack(dist=10, axis=-Z)
+        {
+            rcylindera(r=r, h=r*2, orient=Y, align=Y);
+            rcylindera(r=r, h=r*2, orient=Y, align=Y);
+        }
+
+        rcylindera(r=5, h=r, orient=X, align=Y+X+Z);
     }
 }
