@@ -68,7 +68,7 @@ module cylindera(
 
     r_max = v_fallback(r, [max(r1_,r2_)]);
 
-    extra_r_ = v_fallback(extra_r, [0]);
+    extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);
 
     if(debug)
     {
@@ -125,7 +125,11 @@ module rcylindera(
 
     h_ = h+extra_h;
 
-    extra_r_ = v_fallback(extra_r, [0]);
+    extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);
+
+    assert(r1_ != U);
+    assert(r2_ != U);
+    assert(extra_r_ != U);
 
     if(debug)
     {
@@ -140,7 +144,7 @@ module rcylindera(
         }
         else
         {
-            r_ = [r1_,r2_];
+            r_ = [r1_+extra_r_/2,r2_+extra_r_/2];
 
             hull()
             {
@@ -472,17 +476,22 @@ if(false)
 
 if(false)
 {
+    r=5*mm;
     all_axes()
     translate($axis*r*2)
     color($color)
-    orient(axis=$axis, axis_ref=Z)
-    translate(Z*10)
-    rcylindera(r1=5, r2=3, h=10);
+    /*orient(axis=$axis, axis_ref=Z)*/
+    /*translate(Z*10)*/
+    /*rcylindera(r1=5, r2=3, h=10);*/
+    {
+        rcylindera(h=20, extra_d = 1*mm, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16); /*cylindera(h=20, round_r=1, extra_r = 2*mm, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);*/
+        cylindera(h=20, extra_d = 1*mm, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16); /*cylindera(h=20, round_r=1, extra_r = 2*mm, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);*/
+    }
+
 }
 
 if(false)
 {
-    r=5*mm;
     all_axes()
     translate($axis*r*2)
     color($color)
@@ -495,7 +504,6 @@ if(false)
             cubea(size=[2,2,2]);
         }
     }
-    /*rcylindera(h=20, r1=r, r2=r/2, align=$axis, orient=$axis, extra_h=r, extra_align=-$axis, $fn=16);*/
 }
 
 if(false)
