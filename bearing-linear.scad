@@ -138,7 +138,7 @@ module linear_bearing(part, bearing, align=N, orient=Z, offset_flange=false)
     }
 }
 
-module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=.1*mm, align=N, orient=Z, ziptie_dist=U, with_zips=true, offset_flange=false, mount_dir_align=U, mount_style="open")
+module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=.1*mm, align=N, orient=Z, ziptie_dist=U, with_zips=true, offset_flange=false, mount_dir_align=U, mount_style="open")
 {
     assert(mount_dir_align != U, "mount_dir_align == U");
 
