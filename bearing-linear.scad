@@ -145,13 +145,14 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
 
-    ziptie_dist_ = fallback(ziptie_dist, get(LinearBearingClipsDistance,bearing)/2);
-
-    clip_dist = get(LinearBearingClipsDistance, bearing);
+    clip_groove = get(LinearBearingClipsGrooveDepth, bearing);
 
     h = fallback(override_h, get(LinearBearingLength,bearing)) + extra_h;
     d = get(LinearBearingInnerDiameter, bearing);
     D = get(LinearBearingOuterDiameter, bearing);
+
+    clip_dist = get(LinearBearingClipsDistance, bearing);
+    ziptie_dist_ = v_fallback(ziptie_dist, [clip_dist/2, ziptie_width*2<(h/3+2*mm) ? h / 3 : U]);
 
     flange_h = fallback(get(LinearBearingFlangeThickness, bearing),0);
 
@@ -202,11 +203,11 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             }
 
             // support for clips
-            if(clip_dist != U)
+            if(ziptie_dist_ != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
-                translate(z*Z*clip_dist/2)
+                translate(z*Z*ziptie_dist_)
                 hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
             }
 
@@ -312,11 +313,11 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             cylindera(h=h, d=d, orient=Z, align=Z, extra_h=.2);
 
             // clips
-            if(clip_dist != U)
+            if(ziptie_dist_ != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
-                translate(z*Z*clip_dist/2)
+                translate(z*Z*ziptie_dist_/2)
                 hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
             }
 
