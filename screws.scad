@@ -208,7 +208,7 @@ module nut_trap_cut(nut, thread, trap_offset=10, screw_l=10*mm, screw_offset=0*m
         {
             orient(axis=Z, axis_ref=orient)
             translate(-.15*mm*trap_axis)
-            stack(dist=trap_h, axis=-trap_axis)
+            stack(dist=trap_h, axis=trap_axis)
             {
                 orient(axis=orient, axis_ref=Z)
                 {
