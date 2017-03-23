@@ -138,7 +138,7 @@ module linear_bearing(part, bearing, align=N, orient=Z, offset_flange=false)
     }
 }
 
-module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=.1*mm, align=N, orient=Z, ziptie_dist=U, with_zips=true, offset_flange=false, mount_dir_align=X, mount_style="closed")
+module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_type=[2*mm, 3*mm], ziptie_bearing_distance=3*mm, tolerance=.1*mm, align=N, orient=Z, ziptie_dist=U, with_zips=true, offset_flange=false, mount_dir_align=X, mount_style="open")
 {
     ziptie_thickness = ziptie_type[0];
     ziptie_width = ziptie_type[1]+0.6*mm;
@@ -168,6 +168,9 @@ module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_
     flange_offset = offset_flange ? -flange_h : 0;
 
     support_wall_thickness = 2.5*mm;
+
+    support_D=D+2*support_wall_thickness;
+    support_h = h+flange_offset;
     if(part==U)
     {
         difference()
@@ -187,17 +190,13 @@ module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_
             {
                 intersection()
                 {
-                    D_=D+2*support_wall_thickness;
-                    h_ = h+flange_offset;
-                    rcylindera(h=h_, d=D_, orient=Z, align=Z);
-                    rcubea(size=[D_,D_,h_], orient=Z, align=Z+mount_dir_align);
+                    rcylindera(h=support_h, d=D, orient=Z, align=Z);
+                    rcubea(size=[D,D,support_h], orient=Z, align=Z+mount_dir_align);
                 }
             }
             else if(mount_style=="closed")
             {
-                D_=D+2*support_wall_thickness;
-                h_ = h+flange_offset;
-                rcylindera(h=h_, d=D_, orient=Z, align=Z);
+                rcylindera(h=support_h, d=support_D, orient=Z, align=Z);
             }
 
             // support for clips
@@ -252,6 +251,9 @@ module linear_bearing_mount(part=part, bearing, extra_h=0, override_h=U, ziptie_
 
         if(mount_style=="open")
         {
+            orient(-orient)
+            rcubea(size=[1000,1000,D+.2*mm], align=mount_dir_align);
+
             if(with_zips)
             {
                 for(z=[-1,1])
