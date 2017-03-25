@@ -44,7 +44,6 @@ module screw(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=true,
 
         if($show_vit)
         {
-            translate([0,0,head_embed?-head_h:0])
             if(with_nut && nut != U)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
@@ -91,7 +90,7 @@ module screw_cut(nut, thread, h=10, tolerance=1.05, head_embed=false, with_nut=t
 
             if($show_vit)
             {
-                %screw(nut=nut, thread=thread, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=-Z, align=N);
+                %screw(nut=nut, thread=thread, h=h, tolerance=tolerance, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=-Z, align=N);
             }
         }
     }
