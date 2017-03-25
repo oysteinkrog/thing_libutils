@@ -3,6 +3,15 @@ include <system.scad>
 use <misc.scad>
 
 // translate children
+module position(positions)
+{
+    assert(positions!=U, "positions==U");
+    for(pos=positions)
+    translate(pos)
+    children();
+}
+
+// translate children
 module linup(arr=U)
 {
     if($children>0)
