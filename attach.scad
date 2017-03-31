@@ -152,7 +152,7 @@ module connector(c)
 //--    a -> Connector of the main part
 //--    b -> Connector of the attachable part
 //-------------------------------------------------------------------------
-module attach(a, b, roll=0)
+module attach(a, b, roll=0, rollaxis)
 {
     //-- Get the data from the connectors
     pos1 = a[0];  //-- Attachment point. Main part
@@ -177,7 +177,7 @@ module attach(a, b, roll=0)
     translate(pos1)
         //-- Orientate operator. Apply the orientation so that
         //-- both attachment axis are paralell. Also apply the roll angle
-        rotate(a=roll, v=v)  rotate(a=ang, v=raxis_)
+        rotate(a=roll, v=rollaxis==U?v:rollaxis)  rotate(a=ang, v=raxis_)
         //-- Attachable part to the origin
         translate(-pos2)
         children();
