@@ -39,6 +39,21 @@ module rcube(size=[20,20,20], round_r=1)
     }
 }
 
+module spherea(r, d, align=N, extra_r, extra_d, extra_align, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
+{
+    d_ = v_fallback(d, [r*2]);
+    assert(d_ != U);
+
+    extra_d_ = v_fallback(extra_d, [extra_r*2, 0]);
+
+    size=[d_,d_,d_];
+    extra_size=[extra_d_,extra_d_,extra_d_];
+    size_align(size=size, extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    {
+        /*cube(size=size, center=true);*/
+        sphere(d=d_+extra_d_, center=true);
+    }
+}
 
 module cylindera(
         h=10,
