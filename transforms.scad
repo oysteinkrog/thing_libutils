@@ -2,6 +2,30 @@
 include <system.scad>
 use <misc.scad>
 
+module t(dist)
+{
+    translate(dist)
+    children();
+}
+
+module tx(dist)
+{
+    translate(X*dist)
+    children();
+}
+
+module ty(dist)
+{
+    translate(Y*dist)
+    children();
+}
+
+module tz(dist)
+{
+    translate(Z*dist)
+    children();
+}
+
 // translate children
 module position(positions)
 {
