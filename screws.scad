@@ -1,6 +1,7 @@
 include <system.scad>
 include <thread-data.scad>
 include <nut-data.scad>
+include <materials.scad>
 
 use <shapes.scad>
 use <transforms.scad>
@@ -104,6 +105,8 @@ module screw_thread(thread, h=10, tolerance=1.00, orient=Z, align=N)
     assert(thread!=U, "screw_thread: thread is undef");
     // TODO render thread
     threadsize = get(ThreadSize, thread);
+
+    material(Mat_Steel)
     cylindera(d=threadsize, h=h, orient=orient, align=align);
 }
 
@@ -122,6 +125,7 @@ module screw_head(head="socket", thread, tolerance=1.00, override_h=U, orient=Z,
     threadsize = get(ThreadSize, thread);
     head_h = get_screw_head_h(head=head, thread=thread);
     head_d = get_screw_head_d(head=head, thread=thread);
+    material(Mat_Steel)
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
     {
         if(head=="socket")
@@ -177,6 +181,7 @@ module screw_nut(nut, tolerance=1.00, override_h=U, orient=Z, align=N)
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_facets = get(NutFacets, nut);
     nut_dia = nut_dia(nut);
+    material(Mat_Steel)
     cylindera($fn=nut_facets, d=nut_dia, h=fallback(override_h, nut_thick), orient=orient, align=align);
 }
 
