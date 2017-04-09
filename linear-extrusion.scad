@@ -1,11 +1,13 @@
 include <system.scad>
 include <units.scad>
+include <materials.scad>
 
 use <shapes.scad>
 use <transforms.scad>
 
 module linear_extrusion(h=10, center=true, align=N, orient=Z)
 {
+    material(Mat_Aluminium)
     size_align(size=[20,20,h], align=align, orient=orient, orient_ref=Z)
     {
         if($preview_mode)
