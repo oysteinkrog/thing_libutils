@@ -1,6 +1,12 @@
-include <shapes.scad>
-include <transforms.scad>
+include <units.scad>
+include <system.scad>
+include <materials.scad>
 include <timing-belts-data.scad>
+
+use <shapes.scad>
+include <transforms.scad>
+
+/*test();*/
 
 function belt_t2_thickness(belt) = get(TimingBeltBackThick, belt) * 1.05 * 2 + get(TimingBeltMaxHeight, belt) * 1.05;
 
@@ -26,6 +32,7 @@ module test()
 
 module belt_path(len=200*mm, belt_width=6*mm, pulley_d=10*mm, belt=TimingBelt_GT2_2, align=N, orient=Z)
 {
+    material(Mat_Rubber)
     size_align(size=[pulley_d, belt_width, len], align=align, orient=orient)
     {
         for(y=[-1,1])
@@ -52,6 +59,7 @@ module belt_angle(belt = TimingBelt_GT2_2, r=25, belt_width = 6, angle=90, orien
     ang=av*nn;
 
     s=[r+bk,r+bk,belt_width];
+    material(Mat_Rubber)
     size_align(size=s, align=align, orient=orient)
     translate([0,-r,0])
     {
@@ -108,6 +116,7 @@ module belt_len(belt = TimingBelt_GT2_2, len = 10, belt_width = 6, orient=Z, ali
     n = ceil(len/pitch);
 
     s = [len,belt_width,belt_width];
+    material(Mat_Rubber)
     size_align(size=s, align=align, orient=orient, orient_ref=X)
     {
         if($preview_mode)
