@@ -11,8 +11,10 @@ Mat_Brass = [0.88, 0.78, 0.5];
 Mat_Transparent = [1, 1, 1, 0.2];
 
 Mat_Chrome = Mat_Steel;
-
 Mat_Plastic = Mat_Pine;
+Mat_PlasticBlack = Mat_BlackPaint;
+Mat_Rubber = Mat_BlackPaint;
+Mat_Ziptie = Mat_BlackPaint;
 
 module material(mat)
 {
