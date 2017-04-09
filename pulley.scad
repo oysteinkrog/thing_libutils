@@ -1,4 +1,5 @@
 include <units.scad>
+include <materials.scad>
 use <shapes.scad>
 
 // h, full_h, inner_d, outer_d, walls, bore
@@ -26,6 +27,7 @@ module pulley(pulley=pulley_2GT_20T, flip=false, align=N, orient = Z)
 
 module pulley_full(h, inner_d, outer_d, bore, walls, is_idler=false, full_h, flip=false, align=N, orient = Z)
 {
+    material(Mat_Aluminium)
     size_align(size=[outer_d, outer_d, full_h==U?h:full_h], align=align, orient=orient)
     {
         //for flipping
