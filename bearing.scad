@@ -1,5 +1,6 @@
 include <system.scad>
 include <units.scad>
+include <materials.scad>
 
 use <transforms.scad>;
 use <shapes.scad>
@@ -10,6 +11,7 @@ module bearing(bearing_type, extra_h=0, override_h=U, orient=Z, align=N)
 {
     h = fallback(override_h, bearing_type[2]) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
+    material(Mat_Aluminium)
     difference()
     {
         // outer
@@ -66,6 +68,7 @@ module bearing_mount_holes(bearing_type, extra_h=0, override_h=U, ziptie_type=[2
         {
             %bearing(bearing_type=bearing_type);
 
+            material(Mat_Ziptie)
             for(z=[-1,1])
             translate([0,0,z*ziptie_dist_])
             {

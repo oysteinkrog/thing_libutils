@@ -1,5 +1,6 @@
 include <units.scad>
 include <system.scad>
+include <materials.scad>
 
 use <misc.scad>
 use <transforms.scad>
@@ -48,6 +49,7 @@ module linear_bearing(part, bearing, align=N, orient=Z, offset_flange=false)
         %linear_bearing(part="vit", bearing=bearing, align=align, orient=orient, offset_flange=offset_flange);
     }
     else if(part=="pos")
+    material(Mat_Aluminium)
     size_align(size=s, align=align, orient=orient)
     translate(Z*flange_offset)
     {
@@ -184,6 +186,7 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
         %linear_bearing_mount(part="vit", bearing=bearing, extra_h=extra_h, override_h=override_h, ziptie_type=ziptie_type, ziptie_bearing_distance=ziptie_bearing_distance, tolerance=tolerance, align=align, orient=orient, ziptie_dist=ziptie_dist, with_zips=with_zips, offset_flange=offset_flange, mount_dir_align=mount_dir_align, mount_style=mount_style);
     }
     else if(part=="pos")
+    material(Mat_Aluminium)
     size_align(size=[D,D,h], align=align, orient=orient)
     {
         translate(-Z*h/2)
@@ -365,6 +368,7 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
 
             if(mount_style=="open")
             for(z=[-1,1])
+            material(Mat_Ziptie)
             translate([0,0,z*ziptie_dist_])
             {
                 hollow_cylinder(
