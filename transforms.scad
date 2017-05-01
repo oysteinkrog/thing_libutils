@@ -26,6 +26,30 @@ module tz(dist)
     children();
 }
 
+module r(a, v)
+{
+    rotate(a,v)
+    children();
+}
+
+module rx(degrees)
+{
+    rotate(X*degrees)
+    children();
+}
+
+module ry(degrees)
+{
+    rotate(X*degrees)
+    children();
+}
+
+module rz(degrees)
+{
+    rotate(Z*degrees)
+    children();
+}
+
 // translate children
 module position(positions)
 {
