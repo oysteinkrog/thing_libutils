@@ -9,6 +9,7 @@ include <misc.scad>
 
 module bearing(bearing_type, extra_h=0, override_h=U, orient=Z, align=N)
 {
+    assert(bearing_type != U);
     h = fallback(override_h, bearing_type[2]) + extra_h;
     size_align(size=[bearing_type[1],bearing_type[1],h], align=align ,orient=orient)
     material(Mat_Aluminium)
