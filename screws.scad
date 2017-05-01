@@ -267,9 +267,12 @@ module nut_trap_cut(nut, thread, head, trap_offset=10, screw_l=10*mm, screw_offs
 
         if($show_vit)
         {
-            translate(-nut_h/2*Z)
-            translate(screw_offset*Z)
-            %screw(nut=nut, thread=thread_, with_nut=false, tolerance=1, h=screw_l, orient=-Z, align=Z);
+            if(cut_screw)
+            {
+                translate(-nut_h/2*Z)
+                translate(screw_offset*Z)
+                %screw(nut=nut, thread=thread_, with_nut=false, tolerance=1, h=screw_l, orient=-Z, align=Z);
+            }
 
             rotate([0,0,30])
             %screw_nut(nut=nut, thread=thread, tolerance=1, orient=-Z, align=N);
