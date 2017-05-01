@@ -111,8 +111,8 @@ function _orient_t(orient, align, size) =
 module size_align(size=[10,10,10], extra_size=N, align=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
     t = orient==U?N:_orient_t(orient, align, size);
-    /*t_ = orient_ref==U?N:_orient_t(orient_ref, align, size);*/
-    extra_t = (orient==U||extra_size==U)?N:_orient_t(orient, extra_align, extra_size);
+    extra_t = (orient==U||extra_size==U||extra_size==[U,U,U]||extra_size==[0,0,0]||extra_align==U) ?
+        N : _orient_t(orient, extra_align, extra_size);
     translate(t+extra_t)
     {
         orient(axis=orient, axis_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
