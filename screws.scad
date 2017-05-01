@@ -216,8 +216,10 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
     {
         translate([0,0,nut_thick/2])
         {
-            screw_nut(nut, tolerance, orient=Z, align=-Z);
-            translate([0,0,-nut_thick+.01])
+            tz(-.1)
+            screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
+
+            translate([0,0,-nut_thick-.01])
             {
                 cylindera(d=nut_dia+2*mm, h=h, orient=Z, align=-Z);
             }
