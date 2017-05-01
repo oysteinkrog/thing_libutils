@@ -273,3 +273,19 @@ if($test_mode)
     assert_v(spread(-1, 1, 5), [-1,-.5,0,.5,1]);
 }
 
+// the apothem (inradius) is the distance from the center of a regular
+// polygon to the flat side (not a vertex)
+function apothem(circumradius, fn) = circumradius*cos(180/fn);
+function inradius(circumradius, fn) = circumradius*cos(180/fn);;
+// the circumradius (outradius) is the distance from the center of a regular
+// polygon to a vertex
+function circumradius(apothem, fn) = apothem / cos(180/fn);
+function outradius(apothem, fn) = apothem / cos(180/fn);
+function fn_radius(r, fn) = apothem(r,fn);
+function hex_radius(r) = apothem(r, 6);
+
+
+if($test_mode)
+{
+    assert_v(apothem(circumradius(5,6)), circumradius(apothem(5),6));
+}

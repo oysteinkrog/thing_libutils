@@ -153,7 +153,7 @@ module screw_head(head="socket", thread, tolerance=1.00, override_h=U, orient=Z,
                 cubea(r*2);
 
                 translate([0, 0, f/3])
-                cylinder(r = hexRadius(threadsize), h = f, $fn = 6);
+                cylinder(r = hex_radius(threadsize), h = f, $fn = 6);
 
             } // end difference
 
@@ -204,12 +204,8 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
     }
 }
 
-// distance from center to flat on a polygon (taking in the diagonal distance)
-function apothem(radius, facets) = radius/cos(180/facets);
-
-function nut_radius(nut) = apothem(get(NutWidthMax, nut)/2, get(NutFacets, nut));
+function nut_radius(nut) = outradius(get(NutWidthMin, nut)/2, get(NutFacets, nut));
 function nut_dia(nut) = 2*nut_radius(nut);
-function hex_radius(hexSize) = hexSize/2/sin(60);
 
 module nut_trap_cut(nut, thread, head, trap_offset=10, screw_l=10*mm, screw_offset=0*mm, cut_screw=false, trap_h=10, trap_axis=-Y, orient=Z, align=N)
 {
