@@ -117,7 +117,7 @@ module screw_thread_cut(thread, h=10, tolerance=1.05, orient=Z, align=N)
     cylindera(d=threadsize*tolerance, h=h, orient=orient, align=align);
 }
 
-module screw_head(head="socket", thread, tolerance=1.00, override_h=U, orient=Z, align=N)
+module screw_head(head="socket", drive="hex", thread, tolerance=1.00, override_h=U, orient=Z, align=N)
 {
     assert(head != U, "screw_head: head == U");
     assert(thread!=U, "screw_head: thread == undef");
@@ -132,12 +132,16 @@ module screw_head(head="socket", thread, tolerance=1.00, override_h=U, orient=Z,
         {
             difference()
             {
-                cylindera(d=head_d, h = fallback(override_h,head_h));
-                translate([0,0,head_h/2])
-                cylindera(d=threadsize, h = head_d/2);
+                tz(-head_h/2)
+                cylindera(d=head_d, h = fallback(override_h,head_h), align=Z);
+
+                if(drive == "hex")
+                {
+                    cylindera(d = fn_radius(threadsize, 6), h = 1000, $fn = 6, align=Z);
+                }
             }
         }
-        else
+        else if(head=="button")
         {
             c = head_d;
             f = head_h*1.25;
@@ -145,17 +149,25 @@ module screw_head(head="socket", thread, tolerance=1.00, override_h=U, orient=Z,
 
             d = r - f; // displacement to move sphere
 
-            difference() {
-                /*translate([0, 0, d])*/
-                #spherea(r = r, align=-Z);
+            difference()
+            {
+                intersection()
+                {
+                    tz(-head_h/2)
+                    scale([1,1,.5])
+                    spherea(r = head_h, align=N);
 
-                translate([0, 0, -r])
-                cubea(r*2);
+                    tz(-head_h/2)
+                    cylindera(d=head_d, h = fallback(override_h,head_h)/2, align=Z);
+                }
 
-                translate([0, 0, f/3])
-                cylinder(r = hex_radius(threadsize), h = f, $fn = 6);
-
-            } // end difference
+                if(drive == "hex")
+                {
+                    // button head uses -0.5*mm smaller hex
+                    tz(-head_h/2)
+                    cylindera(d = fn_radius(threadsize-.5, 6), h = 1000, $fn = 6, align=Z);
+                }
+            }
 
         }
     }
@@ -291,6 +303,16 @@ if(false)
 
 if(false)
 {
+    nut1 = NutHexM3;
+    stack(axis=X, dist = 10)
+    {
+        screw(nut=nut1, head="button", h=10, orient=-Z);
+        screw(nut=nut1, head="socket", h=10, orient=-Z);
+    }
+}
+
+if(false)
+{
     box_w = 150*mm;
     box_d = 10*mm;
     box_h = 10*mm;
@@ -335,6 +357,7 @@ module test_cuts(orient)
         stack(dist=10,axis=X)
         {
             screw_cut(nut=nut1, head="button", h=box_h, head_embed=false, orient=orient, align=Z);
+            screw_cut(nut=nut1, head="socket", h=box_h, head_embed=false, orient=orient, align=Z);
             screw_cut(thread=ThreadM5, h=box_h, head_embed=false, orient=orient, align=Z);
             screw_cut(nut=nut1, h=box_h, head_embed=false, orient=orient, align=Z);
 
@@ -354,7 +377,6 @@ module test_cuts(orient)
 
             translate([0,0,box_h/2])
             nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_offset=2*mm, trap_axis=Z, orient=orient, align=N);
-
             translate([0,0,box_h/2])
             nut_trap_cut(nut=nut1, h=box_d, head_embed=false, trap_h=10, screw_offset=2*mm, trap_axis=-Z, orient=orient, align=N);
         }
