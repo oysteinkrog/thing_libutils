@@ -6,18 +6,14 @@ use <transforms.scad>
 
 module cubea(size=[10,10,10], align=N, extra_size=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
-    {
-        cube(size+extra_size, center=true);
-    }
+    size_align(size=size, extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    cube(size+extra_size, center=true);
 }
 
 module rcubea(size=[10,10,10], round_r=1, align=N, extra_size=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
-    size_align(size=size,extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
-    {
-        rcube(size=size+extra_size, round_r=round_r);
-    }
+    size_align(size=size, extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
+    rcube(size=size+extra_size, round_r=round_r);
 }
 
 module rcube(size=[20,20,20], round_r=1)
@@ -49,10 +45,7 @@ module spherea(r, d, align=N, extra_r, extra_d, extra_align, orient=Z, orient_re
     size=[d_,d_,d_];
     extra_size=[extra_d_,extra_d_,extra_d_];
     size_align(size=size, extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
-    {
-        /*cube(size=size, center=true);*/
-        sphere(d=d_+extra_d_, center=true);
-    }
+    sphere(d=d_+extra_d_);
 }
 
 module cylindera(
