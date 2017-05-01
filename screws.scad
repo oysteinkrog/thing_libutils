@@ -186,15 +186,24 @@ module screw_head_cut(head="socket", thread, tolerance=1.05, override_h=U, orien
     cylindera(d=head_d, h=fallback(override_h, head_h), align=Z);
 }
 
-module screw_nut(nut, tolerance=1.00, override_h=U, orient=Z, align=N)
+module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
 {
     assert(nut!=U, "screw_nut: nut is undef");
 
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_facets = get(NutFacets, nut);
     nut_dia = nut_dia(nut);
+    nut_thread = fallback(thread, get(NutThread, nut));
+    h_ = fallback(override_h, nut_thick);
     material(Mat_Steel)
-    cylindera($fn=nut_facets, d=nut_dia, h=fallback(override_h, nut_thick), orient=orient, align=align);
+    size_align([nut_dia, nut_dia, h_], orient=orient, align=align)
+    {
+        difference()
+        {
+            cylindera($fn=nut_facets, d=nut_dia, h=h_);
+            screw_thread(thread=nut_thread, h=h_+.2);
+        }
+    }
 }
 
 module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
