@@ -40,7 +40,7 @@ module rx(degrees)
 
 module ry(degrees)
 {
-    rotate(X*degrees)
+    rotate(Y*degrees)
     children();
 }
 
