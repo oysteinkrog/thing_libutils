@@ -241,9 +241,10 @@ module nut_trap_cut(nut, thread, head, trap_offset=10, screw_l=10*mm, screw_offs
     head_h = get_screw_head_h(head=head, thread=thread);
     nut_h = get(NutThickness, nut) +.5*mm;
 
-    nut_width_min = get(NutWidthMin, nut);
+    tolerance = -.2*mm;
+    nut_width_min = get(NutWidthMin, nut)+tolerance;
     nut_facets = get(NutFacets, nut);
-    nut_dia = nut_dia(nut);
+    nut_dia = nut_dia(nut)+tolerance;
     total_h = nut_h;
     size_align(size=[nut_dia, nut_dia, total_h], orient=orient, orient_ref=Z, align=align)
     {
