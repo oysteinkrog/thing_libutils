@@ -23,7 +23,7 @@ module point(p, r=0.7, fn)
 //--  mark: If true, a mark is draw in the vector head, for having
 //--    a visual reference of the rolling angle
 //------------------------------------------------------------------
-module vectorz(l=10, l_arrow=4, mark=false)
+module vectorz(l=10, l_arrow=4, mark=true)
 {
   //-- vector body length (not including the arrow)
   lb = l - l_arrow;
@@ -44,11 +44,11 @@ module vectorz(l=10, l_arrow=4, mark=false)
     }
 
     //-- Draw the body
-    cylindera(r=1/2, h=lb, center=true);
+    cylindera(r=1/2, h=lb, align=-Z);
   }
 
   //-- Draw a sphere in the vector base
-  sphere(r=1/2);
+  spherea(r=1/2, align=-Z);
 }
 
 // From Obiscad,
@@ -71,7 +71,7 @@ module vectorz(l=10, l_arrow=4, mark=false)
 //--    a visual reference of the rolling angle
 //---------------------------------------------------------------------------
 
-module vector(v,l=0, l_arrow=4, mark=false)
+module vector(v, l=4, l_arrow=2, mark=false)
 {
   //-- Get the vector length from the coordinates
   mod = v_mod(v);
