@@ -45,6 +45,19 @@ function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
 function v_min(v, m, start=0) = [for(i=[start:1:len(v)-1]) min(v[i],m)];
 function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,v2)];
 
+function v_slice(v, start, end) =
+let(start_ = start==U?0:start)
+let(end_ = end==U?len(v)-1:end)
+[for(i=[start_:1:end_]) v[i]];
+
+if($test_mode)
+{
+    v=[0,1,2];
+    assert_v(v_slice(v), [0, 1,2]);
+    assert_v(v_slice(v,start=1), [1,2]);
+    assert_v(v_slice(v,end=1), [0, 1]);
+    assert_v(v_slice(v,start=1,end=1), [1]);
+}
 
 // cumulative sum of vector [1,2,3] = [1,3,6]
 function v_cumsum(v, start=0, end) = [for(i=[start:1:end==U?len(v)-1:end]) v_sum(v,i)];
