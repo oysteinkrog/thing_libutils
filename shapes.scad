@@ -167,12 +167,12 @@ module rcylindera(
     }
 }
 
-function rounded_rectangle_profile(size=[1,1],r=1,fn=$fn) = [
+function rounded_rectangle_profile(size=[1,1],r=[1,1],fn=$fn) = [
 for (index = [0:fn-1])
 let(a = index/fn*360)
-r * [cos(a), sin(a)]
-+ sign_x(index, fn) * [size[0]/2-r,0]
-+ sign_y(index, fn) * [0,size[1]/2-r]
+[cos(a)*r.x, sin(a)*r.y]
++ sign_x(index, fn) * X*(size.x/2-r.x)
++ sign_y(index, fn) * Y*(size.y/2-r.y)
 ];
 
 function sign_x(i,n) =
