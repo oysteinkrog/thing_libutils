@@ -307,3 +307,26 @@ if($test_mode)
 {
     assert_v(apothem(circumradius(5,6)), circumradius(apothem(5),6));
 }
+
+function header_col_index(v, col_key) = 
+    let(result=search([col_key], v[0], index_col_number=0, num_returns_per_match=0))
+    result[0][0];
+
+function geth(S, col_key, row_index) = 
+let(col_index = header_col_index(S, col_key))
+S[row_index+1][col_index];
+
+if($test_mode)
+{
+    A = [
+    ["Tx", "Ty"],
+    [1, 2],
+    [3, 4],
+    ];
+
+    assert_v(geth(A, "Tx", 0), 1);
+    assert_v(geth(A, "Tx", 1), 3);
+    assert_v(geth(A, "Ty", 0), 2);
+    assert_v(geth(A, "Ty", 1), 4);
+
+}
