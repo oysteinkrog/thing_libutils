@@ -185,6 +185,8 @@ i > 0 && i < n/2  ?  1 :
 i > n/2 ? -1 :
     0;
 
+function circle_profile(r=10, fn=$fn) = [for (i=[0:fn-1]) [r*sin(i*360/fn), r*cos(i*360/fn)]];
+
 // From Obiscad
 //----------------------------------------------------------
 //--  Draw a point in the position given by the vector p  
