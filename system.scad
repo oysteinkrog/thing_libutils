@@ -11,9 +11,3 @@ N = NAXIS;
 AXES = [X,Y,Z];
 
 U = undef;
-
-function get(key, dict) =
-    let(x = search(key, dict))
-    let(kv = dict[x[0]])
-    kv[1];
-

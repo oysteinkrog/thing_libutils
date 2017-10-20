@@ -29,6 +29,11 @@ function v_sum(v,e=U,start=0) =
 let(e_= fallback(e, len(v)-1))
 (e==start ? v[e] : v[e_] + v_sum(v,e_-1,start));
 
+function get(key, dict) =
+    let(x = search(key, dict))
+    let(kv = dict[x[0]])
+    kv[1];
+
 function v_i(vec,i) = [for(vv=vec) vv[i]];
 function v_get(vec,key) = [for(vv=vec) get(key, vv)];
 function v_add(vec,v) = [for(vv=vec) vv+v];
