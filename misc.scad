@@ -386,3 +386,23 @@ if($test_mode)
 // helper functions to work on headered-arrays (where first entry is column headers)
 function reverse_header(V) = concat([V[0]], reverse(v_slice(V,start=1)));
 function concat_header(A,B) =concat([A[0]], v_slice(A,start=1),v_slice(B,start=1));
+
+function take3(v) = [v[0],v[1],v[2]];
+
+function vec3(V) =
+let(l = len(V))
+l == 3 ? V :
+l < 3 ? vec3(concat(V,0)) :
+take3(V);
+
+if($test_mode)
+{
+    assert_v(take3([0,1,0,1]), [0,1,0]);
+
+    assert_v(vec3([0,1]), [0,1,0]);
+    assert_v(vec3([0]), [0,0,0]);
+    assert_v(vec3([1]), [1,0,0]);
+    assert_v(vec3([0,0,1]), [0,0,1]);
+    assert_v(vec3([0,0,1,0]), [0,0,1]);
+}
+
