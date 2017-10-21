@@ -371,13 +371,17 @@ if($test_mode)
 }
 
 function v_contains(V, val, start=0, end=U) =
-    let(e=end==U?len(V):end)
-    V[start]==val ? true :
-    start == len(V)-1 ? false :
-    v_contains(V,val,start+1,end);
+    !is_array(V) ?
+        V == val :
+        let(e=end==U?len(V):end)
+        V[start]==val ? true :
+        start == len(V)-1 ? false :
+        v_contains(V,val,start+1,end);
 
 if($test_mode)
 {
+    assert_v(v_contains(0, 0), true);
+    assert_v(v_contains(0, 1), false);
     assert_v(v_contains([0,1], 0), true);
     assert_v(v_contains([0,1], 1), true);
     assert_v(v_contains([0,1], 2), false);
