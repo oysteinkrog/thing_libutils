@@ -14,6 +14,15 @@ function vec_2(v3) = vec_i(v3,2);
 
 // if V is array and len == 1, return single value, otherwise return V
 function singlify(V) = len(V)==1?V[0]:V;
+if($test_mode)
+{
+    assert_v(singlify("t"),"t");
+    assert_v(singlify("test"),"test");
+    assert_v(singlify(0),0);
+    assert_v(singlify([]),[]);
+    assert_v(singlify([0]),0);
+    assert_v(singlify([0,1]),[0,1]);
+}
 
 function v_itrlen(vec) = [0:1:len(vec)-1];
 
