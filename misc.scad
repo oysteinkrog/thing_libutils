@@ -400,6 +400,60 @@ if($test_mode)
 function reverse_header(V) = concat([V[0]], reverse(v_slice(V,start=1)));
 function concat_header(A,B) =concat([A[0]], v_slice(A,start=1),v_slice(B,start=1));
 
+// add value from these columns in headered array
+function array_header_col_add(S, cols, val) =
+    let(cols = header_col_index(S,cols))
+    concat([S[0]],
+    [
+        for(i=[1:len(S)-1])
+        [
+        for(j=[0:len(S[0])-1])
+            (v_contains(cols,j)) ?
+                S[i][j] + val :
+                S[i][j]
+        ]
+    ]);
+
+function array_header_col_subtract(S, cols, val) = array_header_col_add(S,cols,-val);
+
+if($test_mode)
+{
+    A = [
+    ["Tx", "Ty"],
+    [1, 2],
+    [3, 4],
+    ];
+
+    assert_v(
+        array_header_col_add(A, "Tx", -1),
+        [["Tx","Ty"],
+         [0,2],
+         [2,4],
+        ]);
+
+    assert_v(
+        array_header_col_add(A, ["Tx"], -1),
+        [["Tx","Ty"],
+         [0,2],
+         [2,4],
+        ]);
+
+    assert_v(
+        array_header_col_add(A, ["Tx","Ty"], -1),
+        [["Tx","Ty"],
+         [0,1],
+         [2,3],
+        ]);
+
+    assert_v(
+        array_header_col_add(A, ["Ty"], -1),
+        [["Tx","Ty"],
+         [1,1],
+         [3,3],
+        ]);
+}
+
+
 function take3(v) = [v[0],v[1],v[2]];
 
 function vec3(V) =
