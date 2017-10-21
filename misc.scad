@@ -269,10 +269,30 @@ function fn_from_d(d) =
 
 module assert_v(val, expected, message)
 {
-    if(val != expected)
+    if(len(val) > 0)
     {
-        echo("assertion, unexpected value", val, expected);
-        assert(val == expected, message);
+        if(len(val) != len(expected))
+        {
+            echo("assertion, not equal length of arrays", val, expected);
+            assert(val == expected, message);
+        }
+        for(i=[0:len(val)])
+        {
+            if(val[i] != expected[i])
+            {
+                echo("assertion, unexpected value at index", i, val, expected);
+                assert(val == expected, message);
+            }
+        }
+
+    }
+    else
+    {
+        if(val != expected)
+        {
+            echo("assertion, unexpected value", val, expected);
+            assert(val == expected, message);
+        }
     }
 }
 
