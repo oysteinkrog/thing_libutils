@@ -220,8 +220,8 @@ function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
 if($test_mode)
 {
     assert(lerp(-1, 1, 0) == -1);
-    assert(lerp1(-1, 1, .5) == 0);
-    assert(lerp1(-1, 1, 1) == 1);
+    assert(lerp(-1, 1, .5) == 0);
+    assert(lerp(-1, 1, 1) == 1);
 }
 
 if($test_mode)
