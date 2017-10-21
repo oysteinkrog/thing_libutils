@@ -349,3 +349,16 @@ if($test_mode)
     assert_v(geth(A, ["Tx","Ty"], 1), [3,4]);
 
 }
+
+function v_contains(V, val, start=0, end=U) =
+    let(e=end==U?len(V):end)
+    V[start]==val ? true :
+    start == len(V)-1 ? false :
+    v_contains(V,val,start+1,end);
+
+if($test_mode)
+{
+    assert_v(v_contains([0,1], 0), true);
+    assert_v(v_contains([0,1], 1), true);
+    assert_v(v_contains([0,1], 2), false);
+}
