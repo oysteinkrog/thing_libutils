@@ -362,3 +362,7 @@ if($test_mode)
     assert_v(v_contains([0,1], 1), true);
     assert_v(v_contains([0,1], 2), false);
 }
+
+// helper functions to work on headered-arrays (where first entry is column headers)
+function reverse_header(V) = concat([V[0]], reverse(v_slice(V,start=1)));
+function concat_header(A,B) =concat([A[0]], v_slice(A,start=1),v_slice(B,start=1));
