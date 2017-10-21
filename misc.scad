@@ -12,6 +12,8 @@ function vec_0(v3) = vec_i(v3,0);
 function vec_1(v3) = vec_i(v3,1);
 function vec_2(v3) = vec_i(v3,2);
 
+// if V is array and len == 1, return single value, otherwise return V
+function singlify(V) = len(V)==1?V[0]:V;
 
 function v_itrlen(vec) = [0:1:len(vec)-1];
 
