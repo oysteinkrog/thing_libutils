@@ -7,6 +7,9 @@ use <shapes.scad>
 use <transforms.scad>
 use <misc.scad>
 
+// for proper threads
+use <Naca_sweep.scad>
+
 // naive, assume head height is same as thread size (generally true for cap heads)
 function get_screw_head_h(head, thread) = get(ThreadSize, thread);
 function get_screw_head_d(head, thread) = 2 * get(ThreadSize, thread);
@@ -35,6 +38,7 @@ module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false,
                 screw_head(head=head, thread=thread_, orient=Z, align=Z);
             }
 
+            translate([0,0,-h/2+.01])
             screw_thread(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
             if(with_nut && nut != U)
@@ -103,11 +107,30 @@ module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=fa
 module screw_thread(thread, h=10, tolerance=1.00, orient=Z, align=N)
 {
     assert(thread!=U, "screw_thread: thread is undef");
-    // TODO render thread
     threadsize = get(ThreadSize, thread);
+    d = get(ThreadSize, thread);
+    pitch = get(ThreadPitchMm, thread);
+    windings = ceil(h/pitch);
 
+    size_align(size=[d,d,h], orient=orient, align=align)
     material(Mat_Steel)
-    cylindera(d=threadsize, h=h, orient=orient, align=align);
+    {
+        if($preview_mode)
+        {
+            cylindera(d=d, h=h, align=Z);
+        }
+        else
+        {
+            intersection()
+            {
+                cylindera(d=d, h=h, align=Z);
+                tz(-pitch)
+                threading(angle=60, pitch=pitch, d=d, windings=windings, full=true);
+            }
+            /*inner_d = (get(ThreadInternalMinorDiaMin, thread) + get(ThreadInternalMinorDiaMin, thread))/2;*/
+            /*cylindera(d=inner_d, h=h, align=Z);*/
+        }
+    }
 }
 
 module screw_thread_cut(thread, h=10, tolerance=1.05, orient=Z, align=N)
@@ -316,13 +339,63 @@ if(false)
     }
 }
 
+// From ParkinBots threading library
+// https://www.thingiverse.com/thing:1659079
+/*module Threading(D = 0, pitch = 1, d = 12, windings = 10, helices = 1, angle = 60, steps=40)*/
+/*{*/
+    /*R = D==0?d/2+2*pitch/PI:D/2; */
+    /*translate([0,0,-pitch])*/
+    /*difference()*/
+    /*{*/
+        /*translate([0,0,pitch])*/
+        /*cylinder (r=R, h =pitch*(windings-helices));*/
+        /*threading(pitch, d, windings, helices, angle, steps, true); */
+    /*}*/
+/*}*/
+
+// From ParkinBots threading library
+// https://www.thingiverse.com/thing:1659079
+module threading(pitch = 1, d = 12, windings = 10, helices = 1, angle = 60, steps=40, full = false)
+{
+    // tricky: glue two 180° pieces together to get a proper manifold  
+    r = d/2;
+    Steps = steps/2;
+    Pitch = pitch*helices;
+    if(full)
+    {
+        cylinder(r = r-.5-pitch/PI, h=pitch*(windings+helices), $fn=steps);
+    }
+
+    sweep(gen_dat(), planar_caps=true);   // half screw
+    rz(180)
+    tz(Pitch/2)
+    sweep(gen_dat(), planar_caps=true);   // half screw
+
+    function gen_dat() =
+        let(ang = 180, bar = R_(180, -90, 0, Ty_(-r+.5, vec3D(pitch/PI*Rack(windings, angle)))))
+        [for (i=[0:Steps]) Tz_(i/2/Steps*Pitch, -Rz_(i*ang/Steps, bar))];
+
+    function Rack(w, angle) =
+        concat([[0, 2]],
+            [for (i=[0:w-1], j=[0:3])
+            let(t = [ [0, 1], [2*tan(angle/2), -1], [PI/2, -1], [2*tan(angle/2)+PI/2, 1]])
+            [t[j][0]+i*PI, t[j][1]]], [[w*PI, 1], [w*PI, 2]
+            ]);
+}
+
+
 if(false)
 {
+    $fn=128;
     nut1 = NutHexM3;
-    stack(axis=X, dist = 10)
+    stack(axis=X, dist = 20)
     {
-        screw(nut=nut1, head="button", h=10, orient=-Z);
-        screw(nut=nut1, head="socket", h=10, orient=-Z);
+        screw(nut=NutHexM8, head="socket", h=25, orient=-Z);
+        screw(nut=NutHexM8, head="button", h=25, orient=-Z);
+        screw(nut=NutHexM8, head="button", h=25, with_head=1, with_nut=0, orient=-Z);
+        screw(nut=NutHexM8, head="button", h=25, with_head=0, with_nut=0, orient=-Z);
+
+        threading(pitch = 1.25, d=8, windings=10, full=true);
     }
 }
 
