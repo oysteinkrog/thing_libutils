@@ -1,4 +1,5 @@
 include <system.scad>
+include <misc.scad>
 include <gears-data.scad>
 
 // SPUR GEARS (all functions assume module/mm system!)
@@ -40,8 +41,10 @@ function calc_gear_OD(gear) = spurgear_OD_from_M_N(get(GearMod,gear),get(GearTee
 // CD = (PD1+PD1)/2
 function calc_gears_center_distance(A, B) = (calc_gear_PD(A)+calc_gear_PD(B))/2;
 
-if(false)
+if($test_mode)
 {
+    assert_v(spurgear_M_from_DP(48), 0.529167);
+
     echo(calc_gear_PD(gear_60t_mod05));
     echo(calc_gears_center_distance(gear_60t_mod05,gear_13t_mod05));
 
