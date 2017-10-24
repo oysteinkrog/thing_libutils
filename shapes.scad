@@ -187,12 +187,15 @@ module rcylindera(
     }
 }
 
-function rounded_rectangle_profile(size=[1,1],r=[1,1],fn=$fn) = [
+function circle_profile(r=10, fn=$fn) = [for (i=[0:fn-1]) [r*sin(i*360/fn), r*cos(i*360/fn)]];
+
+function rounded_rectangle_profile(size=[10,10],r=[1,1],fn=32) = [
+let(r_ = is_array(r) ? r : [r,r])
 for (index = [0:fn-1])
-let(a = index/fn*360)
+let(a = index/fn*360) 
 [cos(a)*r.x, sin(a)*r.y]
-+ sign_x(index, fn) * X*(size.x/2-r.x)
-+ sign_y(index, fn) * Y*(size.y/2-r.y)
++ sign_x(index, fn) * X * (size.x/2-r.x)
++ sign_y(index, fn) * Y * (size.y/2-r.y)
 ];
 
 function sign_x(i,n) =
@@ -204,8 +207,6 @@ function sign_y(i,n) =
 i > 0 && i < n/2  ?  1 :
 i > n/2 ? -1 :
     0;
-
-function circle_profile(r=10, fn=$fn) = [for (i=[0:fn-1]) [r*sin(i*360/fn), r*cos(i*360/fn)]];
 
 // From Obiscad
 //----------------------------------------------------------
