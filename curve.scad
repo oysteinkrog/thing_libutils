@@ -1,3 +1,5 @@
+include <system.scad>
+use <shapes.scad>
 use <scad-utils/lists.scad>
 use <scad-utils/trajectory.scad>
 use <scad-utils/trajectory_path.scad>
@@ -9,7 +11,6 @@ use <scad-utils/so3.scad>
 use <list-comprehension-demos/skin.scad>
 use <list-comprehension-demos/sweep.scad>
 
-use <obiscad/vector.scad>
 
 module draw_path(path, r=1) {
     for (i=[0:len(path)-2]) {
