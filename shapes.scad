@@ -35,6 +35,26 @@ module rcube(size=[20,20,20], round_r=1)
     }
 }
 
+module pyramid(size=[10,10,10], orient, align)
+{
+    let(s=size)
+    size_align(size=s, align=align, orient=orient)
+    polyhedron(
+        points=[
+            // the four points at base
+            [s.x/2,s.y/2,-s.z/2],[s.x/2,-s.y/2,-s.z/2],[-s.x/2,-s.y/2,-s.z/2],[-s.x/2,s.y/2,-s.z/2],
+            // the apex point
+            [0,0,s.z/2]
+        ],
+        faces=[
+            // each triangle side
+            [0,1,4],[1,2,4],[2,3,4],[3,0,4],
+            // two triangles for square base
+            [1,0,3],[2,1,3] 
+        ]
+        );
+}
+
 module spherea(r, d, align=N, extra_r, extra_d, extra_align, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
     d_ = v_fallback(d, [r*2]);
