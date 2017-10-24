@@ -9,8 +9,6 @@ use <scad-utils/se3.scad>
 use <scad-utils/so3.scad>
 use <list-comprehension-demos/skin.scad>
 use <list-comprehension-demos/sweep.scad>
-use <list-comprehension-demos/draw-helpers.scad>
-
 
 function combine_accumulated_rotations(a,b) =
 concat(a, [ let(e = a[len(a)-1]) for(t = b) t * e ]);
