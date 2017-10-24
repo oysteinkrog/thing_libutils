@@ -8,6 +8,10 @@ Y = YAXIS;
 Z = ZAXIS;
 N = NAXIS;
 
+XY = X+Y;
+XZ = X+Z;
+YZ = Y+Z;
+
 AXES = [X,Y,Z];
 
 U = undef;
