@@ -44,6 +44,7 @@ function v_i(vec,i) = [for(vv=vec) vv[i]];
 function v_get(vec,key) = [for(vv=vec) get(key, vv)];
 function v_add(vec,v) = [for(vv=vec) vv+v];
 function v_sub(vec,v) = [for(vv=vec) vv+v];
+function v_mul(A,B) = [for(i=[0:len(A)-1]) A[i]*B[i]];
 function v_avg(v,e=U,start=0) = v_sum(v,e,start) / (len(v));
 function v_abs(v, start=0) = [for(i=[start:1:len(v)-1]) abs(v[i])];
 function v_sign(v, start=0) = [for(i=[start:1:len(v)-1]) sign(v[i])];
