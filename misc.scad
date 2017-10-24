@@ -71,6 +71,14 @@ function v_cumsum(v, start=0, end) = [for(i=[start:1:end==U?len(v)-1:end]) v_sum
 
 // filter/remove a val from a vec
 function filter(vec,val=U) = [for(v=vec) if(v!=val) v];
+function v_filter(vec,val=U) = filter(vec,val);
+
+if($test_mode)
+{
+    v=[0,1,2];
+    assert_v(filter(v, U), [0,1,2]);
+    assert_v(filter(v, 1), [0,2]);
+}
 
 function vec_pair_double_transform_post(vec,t1,t2)=
     flatten(
