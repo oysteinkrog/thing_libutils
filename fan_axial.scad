@@ -6,7 +6,7 @@ include <transforms.scad>
 include <screws.scad>
 include <MCAD/boxes.scad>
 
-module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius=3, blade_angle=-45, bore_dia_walls=1.5, orient=Z, align=N)
+module fan_axial(width, depth, mount_dist, thread, head_embed=true, corner_radius=3, blade_angle=-45, bore_dia_walls=1.5, orient=Z, align=N)
 {
     s = [width, width, depth];
     size_align(size=s, orient=orient, orient_ref=-Z, align=align)
@@ -33,12 +33,12 @@ module axialfan(width, depth, mount_dist, thread, head_embed=true, corner_radius
                 screw_cut(thread=thread, h=depth, head_embed=head_embed, orient=-Z, align=-Z);
             }
         }
-        axialfan_blades(width=bore_diameter, depth=depth, blade_angle=blade_angle);
+        fan_axial_blades(width=bore_diameter, depth=depth, blade_angle=blade_angle);
     }
 }
 
 
-module axialfan_cut(width, depth, tolerance=.3*mm, mount_dist, screw_l, thread, head_embed=true, orient=Z, align=N)
+module fan_axial_cut(width, depth, tolerance=.3*mm, mount_dist, screw_l, thread, head_embed=true, orient=Z, align=N)
 {
     s = [width, width, depth];
     size_align(size=s, orient=orient, orient_ref=-Z, align=align)
@@ -59,7 +59,7 @@ module body(width, depth, bore_diameter, mount_dist, corner_radius, thread)
 
 }
 
-module axialfan_blades(width, depth, angle)
+module fan_axial_blades(width, depth, angle)
 {
     linear_extrude(height=depth-1, center = true, convexity = 4, twist = angle)
     {
@@ -72,6 +72,6 @@ module axialfan_blades(width, depth, angle)
 
 if(false)
 {
-    axialfan(width=40*mm, depth=10.5*mm, mount_dist=32*mm, thread=ThreadM3, orient=Y, align=N);
-    %axialfan_cut(width=40*mm, depth=10.5*mm, mount_dist=32*mm, screw_l=25*mm, thread=ThreadM3, orient=Y, align=N);
+    fan_axial(width=40*mm, depth=10.5*mm, mount_dist=32*mm, thread=ThreadM3, orient=Y, align=N);
+    %fan_axial_cut(width=40*mm, depth=10.5*mm, mount_dist=32*mm, screw_l=25*mm, thread=ThreadM3, orient=Y, align=N);
 }
