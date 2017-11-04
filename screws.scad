@@ -59,7 +59,7 @@ module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false,
     }
 }
 
-module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=Z, align=N)
+module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_nut_access=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=Z, align=N)
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
@@ -93,7 +93,7 @@ module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=fa
             if(with_nut && nut != U)
             {
                 translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
-                screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, align=-Z);
+                screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, with_access=with_nut_access, align=-Z);
             }
 
             if($show_vit)
@@ -229,7 +229,7 @@ module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
     }
 }
 
-module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
+module screw_nut_cut(nut, tolerance=1.05, h=1000, with_access=true, orient=Z, align=N)
 {
     assert(nut!=U, "screw_nut_cut: nut is undef");
 
@@ -242,6 +242,7 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, orient=Z, align=N)
             tz(-.1)
             screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
 
+            if(with_access)
             translate([0,0,-nut_thick-.01])
             {
                 cylindera(d=nut_dia+2*mm, h=h, orient=Z, align=-Z);
