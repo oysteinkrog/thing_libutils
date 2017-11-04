@@ -52,6 +52,13 @@ function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
 function v_min(v, m, start=0) = [for(i=[start:1:len(v)-1]) min(v[i],m)];
 function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,v2)];
 
+if($test_mode)
+{
+    assert_v(v_mul([0,1], [1,2]), [0, 2]);
+    assert_v(v_mul([1,1], [1,2]), [1, 2]);
+    assert_v(v_mul([1,2], [1,2]), [1, 4]);
+}
+
 function v_slice(v, start, end) =
 let(start_ = start==U?0:start)
 let(end_ = end==U?len(v)-1:end)

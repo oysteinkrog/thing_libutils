@@ -207,3 +207,14 @@ if(false)
     }
 }
 
+// translate by pos, with extra (depending on the sign of pos)
+// an "explode" function
+module te(pos, extra=[0,0,0])
+{
+    assert(len(pos) == 3);
+    assert(len(extra) == 3);
+
+    t(pos + v_mul(extra , v_sign(pos)))
+    children();
+}
+
