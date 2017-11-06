@@ -30,20 +30,20 @@ module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false,
     total_h = h;
     size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
     {
-        translate([0,0,head_embed?-head_h:0])
+        tz(head_embed?-head_h:0)
         {
             if(with_head)
             {
-                translate([0,0,h/2+.01])
+                tz(h/2+.01)
                 screw_head(head=head, thread=thread_, orient=Z, align=Z);
             }
 
-            translate([0,0,-h/2+.01])
+            tz(-h/2+.01)
             screw_thread(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
             if(with_nut && nut != U)
             {
-                translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
+                tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
                 screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
             }
         }
@@ -52,7 +52,7 @@ module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false,
         {
             if(with_nut && nut != U)
             {
-                translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
+                tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
                 %screw_nut(nut=nut, align=-Z);
             }
         }
@@ -80,11 +80,11 @@ module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=fa
     assert(s != U, "screw_cut: s is U!");
     size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
     {
-        translate([0,0,head_embed?-head_h:0])
+        tz(head_embed?-head_h:0)
         {
             if(with_head)
             {
-                translate([0,0,h/2+.01])
+                tz(h/2+.01)
                 screw_head_cut(head=head, thread=thread_, tolerance=tolerance, override_h=head_cut_h, align=Z);
             }
 
@@ -92,7 +92,7 @@ module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=fa
 
             if(with_nut && nut != U)
             {
-                translate([0,0,-h/2+nut_h+nut_offset+(head_embed?head_h:0)])
+                tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
                 screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, with_access=with_nut_access, align=-Z);
             }
 
@@ -237,13 +237,13 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, with_access=true, orient=Z, al
     nut_dia = nut_dia(nut);
     size_align(size=[nut_dia, nut_dia, nut_thick], orient=orient, align=align)
     {
-        translate([0,0,nut_thick/2])
+        tz(nut_thick/2)
         {
             tz(-.1)
             screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
 
             if(with_access)
-            translate([0,0,-nut_thick-.01])
+            tz(-nut_thick-.01)
             {
                 cylindera(d=nut_dia+2*mm, h=h, orient=Z, align=-Z);
             }
@@ -274,13 +274,13 @@ module nut_trap_cut(nut, thread, head, trap_offset=10, screw_l=10*mm, screw_offs
     {
         if(cut_screw)
         {
-            translate(-nut_h/2*Z)
-            translate(screw_offset*Z)
+            tz(-nut_h/2)
+            tz(screw_offset)
             screw_cut($show_vit=false, nut=nut, thread=thread_, with_nut=false, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
         }
         else
         {
-            translate([0,0,nut_h/2+screw_offset])
+            tz(nut_h/2+screw_offset)
             screw_thread_cut($show_vit=false, thread=thread_, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
         }
 
@@ -305,8 +305,8 @@ module nut_trap_cut(nut, thread, head, trap_offset=10, screw_l=10*mm, screw_offs
         {
             if(cut_screw)
             {
-                translate(-nut_h/2*Z)
-                translate(screw_offset*Z)
+                tz(-nut_h/2)
+                tz(screw_offset)
                 %screw(nut=nut, thread=thread_, with_nut=false, tolerance=1, h=screw_l, orient=-Z, align=Z);
             }
 
