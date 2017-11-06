@@ -14,7 +14,7 @@ use <naca_sweep.scad>
 function get_screw_head_h(head, thread) = get(ThreadSize, thread);
 function get_screw_head_d(head, thread) = 2 * get(ThreadSize, thread);
 
-module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=Z, align=N)
+module screw(part, nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=Z, align=N)
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
@@ -28,42 +28,51 @@ module screw(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false,
 
     s = threadsize*tolerance;
     total_h = h;
-    size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
+
+    if(part==U)
     {
-        tz(head_embed?-head_h:0)
+        difference()
         {
-            difference()
-            {
-                union()
-                {
-                    if(with_head)
-                    {
-                        tz(h/2+.01)
-                        screw_head(part="pos", head=head, thread=thread_, orient=Z, align=Z);
-                    }
-
-                    tz(-h/2+.01)
-                    screw_thread(thread=thread_, head=head, h=h+.1, tolerance=tolerance, orient=Z, align=N);
-                }
-                if(with_head)
-                tz(h/2+.01)
-                screw_head(part="neg", head=head, thread=thread_, orient=Z, align=Z);
-            }
-
-            if(with_nut && nut != U)
-            {
-                tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
-                screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
-            }
+            screw(part="pos", nut=nut, thread=thread, head=head, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=orient, align=align);
+            screw(part="neg", nut=nut, thread=thread, head=head, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=orient, align=align);
+        }
+        if($show_vit)
+        %screw(part="vit", nut=nut, thread=thread, head=head, h=h, tolerance=tolerance, head_embed=head_embed, with_nut=with_nut, with_head=with_head, nut_offset=nut_offset, orient=orient, align=align);
+    }
+    else if(part=="pos")
+    size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
+    tz(head_embed?-head_h:0)
+    {
+        if(with_head)
+        {
+            tz(h/2+.01)
+            screw_head(part=part, head=head, thread=thread_, orient=Z, align=Z);
         }
 
-        if($show_vit)
+        tz(-h/2+.01)
+        screw_thread(thread=thread_, head=head, h=h+.1, tolerance=tolerance, orient=Z, align=N);
+
+        if(with_nut && nut != U)
         {
-            if(with_nut && nut != U)
-            {
-                tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
-                %screw_nut(nut=nut, align=-Z);
-            }
+            tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
+            screw_nut(nut=nut, tolerance=tolerance, orient=Z, align=-Z);
+        }
+    }
+    else if(part=="neg")
+    size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
+    tz(head_embed?-head_h:0)
+    {
+        if(with_head)
+        tz(h/2+.01)
+        screw_head(part=part, head=head, thread=thread_, orient=Z, align=Z);
+    }
+    else if(part=="vit")
+    size_align(size=[s, s, total_h], orient=-orient, orient_ref=Z, align=align)
+    {
+        if(with_nut && nut != U)
+        {
+            tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
+            %screw_nut(nut=nut, align=-Z);
         }
     }
 }
