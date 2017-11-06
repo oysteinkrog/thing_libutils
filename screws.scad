@@ -8,7 +8,7 @@ use <transforms.scad>
 use <misc.scad>
 
 // for proper threads
-use <Naca_sweep.scad>
+use <naca_sweep.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
 function get_screw_head_h(head, thread) = get(ThreadSize, thread);
@@ -205,8 +205,20 @@ module screw_head_cut(head="socket", thread, tolerance=1.05, override_h=U, orien
     head_h = get_screw_head_h(head=head, thread=thread);
     head_d = get_screw_head_d(head=head, thread=thread)*tolerance;
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
-    translate([0,0,-head_h/2])
-    cylindera(d=head_d, h=fallback(override_h, head_h), align=Z);
+    {
+        if(head=="socket" || head=="button")
+        {
+            tz(-head_h/2)
+            cylindera(d=head_d, h=fallback(override_h, head_h), align=Z);
+        }
+        else if(head=="set")
+        {
+        }
+        else
+        {
+            assert("head: not implemented");
+        }
+    }
 }
 
 module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
