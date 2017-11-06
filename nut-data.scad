@@ -560,6 +560,15 @@ NutHexThinM64 = [
     [NutFacets, 6],
 ];
 
+NutKnurlM3_8_42 = [
+    [NutHoleDia, 3*mm],
+    [NutWidthMin, 4.1*mm],
+    [NutThickness, 8*mm],
+    [NutWidthMax, 4.1*mm],
+    [NutThread, ThreadM3],
+    [NutFacets, 20],
+];
+
 NutKnurlM3_5_42 = [
     [NutHoleDia, 3*mm],
     [NutWidthMin, 4.1*mm],
