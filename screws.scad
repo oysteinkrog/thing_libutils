@@ -268,7 +268,8 @@ module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
         difference()
         {
             cylindera($fn=nut_facets, d=nut_dia, h=h_);
-            screw_thread(thread=nut_thread, h=h_+.2);
+            tz(-h_/2-.2)
+            screw_thread(thread=nut_thread, h=h_+.1);
         }
     }
 }
