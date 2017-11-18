@@ -164,7 +164,7 @@ module screw_head(part, head="socket", drive="hex", thread, tolerance=1.00, over
     assert(thread!=U, "screw_head: thread == undef");
 
     threadsize = get(ThreadSize, thread);
-    head_h = get_screw_head_h(head=head, thread=thread);
+    head_h = fallback(override_h, get_screw_head_h(head=head, thread=thread));
     head_d = get_screw_head_d(head=head, thread=thread);
 
     if(part==U)
@@ -182,7 +182,7 @@ module screw_head(part, head="socket", drive="hex", thread, tolerance=1.00, over
         if(head=="socket")
         {
             tz(-head_h/2)
-            cylindera(d=head_d, h = fallback(override_h,head_h), align=Z);
+            cylindera(d=head_d, h = head_h, align=Z);
         }
         else if(head=="button")
         {
@@ -199,41 +199,36 @@ module screw_head(part, head="socket", drive="hex", thread, tolerance=1.00, over
                 spherea(r = head_h, align=N);
 
                 tz(-head_h/2)
-                cylindera(d=head_d, h = fallback(override_h,head_h)/2, align=Z);
+                cylindera(d=head_d, h = head_h/2, align=Z);
             }
         }
     }
     else if(part=="neg")
+    material(Mat_Steel)
     size_align(size=[head_d, head_d, head_h], orient=orient, align=align)
     {
-        if(head=="socket")
+        tz(-head_h/2)
+        if(drive=="hex")
         {
-            if(drive == "hex")
-            {
-                cylindera(d = fn_radius(threadsize, 6), h = 1000, $fn = 6, align=Z);
-            }
-        }
-        else if(head=="button")
-        {
-            if(drive == "hex")
-            {
-                // button head uses -0.5*mm smaller hex
-                tz(-head_h/2)
-                cylindera(d = fn_radius(threadsize-.5, 6), h = 1000, $fn = 6, align=Z);
-            }
-        }
-        else if(head=="set")
-        {
-            if(drive == "hex")
-            {
-                // set head uses -1*mm smaller hex
-                tz(-head_h)
-                cylindera(d = fn_radius(threadsize-1, 6), h = 1000, $fn = 6, align=Z);
-            }
-
+            threadsize_cut = threadsize-head_drive_threadsize_minus(head);
+            inset = head_drive_inset(head, head_h);
+            tz(inset)
+            cylindera(d = fn_radius(threadsize_cut, 6), h = head_h, $fn = 6, align=Z);
         }
     }
 }
+
+function head_drive_threadsize_minus(head) =
+head=="socket"?  0:
+head=="button"?  0.5:
+head=="set"?     1.5:
+0;
+
+function head_drive_inset(head, head_h) =
+head=="socket"?  1*mm:
+head=="button"?  0.5*mm:
+head=="set"?     -head_h/2:
+0;
 
 module screw_head_cut(head="socket", thread, tolerance=1.05, override_h=U, orient=Z, align=N)
 {
@@ -438,6 +433,24 @@ module threading(pitch = 1, d = 12, windings = 10, helices = 1, angle = 60, step
             ]);
 }
 
+
+if(false)
+{
+    $fn=32;
+    all_heads=
+    [
+        "socket",
+        "button",
+        "set"
+    ];
+    for(i=[0:len(all_heads)-1])
+    {
+        head=all_heads[i];
+        tx(i*8*mm)
+        screw(nut=NutHexM3, head=head, h=25, orient=-Z);
+    }
+
+}
 
 if(false)
 {
