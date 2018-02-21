@@ -4,24 +4,28 @@ use <misc.scad>
 
 module t(dist)
 {
+    assert(dist!=U, "dist==U");
     translate(dist)
     children();
 }
 
 module tx(dist)
 {
+    assert(dist!=U, "dist==U");
     translate(X*dist)
     children();
 }
 
 module ty(dist)
 {
+    assert(dist!=U, "dist==U");
     translate(Y*dist)
     children();
 }
 
 module tz(dist)
 {
+    assert(dist!=U, "dist==U");
     translate(Z*dist)
     children();
 }
