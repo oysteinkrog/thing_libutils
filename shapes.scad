@@ -209,73 +209,63 @@ i > n/2 ? -1 :
     0;
 
 // From Obiscad
-//----------------------------------------------------------
-//--  Draw a point in the position given by the vector p  
-//----------------------------------------------------------
+// Draw a point in the position given by the vector p
 module point(p, r=0.7, fn)
 {
     translate(p)
     sphere(r=r);
 }
 
-//------------------------------------------------------------------
-//-- Draw a vector poiting to the z axis
-//-- This is an auxiliary module for implementing the vector module
-//--
-//-- Parameters:
-//--  l: total vector length (line + arrow)
-//--  l_arrow: Vector arrow length
-//--  mark: If true, a mark is draw in the vector head, for having
-//--    a visual reference of the rolling angle
-//------------------------------------------------------------------
+// Draw a vector poiting to the z axis
+// This is an auxiliary module for implementing the vector module
+//
+// Parameters:
+//  l: total vector length (line + arrow)
+//  l_arrow: Vector arrow length
+//  mark: If true, a mark is draw in the vector head, for having
+// a visual reference of the rolling angle
 module vectorz(l=10, l_arrow=4, mark=true)
 {
-  //-- vector body length (not including the arrow)
-  lb = l - l_arrow;
+    // vector body length (not including the arrow)
+    lb = l - l_arrow;
 
-  //-- The vector is locatead at 0,0,0
-  translate([0,0,lb/2])
-  union() {
+    // The vector is located at 0,0,0
+    union()
+    {
+        // Draw the arrow
+        tz(lb)
+        cylindera(r1=2/2, r2=0.2, h=l_arrow);
 
-    //-- Draw the arrow
-    translate([0,0,lb/2])
-      cylindera(r1=2/2, r2=0.2, h=l_arrow);
+        // Draw the mark
+        if(mark)
+        tz(lb)
+        tx(X)
+        cubea([2,0.3,l_arrow*0.8], align=X);
 
-    //-- Draw the mark
-    if (mark) {
-      translate([0,0,lb/2+l_arrow/2])
-      translate(X)
-        cubea([2,0.3,l_arrow*0.8]);
+        // Draw the body
+        cylindera(r=1/2, h=lb, align=Z);
     }
 
-    //-- Draw the body
-    cylindera(r=1/2, h=lb, align=-Z);
-  }
-
-  //-- Draw a sphere in the vector base
-  spherea(r=1/2, align=-Z);
+    // Draw a sphere in the vector base
+    spherea(r=1/2, align=-Z);
 }
 
 // From Obiscad,
-//---------------------------------------------------------------------------
-//-- Draw a vector
-//--
-//-- There are two modes of drawing the vector
-//-- * Mode 1: Given by a cartesian point(x,y,z). A vector from the origin
-//--           to the end (x,y,z) is drawn. The l parameter (length) must 
-//--           be 0  (l=0)
-//-- * Mode 2: Give by direction and length
-//--           A vector of length l pointing to the direction given by
-//--           v is drawn
-//---------------------------------------------------------------------------
-//-- Parameters:
-//--  v: Vector cartesian coordinates
-//--  l: total vector length (line + arrow)
-//--  l_arrow: Vector arrow length
-//    mark: If true, a mark is draw in the vector head, for having
-//--    a visual reference of the rolling angle
-//---------------------------------------------------------------------------
-
+// Draw a vector
+//
+// There are two modes of drawing the vector
+// * Mode 1: Given by a cartesian point(x,y,z). A vector from the origin
+//           to the end (x,y,z) is drawn. The l parameter (length) must 
+//           be 0  (l=0)
+// * Mode 2: Give by direction and length
+//           A vector of length l pointing to the direction given by
+//           v is drawn
+// Parameters:
+//  v: Vector cartesian coordinates
+//  l: total vector length (line + arrow)
+//  l_arrow: Vector arrow length
+//  mark: If true, a mark is draw in the vector head, for having
+//    a visual reference of the rolling angle
 module vector(v, l=4, l_arrow=2, mark=false)
 {
   //-- Get the vector length from the coordinates
@@ -306,11 +296,15 @@ module vector(v, l=4, l_arrow=2, mark=false)
   //-- Draw the vector. The vector length is given either
   //--- by the mod variable (when l=0) or by l (when l!=0)
   if (l==0)
-    rotate(a=ang, v=raxis_)
+  {
+      rotate(a=ang, v=raxis_)
       vectorz(l=mod, l_arrow=l_arrow, mark=mark);
+  }
   else
-    rotate(a=ang, v=raxis_)
+  {
+      rotate(a=ang, v=raxis_)
       vectorz(l=l, l_arrow=l_arrow, mark=mark);
+  }
 
 }
 
@@ -332,18 +326,20 @@ module vector(v, l=4, l_arrow=2, mark=false)
 //--------------------------------------------------------------------
 module connector(c)
 {
-  //-- Get the three components from the connector
-  p = c[0];
-  v = c[1];
-  ang = c[2];
+    //-- Get the three components from the connector
+    p = c[0];
+    v = c[1];
+    ang = c[2];
 
-  //-- Draw the attachment poing
-  color("Gray") point(p);
+    //-- Draw the attachment point
+    color(v)
+    point(p);
 
-  //-- Draw the attachment axis vector (with a mark)
-  translate(p)
+    //-- Draw the attachment axis vector (with a mark)
+    translate(p)
     rotate(a=ang, v=v)
-    color("Gray") vector(v=v_unitv(v)*6, l_arrow=2, mark=true);
+    color(v)
+    vector($fn=16, v=v_unitv(v), l=6, l_arrow=2, mark=true);
 }
 
 // positive angles go from start to end counterclockwise
