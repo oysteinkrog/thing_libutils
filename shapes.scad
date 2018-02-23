@@ -12,6 +12,10 @@ module cubea(size=[10,10,10], align=N, extra_size=N, extra_align=N, orient=Z, or
 
 module rcubea(size=[10,10,10], round_r=1, align=N, extra_size=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
+    assert(size.x > round_r);
+    assert(size.y > round_r);
+    assert(size.z > round_r);
+
     size_align(size=size, extra_size=extra_size, align=align, extra_align=extra_align, orient=orient, orient_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)
     rcube(size=size+extra_size, round_r=round_r);
 }
@@ -158,6 +162,8 @@ module rcylindera(
     assert(r1_ != U);
     assert(r2_ != U);
     assert(extra_r_ != U);
+
+    assert(h >= 2*round_r);
 
     if(debug)
     {
