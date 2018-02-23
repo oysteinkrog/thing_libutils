@@ -238,6 +238,39 @@ if(false)
     }
 }
 
+module proj_extrude_axis_part(axis=Z, h=1, offset=0, cut=false)
+{
+    translate(-offset*axis)
+    {
+        orient_(axis=axis, axis_ref=Z)
+        {
+            hull()
+            linear_extrude(offset, center=false)
+            projection(cut=cut)
+            orient_(axis=Z, axis_ref=axis)
+            translate(offset*axis)
+            children();
+
+            orient_(axis=Z, axis_ref=axis)
+            translate(offset*axis)
+            children();
+        }
+    }
+}
+
+if(false)
+{
+    tz(10)
+    proj_extrude_axis_part(axis=Z, offset=10)
+    {
+        x = 15;
+        cylinder(d=5, h=20);
+
+        tx(x)
+        cylinder(d=5, h=20);
+    }
+}
+
 // translate by pos, with extra (depending on the sign of pos)
 // an "explode" function
 module te(pos, extra=[0,0,0])
