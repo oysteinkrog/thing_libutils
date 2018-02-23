@@ -4,29 +4,56 @@ use <misc.scad>
 
 module t(dist)
 {
-    assert(dist!=U, "dist==U");
+    assert(dist!=U, "t(): dist==U");
     translate(dist)
     children();
 }
 
 module tx(dist)
 {
-    assert(dist!=U, "dist==U");
+    assert(dist!=U, "tx(): dist==U");
     translate(X*dist)
     children();
 }
 
 module ty(dist)
 {
-    assert(dist!=U, "dist==U");
+    assert(dist!=U, "ty(): dist==U");
     translate(Y*dist)
     children();
 }
 
 module tz(dist)
 {
-    assert(dist!=U, "dist==U");
+    assert(dist!=U, "tz(): dist==U");
     translate(Z*dist)
+    children();
+}
+
+module txy(off)
+{
+    assert(off!=U, "txy(): off==U");
+    assert(len(off)==3, "txy(): len(off)!=3");
+    tx(off.x)
+    ty(off.y)
+    children();
+}
+
+module txz(off)
+{
+    assert(off!=U, "txz(): off==U");
+    assert(len(off)==3, "txz(): len(off)!=3");
+    tx(off.x)
+    tz(off.z)
+    children();
+}
+
+module tyz(off)
+{
+    assert(off!=U, "tyz(): off==U");
+    assert(len(off)==3, "tyz(): len(off)!=3");
+    ty(off.y)
+    tz(off.z)
     children();
 }
 
