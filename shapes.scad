@@ -120,9 +120,9 @@ module cylindera(
     }
 }
 
-module torus(r=U, radius=5, radial_width, align=N, orient=Z)
+module torus(d, r, radius, radial_width, align=N, orient=Z)
 {
-    r_ = fallback(r, radius);
+    r_ = v_fallback(r,[d/2, radius, 5]);
     size_align(size=[r_*2+radial_width*2, r_*2+radial_width*2, radial_width*2], align=align, orient=orient)
     rotate_extrude()
     translate(r_*X)
