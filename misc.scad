@@ -485,3 +485,7 @@ if($test_mode)
     assert_v(vec3([0,0,1,0]), [0,0,1]);
 }
 
+// nopheads polyhole, holes with size compensation for 3d printing
+function polyhole_n(d) = max(round(2 * d), 3);
+function polyhole_d(d) = 2*(d / 2) / cos (180 / polyhole_n(d));
+

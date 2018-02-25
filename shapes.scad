@@ -104,7 +104,7 @@ module cylindera(
 
     if(debug)
     {
-        echo(useDia, h, r_, r1_, r2_, extra_r_, align);
+        echo(h, r_, r1_, r2_, extra_r_, align);
     }
 
     size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=Z, align=align, extra_align=extra_align)
@@ -116,6 +116,48 @@ module cylindera(
         else
         {
             cylinder(h=h+extra_h, r1=r1_+extra_r_, r2=r2_+extra_r_, center=true);
+        }
+    }
+}
+
+// polycylinder (polyhole/3d printing size compensated hole)
+module pcylindera(
+        h=10,
+        r=U,
+        d=U,
+        align=N,
+        orient=Z,
+        extra_h=0,
+        extra_r=U,
+        extra_d=U,
+        extra_align=N,
+        round_r=0,
+        debug=false
+        )
+{
+    pi=3.1415926536;
+
+    d_ = v_fallback(d, [r*2]);
+    r__ = v_fallback(r, [d_/2, d/2, r]);
+    r_ = polyhole_d(r__*2)/2;
+    $fn = polyhole_n(r__*2);
+
+    extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);
+
+    if(debug)
+    {
+        echo(h, r_, extra_r_, align);
+    }
+
+    size_align(size=[r_*2,r_*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=Z, align=align, extra_align=extra_align)
+    {
+        if(round_r>0)
+        {
+            rcylindera(h=h+extra_h, r=r_+extra_r_, round_r=round_r);
+        }
+        else
+        {
+            cylinder(h=h+extra_h, r=r_+extra_r_, center=true);
         }
     }
 }
@@ -144,7 +186,8 @@ module rcylindera(
         extra_d=U,
         extra_align=N,
         round_r=1,
-        debug=false
+        debug=false,
+        poly=false
         )
 {
     d1_ = v_fallback(d1, [r*2, r1*2]);
@@ -167,7 +210,7 @@ module rcylindera(
 
     if(debug)
     {
-        echo(useDia, h, r_, r1_, r2_, extra_r_, align);
+        echo(h, r_, r1_, r2_, extra_r_, align);
     }
 
     size_align(size=[r_max*2,r_max*2,h], extra_size=[extra_r_*2, extra_r_*2, extra_h], orient=orient, orient_ref=Z, align=align, extra_align=extra_align)
@@ -738,3 +781,4 @@ if(false)
         rcylindera(r=5, h=r, orient=X, align=Y+X+Z);
     }
 }
+
