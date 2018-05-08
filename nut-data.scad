@@ -560,6 +560,24 @@ NutHexThinM64 = [
     [NutFacets, 6],
 ];
 
+NutKnurlM2_4_42 = [
+    [NutHoleDia, 2*mm],
+    [NutWidthMin, 3.25*mm],
+    [NutThickness, 4*mm],
+    [NutWidthMax, 3.25*mm],
+    [NutThread, ThreadM2],
+    [NutFacets, 20],
+];
+
+NutKnurlM2_6_42 = [
+    [NutHoleDia, 2*mm],
+    [NutWidthMin, 3.25*mm],
+    [NutThickness, 6*mm],
+    [NutWidthMax, 3.25*mm],
+    [NutThread, ThreadM2],
+    [NutFacets, 20],
+];
+
 NutKnurlM3_8_42 = [
     [NutHoleDia, 3*mm],
     [NutWidthMin, 4.1*mm],
@@ -648,6 +666,8 @@ NutHexThinM52,
 NutHexThinM56,
 NutHexThinM60,
 NutHexThinM64,
+NutKnurlM2_4_42,
+NutKnurlM2_6_42,
 NutKnurlM3_5_42,
 NutKnurlM3_3_42,
 ];
