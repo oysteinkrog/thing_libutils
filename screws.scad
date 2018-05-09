@@ -11,8 +11,21 @@ use <misc.scad>
 use <naca_sweep.scad>
 
 // naive, assume head height is same as thread size (generally true for cap heads)
-function get_screw_head_h(head, thread) = get(ThreadSize, thread);
-function get_screw_head_d(head, thread) = 2 * get(ThreadSize, thread);
+function get_screw_head_h(head, thread) =
+(head=="socket" || head == "button") ?
+    get(ThreadSize, thread)
+:
+head == "set" ? 0
+:
+0;
+
+function get_screw_head_d(head, thread) =
+(head=="socket" || head == "button") ?
+    2 * get(ThreadSize, thread)
+:
+head == "set" ? 0
+:
+0;
 
 module screw(part, nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_head=true, nut_offset=0, orient=Z, align=N)
 {
@@ -77,7 +90,7 @@ module screw(part, nut, thread, head="socket", h=10, tolerance=1.05, head_embed=
     }
 }
 
-module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_nut_access=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=Z, align=N)
+module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_nut_cut=true, with_nut_access=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=Z, align=N)
 {
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
@@ -108,7 +121,7 @@ module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=fa
 
             screw_thread_cut(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
-            if(with_nut && nut != U)
+            if(with_nut && nut != U && with_nut_cut)
             {
                 tz(-h/2+nut_h+nut_offset+(head_embed?head_h:0))
                 screw_nut_cut(nut=nut, tolerance=tolerance, h=nut_cut_h, with_access=with_nut_access, align=-Z);
@@ -214,6 +227,53 @@ module screw_head(part, head="socket", drive="hex", thread, tolerance=1.00, over
             inset = head_drive_inset(head, head_h);
             tz(inset)
             cylindera(d = fn_radius(threadsize_cut, 6), h = head_h, $fn = 6, align=Z);
+        }
+        else if(part=="neg")
+        {
+            if(head=="socket")
+            {
+                difference()
+                {
+                    tz(-head_h/2)
+                    cylindera(d=head_d, h = fallback(override_h,head_h), align=Z);
+
+                    if(drive == "hex")
+                    {
+                        cylindera(d = fn_radius(threadsize, 6), h = 1000, $fn = 6, align=Z);
+                    }
+                }
+            }
+            else if(head=="button")
+            {
+                c = head_d;
+                f = head_h*1.25;
+                r = ( pow(c,2)/4 + pow(f,2) )/(2*f);
+
+                d = r - f; // displacement to move sphere
+
+                difference()
+                {
+                    intersection()
+                    {
+                        tz(-head_h/2)
+                        scale([1,1,.5])
+                        spherea(r = head_h, align=N);
+
+                        tz(-head_h/2)
+                        cylindera(d=head_d, h = fallback(override_h,head_h)/2, align=Z);
+                    }
+
+                    if(drive == "hex")
+                    {
+                        // button head uses -0.5*mm smaller hex
+                        tz(-head_h/2)
+                        cylindera(d = fn_radius(threadsize-.5, 6), h = 1000, $fn = 6, align=Z);
+                    }
+                }
+            }
+            else if(head=="set")
+            {
+            }
         }
     }
 }
