@@ -393,6 +393,7 @@ module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, s
             screw_thread_cut($show_vit=false, thread=thread_, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
         }
 
+        tz(trap_offset)
         hull()
         {
             orient(axis=Z, axis_ref=orient)
@@ -410,6 +411,7 @@ module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, s
             }
         }
 
+        tz(trap_offset)
         if($show_vit)
         {
             if(cut_screw)
