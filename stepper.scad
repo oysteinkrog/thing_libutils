@@ -40,7 +40,7 @@ module test2()
 function motorWidth(model) = get(NemaSideSize, model);
 function motorLength(model, size=NemaMedium) = get(size, model);
 
-module motor_mount(part=U, model, thickness, size=NemaMedium, dual_axis=false, orient=Z, align=U)
+module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual_axis=false, orient=Z, align=U)
 {
     assert(model!=U, "motor_mount(): model==U");
     assert(thickness!=U, "motor_mount(): thickness==U");
@@ -53,7 +53,7 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, dual_axis=false, o
     holeDist = get(NemaDistanceBetweenMountingHoles, model) * 0.5;
     holeRadius = get(NemaMountingHoleDiameter, model) * 0.5;
 
-    s=[side, side, length];
+    s=[side+fallback(extra_size.x,0), side+fallback(extra_size.y,0), length];
     size_align(size=s, orient=orient, align=align)
     if(part==U)
     {
@@ -70,7 +70,7 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, dual_axis=false, o
     }
     else if(part=="pos")
     {
-        rcubea([side,side,thickness], align=Z);
+        rcubea([s.x,s.y,thickness], align=Z);
     }
     else if(part=="neg")
     {
@@ -78,7 +78,7 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, dual_axis=false, o
 
         // main motor
         tz(-s.z)
-        cubea(s, align=Z);
+        cubea(size=[side+.3*mm,side+.3*mm,length], align=Z);
 
         // Bolt holes
         material(Mat_Aluminium)
@@ -168,7 +168,7 @@ module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=U)
         ty(y*side/2)
         mirror([x>0?0:1,y>0?0:1,0])
         rz(45)
-        cubea(size=[roundR, roundR*2, 4+length + extrSize+2], align=Z);
+        cubea(size=[roundR, roundR*2, 4+length + extrSize+2], align=Z, extra_size=.1*Z, extra_align=-Z);
 
         // Bolt holes
         material(Mat_Aluminium)
@@ -206,6 +206,7 @@ module motor_axle(model=Nema23, size=NemaMedium, dual_axis=false, orient=Z, alig
     axleFlatLengthFront = get(NemaAxleFlatLengthFront, model);
     axleFlatLengthBack = get(NemaAxleFlatLengthBack, model);
 
+    material(Mat_Steel)
     render()
     intersection()
     {
