@@ -32,15 +32,20 @@ module test()
 
 module test2()
 {
+    $show_vit=true;
     model = Nema17;
     size = NemaMedium;
-    motor_mount(model=model, size=size, dual_axis=true);
+    all_axes()
+    color($color)
+    translate(100*$axis)
+    motor_mount(model=model, size=size, thickness=6*mm, dual_axis=true, orient=$axis);
+    /*motor(model=model, size=size, thickness=6*mm, dual_axis=true, orient=$axis);*/
 }
 
 function motorWidth(model) = get(NemaSideSize, model);
 function motorLength(model, size=NemaMedium) = get(size, model);
 
-module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual_axis=false, orient=Z, align=U)
+module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual_axis=false, orient=Z, align=N)
 {
     assert(model!=U, "motor_mount(): model==U");
     assert(thickness!=U, "motor_mount(): thickness==U");
@@ -91,11 +96,11 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual
     }
     else if(part=="vit")
     {
-        motor(model=model, size=size, dualAxis=dual_axis, orient=Z);
+        motor(model=model, size=size, dualAxis=dual_axis);
     }
 }
 
-module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=U)
+module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=N)
 {
     assert(model!=U, "model == U");
     assert(size!=U, "size == U");
@@ -119,7 +124,7 @@ module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=U)
     roundR = get(NemaEdgeRoundingRadius, model);
 
     s=[side, side, length];
-    size_align(size=s, orient=orient, align=align)
+    size_align(size=s, orient=orient, orient_ref=Z, align=align)
     if(part==U)
     {
         difference()
