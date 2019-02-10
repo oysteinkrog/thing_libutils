@@ -6,7 +6,6 @@ include <system.scad>
 bearing_608 = [8,22,7];
 bearing_626 = [8,19,6];
 bearing_625 = [5,16,5];
-bearing_608 = [8,22,7];
 bearing_683 = [3,7,3];
 bearing_MR128 = [8,12,3.5];
 bearing_MR83 = [3,8,3];
@@ -46,7 +45,6 @@ bearing_LM5UU = [5, 10, 15, 10.2, 9.6];
 bearing_LM6UU = [6, 12, 19, 13.5, 11.5];
 bearing_LM8SUU = [8, 15, 17, 11.5, 14.3];
 bearing_LM8UU = [8, 15, 24, 17.5, 14.3];
-bearing_LM10UU = [10, 19, 29, 22, 18];
 bearing_LM10UU = [10, 19, 29, 22, 18];
 bearing_LM12UU = [12, 21, 30, 23, 20];
 bearing_LM13UU = [13, 21, 32, 23, 22];
