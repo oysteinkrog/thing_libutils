@@ -1,10 +1,13 @@
 /*include <../scad-utils/transformations.scad>*/
+
 include <system.scad>
 use <misc.scad>
 
 module t(dist)
 {
     assert(dist!=U, "t(): dist==U");
+    assert(is_list(dist), dist);
+    assert(len(dist)==3, "t(): len(dist)!=3");
     translate(dist)
     children();
 }
@@ -12,6 +15,7 @@ module t(dist)
 module tx(dist)
 {
     assert(dist!=U, "tx(): dist==U");
+    assert(is_num(dist), "tx(): dist is not a number");
     translate(X*dist)
     children();
 }
@@ -19,6 +23,7 @@ module tx(dist)
 module ty(dist)
 {
     assert(dist!=U, "ty(): dist==U");
+    assert(is_num(dist), "ty(): dist is not a number");
     translate(Y*dist)
     children();
 }
@@ -26,6 +31,7 @@ module ty(dist)
 module tz(dist)
 {
     assert(dist!=U, "tz(): dist==U");
+    assert(is_num(dist), "tz(): dist is not a number");
     translate(Z*dist)
     children();
 }
@@ -59,8 +65,20 @@ module tyz(off)
 
 module r(a, v)
 {
-    rotate(a,v)
-    children();
+    if(is_list(a))
+    {
+        assert(is_undef(v), v);
+        assert_v3n(a);
+        rotate(a)
+        children();
+    }
+    else
+    {
+        assert(is_num(a), a);
+        assert_v3n(v);
+        rotate(a,v)
+        children();
+    }
 }
 
 module rx(degrees)
@@ -165,9 +183,16 @@ function _orient_t(orient, align, size) =
 
 module size_align(size=[10,10,10], extra_size=N, align=N, extra_align=N, orient=Z, orient_ref=Z, roll=0, extra_roll, extra_roll_orient)
 {
+    assert(orient != N);
+    assert_v3n(align);
+    assert_v3n(orient);
+    assert_v3n(size);
     t = orient==U?N:_orient_t(orient, align, size);
     extra_t = (orient==U||extra_size==U||extra_size==[U,U,U]||extra_size==[0,0,0]||extra_align==U) ?
         N : _orient_t(orient, extra_align, extra_size);
+    assert_v3n(t);
+    assert_v3n(extra_t);
+    /*assert(extra_t[0] < 0 && extra_t[0] == 0 && extra_t[0] > 0 || extra_t[);*/
     translate(t+extra_t)
     {
         orient(axis=orient, axis_ref=orient_ref, roll=roll, extra_roll=extra_roll, extra_roll_orient=extra_roll_orient)

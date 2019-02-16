@@ -63,7 +63,7 @@ module screw(part, nut, thread, head="socket", h=10, tolerance=1.05, head_embed=
         }
 
         tz(-h/2+.01)
-        screw_thread(thread=thread_, head=head, h=h+.1, tolerance=tolerance, orient=Z, align=N);
+        screw_thread(thread=thread_, h=h+.1, tolerance=tolerance, orient=Z, align=N);
 
         if(with_nut && nut != U)
         {
@@ -92,6 +92,8 @@ module screw(part, nut, thread, head="socket", h=10, tolerance=1.05, head_embed=
 
 module screw_cut(nut, thread, head="socket", h=10, tolerance=1.05, head_embed=false, with_nut=true, with_nut_cut=true, with_nut_access=true, nut_cut_h=1000, with_head=true, head_cut_h=1000, nut_offset=0, cut_access=true, orient=Z, align=N)
 {
+    assert(h>0);
+
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
     assert(thread_ != U, "screw_cut: No nut or thread given");

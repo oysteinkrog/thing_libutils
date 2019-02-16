@@ -1,4 +1,4 @@
-include <units.scad>
+
 include <system.scad>
 include <materials.scad>
 
@@ -97,12 +97,12 @@ module linear_bearing(part, bearing, align=N, orient=Z, offset_flange=false)
             cylindera(h=h, d=d, orient=Z, align=Z, extra_h=.2);
 
             // clips
-            if(clip_dist != U)
+            if(clip_dist != U && clip_groove != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
                 translate(z*Z*clip_dist/2)
-                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
+                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z*Z);
             }
 
             // flange
@@ -120,11 +120,16 @@ module linear_bearing(part, bearing, align=N, orient=Z, offset_flange=false)
             {
                 // LMH
                 // screw cut
-                for(y=[-1,1])
-                for(x=[-1,1])
-                translate(y*Y*get(LinearBearingFlangeCutMountHoleDist, bearing)/2)
-                translate(x*X*get(LinearBearingFlangeCutMountHoleDistSide, bearing)/2)
-                screw_cut(thread=ThreadM4, h=flange_screw_len, orient=Z, align=Z);
+                hole_dist = get(LinearBearingFlangeCutMountHoleDist, bearing);
+                hole_dist_side = get(LinearBearingFlangeCutMountHoleDistSide, bearing);
+                if(!is_undef(hole_dist) && !is_undef(hole_dist_side))
+                {
+                    for(y=[-1,1])
+                    for(x=[-1,1])
+                    translate(y*Y*hole_dist/2)
+                    translate(x*X*hole_dist_side/2)
+                    screw_cut(thread=ThreadM4, h=flange_screw_len, orient=Z, align=Z);
+                }
             }
             else if(flange_d != U)
             {
@@ -150,6 +155,9 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
     clip_groove = get(LinearBearingClipsGrooveDepth, bearing);
 
     h = fallback(override_h, get(LinearBearingLength,bearing)) + extra_h;
+
+    assert(h>0);
+
     d = get(LinearBearingInnerDiameter, bearing);
     D = get(LinearBearingOuterDiameter, bearing);
 
@@ -206,12 +214,12 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             }
 
             // support for clips
-            if(ziptie_dist_ != U)
+            if(ziptie_dist_ != U && clip_groove != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
                 translate(z*Z*ziptie_dist_)
-                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
+                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z*Z);
             }
 
             // support for flange mount
@@ -229,11 +237,16 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             {
                 // LMH
                 // screw cut
-                for(y=[-1,1])
-                for(x=[-1,1])
-                translate(y*Y*get(LinearBearingFlangeCutMountHoleDist, bearing)/2)
-                translate(x*X*get(LinearBearingFlangeCutMountHoleDistSide, bearing)/2)
-                rcylindera(d=1.5*get(LinearBearingFlangeMountingSize,bearing), h=flange_screw_len, orient=Z, align=Z);
+                hole_dist = get(LinearBearingFlangeCutMountHoleDist, bearing);
+                hole_dist_side = get(LinearBearingFlangeCutMountHoleDistSide, bearing);
+                if(!is_undef(hole_dist) && !is_undef(hole_dist_side))
+                {
+                    for(y=[-1,1])
+                    for(x=[-1,1])
+                    translate(y*Y*hole_dist/2)
+                    translate(x*X*hole_dist_side/2)
+                    rcylindera(d=1.5*get(LinearBearingFlangeMountingSize,bearing), h=flange_screw_len, orient=Z, align=Z);
+                }
             }
             else if(flange_d != U)
             {
@@ -316,12 +329,12 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             cylindera(h=h, d=d, orient=Z, align=Z, extra_h=.2);
 
             // clips
-            if(ziptie_dist_ != U)
+            if(ziptie_dist_ != U && clip_groove != U)
             {
                 translate(Z*h/2)
                 for(z=[-1,1])
                 translate(z*Z*ziptie_dist_/2)
-                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z);
+                hollow_cylinder(d=D-clip_groove/2+.01, thickness=clip_groove, h=clip_groove, taper=false, orient=Z, align=-z*Z);
             }
 
             // flange
@@ -339,11 +352,17 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
             {
                 // LMH
                 // screw cut
-                for(y=[-1,1])
-                for(x=[-1,1])
-                translate(y*Y*get(LinearBearingFlangeCutMountHoleDist, bearing)/2)
-                translate(x*X*get(LinearBearingFlangeCutMountHoleDistSide, bearing)/2)
-                screw_cut(thread=ThreadM4, h=flange_screw_len, orient=Z, align=Z);
+                //
+                hole_dist = get(LinearBearingFlangeCutMountHoleDist, bearing);
+                hole_dist_side = get(LinearBearingFlangeCutMountHoleDistSide, bearing);
+                if(!is_undef(hole_dist) && !is_undef(hole_dist_side))
+                {
+                    for(y=[-1,1])
+                    for(x=[-1,1])
+                    translate(y*Y*hole_dist/2)
+                    translate(x*X*hole_dist_side/2)
+                    screw_cut(thread=ThreadM4, h=flange_screw_len, orient=Z, align=Z);
+                }
             }
             else if(flange_d != U)
             {

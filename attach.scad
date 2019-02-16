@@ -16,8 +16,25 @@ use <shapes.scad>
 //  roll:
 //  rollaxis:
 //-------------------------------------------------------------------------
-module attach(a, b, roll=0, rollaxis)
+module attach(a, b, roll=0, rollaxis=N)
 {
+    /*if($debug)*/
+    /*echo("attach():", a,b,roll,rollaxis);*/
+
+    assert(is_list(a), a);
+    assert(len(a)==2, a);
+    assert_v3n(a[0], a);
+    assert_v3n(a[1], a);
+    /*assert(a[1]!=N, a);*/
+
+    assert(is_list(b), b);
+    assert(len(b)==2, b);
+    assert_v3n(b[0], b);
+    assert_v3n(b[1], b);
+    /*assert(b[1]!=N, b);*/
+
+    assert(is_num(roll));
+
     // Get the data from the connectors
     // Attachment point. Main part
     pos1 = a[0];
@@ -29,14 +46,25 @@ module attach(a, b, roll=0, rollaxis)
     // Atachment axis. Attachable part
     vref = b[1];
 
+    assert(is_list(pos1));
+    assert(is_list(v));
+    assert(is_list(pos2));
+    assert(is_list(vref));
+
     // Calculations for the "orientate operator"
     // Calculate the rotation axis
     raxis = v_cross(vref,v);
 
     // Calculate the angle between the vectors
-    ang = v_anglev(vref,v);
+    // this can become nan if vref and v are N
+    ang_ = v_anglev(vref,v);
+    ang = is_num(ang_)?ang_:0;
+    assert(is_num(ang));
 
     raxis_=ang==180&&raxis==N?X:raxis;
+
+    /*if($debug)*/
+    /*echo(pos1,v,pos2,vref, raxis, ang, raxis_);*/
 
     // Apply the transformations to the child
 
@@ -44,11 +72,11 @@ module attach(a, b, roll=0, rollaxis)
     t(pos1)
     // Orientate operator. Apply the orientation so that
     // both attachment axis are paralell. Also apply the roll angle
-    r(a=roll, v=rollaxis==U?v:rollaxis)
+    r(a=roll, v=rollaxis)
     r(a=ang, v=raxis_)
     // Attachable part to the origin
     t(-pos2)
-    t(-$explode==U?0:$explode*vref)
+    t(-$explode==U?[0,0,0]:$explode*vref)
     {
         children();
 

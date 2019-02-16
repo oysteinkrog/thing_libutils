@@ -2,6 +2,8 @@ include <system.scad>
 use <scad-utils/linalg.scad>
 use <scad-utils/lists.scad>
 
+test_mode = false;
+
 function posvec(path_vec) = [for(v=path_vec) translation_part(v)];
 function posvec_x(path_vec) = [for(v=path_vec) translation_part(v)[0]];
 function posvec_y(path_vec) = [for(v=path_vec) translation_part(v)[1]];
@@ -13,8 +15,12 @@ function vec_1(v3) = vec_i(v3,1);
 function vec_2(v3) = vec_i(v3,2);
 
 // if V is array and len == 1, return single value, otherwise return V
-function singlify(V) = len(V)==1?V[0]:V;
-if($test_mode)
+function singlify(V) =
+    is_num(V) ? V :
+    len(V)==1 ? V[0] :
+    V;
+
+if(test_mode)
 {
     assert_v(singlify("t"),"t");
     assert_v(singlify("test"),"test");
@@ -52,7 +58,7 @@ function v_max(v, m, start=0) = [for(i=[start:1:len(v)-1]) max(v[i],m)];
 function v_min(v, m, start=0) = [for(i=[start:1:len(v)-1]) min(v[i],m)];
 function v_clamp(v, v1, v2, start=0) = [for(i=[start:1:len(v)-1]) clamp(v[i],v1,v2)];
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(v_mul([0,1], [1,2]), [0, 2]);
     assert_v(v_mul([1,1], [1,2]), [1, 2]);
@@ -64,7 +70,7 @@ let(start_ = start==U?0:start)
 let(end_ = end==U?len(v)-1:end)
 [for(i=[start_:1:end_]) v[i]];
 
-if($test_mode)
+if(test_mode)
 {
     v=[0,1,2];
     assert_v(v_slice(v), [0, 1,2]);
@@ -80,7 +86,7 @@ function v_cumsum(v, start=0, end) = [for(i=[start:1:end==U?len(v)-1:end]) v_sum
 function filter(vec,val=U) = [for(v=vec) if(v!=val) v];
 function v_filter(vec,val=U) = filter(vec,val);
 
-if($test_mode)
+if(test_mode)
 {
     v=[0,1,2];
     assert_v(filter(v, U), [0,1,2]);
@@ -127,7 +133,9 @@ function v_dot(u,v) = u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
 function v_unitv(v) = v/v_mod(v);
 
 //-- Return the angle between two vectores
-function v_anglev(u,v) = acos( v_dot(u,v) / (v_mod(u)*v_mod(v)) );
+function v_anglev_(u,v) = acos( v_dot(u,v) / (v_mod(u)*v_mod(v)) );
+// support NxN (gives nan)
+function v_anglev(u,v) = let(x = v_anglev_(u,v)) is_num(x)?x:0;
 
 function _orient_angles(zaxis)=
 [
@@ -199,22 +207,22 @@ if(false)
 
 // FUNCTION: is_String(x)
 //   Returns true if x is a string, false otherwise.
-function is_string(x) =
-	x == U || len(x) == U
-		? false // if U, a boolean or a number
-		: len(str(x,x)) == len(x)*2; // if an array, this is false
+/*function is_string(x) =*/
+/*x == U || len(x) == U*/
+/*? false // if U, a boolean or a number*/
+/*: len(str(x,x)) == len(x)*2; // if an array, this is false*/
 
-
-// FUNCTION: is_array(x)
-//   Returns true if x is an array, false otherwise.
-function is_array(x) = is_string(x) ? false : len(x) != U;
+// FUNCTION: is_list(x)
+//   Returns true if x is a list, false otherwise.
+/*function is_list(x) =*/
+/*is_string(x) ? false : len(x) != U;*/
 
 function identity(d)        = d == 0 ? 1 : [for(y=[1:d]) [for(x=[1:d]) x == y ? 1 : 0] ];
 function unit_vector(v)     = let(x=v[0], y=v[1], z=v[2]) [x/norm(v), y/norm(v), z/norm(v)];
 function skew_symmetric(v)  = let(x=v[0], y=v[1], z=v[2]) [[0, -z, y], [z, 0, -x], [-y, x, 0]];
 function tensor_product1(u) = let(x=u[0], y=u[1], z=u[2]) [[x*x, x*y, x*z], [x*y, y*y, y*z], [x*z, y*z, z*z]];
 function v_rotate(a, v)
-    = is_array(a)
+    = is_list(a)
 ? let(rx=a[0], ry=a[1], rz=a[2])
     [[1, 0, 0],              [0, cos(rx), -sin(rx)], [0, sin(rx), cos(rx)]]
   * [[cos(ry), 0, sin(ry)],  [0, 1, 0],              [-sin(ry), 0, cos(ry)]]
@@ -229,14 +237,14 @@ function v_rotate(a, v)
 
 function lerp(v0, v1, t) =  (1-t)*v0 + t*v1;
 
-if($test_mode)
+if(test_mode)
 {
     assert(lerp(-1, 1, 0) == -1);
     assert(lerp(-1, 1, .5) == 0);
     assert(lerp(-1, 1, 1) == 1);
 }
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(fallback(U,1), 1);
 }
@@ -249,7 +257,7 @@ function v_fallback(a,v,i=0) = (a!=U || i > len(v)-1) ? a : v_fallback(v[i],v,i+
 function zip(a,b,start=0,end) = [for(i=[start:1:fallback(end,len(a)-1)]) [a[i],b[i]] ];
 function zip_v(v,start=0,end) = [for(i=[start:1:fallback(end,len(v[0])-1)]) v_i(v,i) ];
 
-if($test_mode)
+if(test_mode)
 {
     vec_a = [0,4];
     vec_b = [1,5];
@@ -267,7 +275,7 @@ for(i=[start:1:fallback(end,len(v[0])-1)])
     v_fallback(v=z[i],i=0)
 ];
 
-if($test_mode)
+if(test_mode)
 {
     vec_a=[ 10,  U,   U, 40 ];
     vec_b=[ 10,  U,  30,  U ];
@@ -288,9 +296,18 @@ function fn_from_d(d) =
                     :
                     ceil(max(min(360.0 / $fa, d*PI / $fs), 5));
 
+
+// assert 3-vector with numbers
+module assert_v3n(t, message)
+{
+    assert(is_list(t), t);
+    assert(len(t) == 3, t);
+    assert(is_num(t[0]) && is_num(t[1]) && is_num(t[2]), str(message, t));
+}
+
 module assert_v(val, expected, message)
 {
-    if(len(val) > 0)
+    if(is_list(val) && len(val) > 0)
     {
         if(len(val) != len(expected))
         {
@@ -309,11 +326,8 @@ module assert_v(val, expected, message)
     }
     else
     {
-        if(val != expected)
-        {
-            echo("assertion, unexpected value", val, expected);
-            assert(val == expected, message);
-        }
+        m = str(val, " != ", expected, " - ", is_undef(message)?"":message);
+        assert(val == expected, m);
     }
 }
 
@@ -324,7 +338,7 @@ a>=2 ?
     [lerp(v0,v1,.5)]
 ;
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(spread(-1, 1, 1), [0]);
     assert_v(spread(-1, 1, 2), [-1,1]);
@@ -346,14 +360,17 @@ function fn_radius(r, fn) = apothem(r,fn);
 function hex_radius(r) = apothem(r, 6);
 
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(apothem(circumradius(5,6)), circumradius(apothem(5),6));
 }
 
 function header_col_index(v, col_keys) = 
     singlify(
-        [for(col_key=col_keys)
+       // we don't want to iterate over characters in a string,
+       // in the case where col_keys is just one value/string
+        let(ck = concat(col_keys))
+        [for(col_key=ck)
         let(result=search([col_key], v[0], index_col_number=0, num_returns_per_match=0))
         result[0][0]
         ]
@@ -361,21 +378,25 @@ function header_col_index(v, col_keys) =
 
 function geth(S, col_keys, row_index) = 
     singlify(
-        [for(col_key=col_keys)
+       // we don't want to iterate over characters in a string,
+       // in the case where col_keys is just one value/string
+        let(ck = concat(col_keys))
+        [for(col_key=ck)
             let(col_index = header_col_index(S, col_key))
             S[row_index+1][col_index]
         ]);
 
-if($test_mode)
+if(test_mode)
 {
     A = [
-    ["Tx", "Ty"],
+    ["Tx", "Ty", 0],
     [1, 2],
     [3, 4],
     ];
 
     assert_v(header_col_index(A, "Tx"), 0);
     assert_v(header_col_index(A, "Ty"), 1);
+    assert_v(header_col_index(A, 0), 2);
 
     assert_v(header_col_index(A, ["Ty"]), 1);
     assert_v(header_col_index(A, ["Tx"]), 0);
@@ -392,14 +413,14 @@ if($test_mode)
 }
 
 function v_contains(V, val, start=0, end=U) =
-    !is_array(V) ?
+    !is_list(V) ?
         V == val :
         let(e=end==U?len(V):end)
         V[start]==val ? true :
         start == len(V)-1 ? false :
         v_contains(V,val,start+1,end);
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(v_contains(0, 0), true);
     assert_v(v_contains(0, 1), false);
@@ -428,7 +449,7 @@ function array_header_col_add(S, cols, val) =
 
 function array_header_col_subtract(S, cols, val) = array_header_col_add(S,cols,-val);
 
-if($test_mode)
+if(test_mode)
 {
     A = [
     ["Tx", "Ty"],
@@ -474,7 +495,7 @@ l == 3 ? V :
 l < 3 ? vec3(concat(V,0)) :
 take3(V);
 
-if($test_mode)
+if(test_mode)
 {
     assert_v(take3([0,1,0,1]), [0,1,0]);
 

@@ -96,7 +96,7 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual
     }
     else if(part=="vit")
     {
-        motor(model=model, size=size, dualAxis=dual_axis);
+        motor(model=model, size=size, dual_axis=dual_axis);
     }
 }
 

@@ -115,7 +115,7 @@ function vec3D(v, z=0) = [for(i = [0:len(v)-1])
 
 // Translation - 1D, 2D, 3D point vector //////////////////////////
 // vector along all axes
-function T_(x=0, y=0, z=0, v) = let(x_ = (len(x)==3)?x:[x, y, z])
+function T_(x=0, y=0, z=0, v) = let(x_ = (is_list(x) && len(x)==3)?x:[x, y, z])
   [for (i=[0:len(v)-1]) T__(x_[0], x_[1], x_[2], p=v[i])];
 /// vector along one axis
 function Tx_(x=0, v) = T_(x=x, v=v);
@@ -127,13 +127,14 @@ function T__(x=0, y=0, z=0, p) = len(p)==3?p+[x, y, z]:len(p)==2?p+[x, y]:p+x;
 //// Rotation - 2D, 3D point vector ///////////////////////////////////
 // vector around all axes
 function R_(x=0, y=0, z=0, v) =             // 2D vectors allowed
-  let(x_ = (len(x)==3)?x:[x, y, z])
-  len(v[0])==3?Rz_(x_[2], Ry_(x_[1], Rx_(x_[0], v))):
-  [for(i = [0:len(v)-1]) rot(x_[2], v[i])];
+  let(x_ = is_list(x) && len(x)==3 ? x : [x, y, z])
+  len(v[0])==3 ?
+      Rz_(x_[2], Ry_(x_[1], Rx_(x_[0], v))) :
+      [for(i = [0:len(v)-1]) rotate(x_[2], v[i])];
 // vector around one axis
-function Rx_(w, A) = A*[[1, 0, 0], [0, cos(w), sin(w)], [0, -sin(w), cos(w)]];
-function Ry_(w, A) = A*[[cos(w), 0, sin(w)], [0, 1, 0], [-sin(w), 0, cos(w)]];
-function Rz_(w, A) = A*[[cos(w), sin(w), 0], [-sin(w), cos(w), 0], [0, 0, 1]];
+function Rx_(w, A) = assert(is_num(w)) A*[[1, 0, 0], [0, cos(w), sin(w)], [0, -sin(w), cos(w)]];
+function Ry_(w, A) = assert(is_num(w)) A*[[cos(w), 0, sin(w)], [0, 1, 0], [-sin(w), 0, cos(w)]];
+function Rz_(w, A) = assert(is_num(w)) A*[[cos(w), sin(w), 0], [-sin(w), cos(w), 0], [0, 0, 1]];
 
 
 //// Scale - 2D, 3D point vector ///////////////////////////////////

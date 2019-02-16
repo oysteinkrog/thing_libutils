@@ -258,6 +258,8 @@ function line_integral(S) = let (M = len(S))
 
 function lineT1(S, i, k) =
 // recursive helper of lineT2()
+    i==0 ? 0 :
+    assert(i>0)
     let(t1 = pow((S[i][k]-S[i-1][k]),2))
     k==0 ? t1 : t1 + lineT1(S, i, k-1);
 

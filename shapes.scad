@@ -90,6 +90,8 @@ module cylindera(
         debug=false
         )
 {
+    assert(h>0);
+
     pi=3.1415926536;
 
     d1_ = v_fallback(d1, [r*2, r1*2]);
@@ -545,7 +547,7 @@ module teardrop(r, d, h=10, truncate=1, align=N, orient=Y, roll=0)
     union()
     {
         linear_extrude(height = h, center = true, convexity = r_, twist = 0)
-        circle(r = r_, center = true);
+        circle(r = r_);
 
         linear_extrude(height = h, center = true, convexity = r_, twist = 0)
         polygon(points = [
