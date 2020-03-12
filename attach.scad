@@ -76,15 +76,15 @@ module attach(a, b, roll=0, rollaxis=N)
     r(a=ang, v=raxis_)
     // Attachable part to the origin
     t(-pos2)
-    t(-$explode==U?[0,0,0]:$explode*vref)
+    t(is_undef($explode)?[0,0,0]:-$explode*vref)
     {
         children();
 
-        if($show_conn)
+        if(is_undef($show_conn)?false:$show_conn)
         connector([b.x, -b.y]);
     }
 
-    if($show_conn)
+    if(is_undef($show_conn)?false:$show_conn)
     connector(a);
 }
 
