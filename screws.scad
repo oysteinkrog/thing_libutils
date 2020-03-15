@@ -365,8 +365,12 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, with_access=true, orient=Z, al
 function nut_radius(nut) = outradius(get(NutWidthMin, nut)/2, get(NutFacets, nut));
 function nut_dia(nut) = 2*nut_radius(nut);
 
-module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, screw_offset=0*mm, cut_screw=false, trap_h=10, trap_axis=-Y, orient=Z, align=N)
+module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, screw_offset=0*mm, cut_screw=false, cut_screw_close=false, trap_h=10, trap_axis=-Y, orient=Z, align=N)
 {
+    screw_min_nut_dist = 2*mm;
+    assert(screw_l+screw_offset >= trap_offset, "nut_trap_cut: screw_l+screw_offset < trap_offset");
+    assert(screw_offset-trap_offset <= -screw_min_nut_dist, "nut_trap_cut: screw_offset-trap_offset > -screw_min_nut_dist");
+
     nut_thread = get(NutThread, nut);
     thread_ = fallback(thread, nut_thread);
     assert(thread_ != U, "nut_trap_cut: No nut or thread given");
@@ -385,14 +389,24 @@ module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, s
     {
         if(cut_screw)
         {
-            tz(-nut_h/2)
-            tz(screw_offset)
-            screw_cut($show_vit=false, nut=nut, thread=thread_, head=head, with_nut=false, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
+            if(cut_screw_close)
+            {
+                tz(-nut_h/2)
+                tz(-screw_min_nut_dist)
+                tz(trap_offset)
+                screw_cut($show_vit=false, nut=nut, thread=thread_, head=head, with_nut=false, tolerance=1.1, h=screw_l, orient=Z, align=Z);
+            }
+            else
+            {
+                tz(-nut_h/2)
+                tz(screw_offset)
+                screw_cut($show_vit=false, nut=nut, thread=thread_, head=head, with_nut=false, tolerance=1.1, h=screw_l, orient=Z, align=Z);
+            }
         }
         else
         {
             tz(nut_h/2+screw_offset)
-            screw_thread_cut($show_vit=false, thread=thread_, tolerance=1.1, h=screw_l, orient=-Z, align=Z);
+            screw_thread_cut($show_vit=false, thread=thread_, tolerance=1.1, h=screw_l, orient=Z, align=Z);
         }
 
         tz(trap_offset)
@@ -413,18 +427,18 @@ module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, s
             }
         }
 
-        tz(trap_offset)
         if($show_vit)
         {
             if(cut_screw)
             {
                 tz(-nut_h/2)
                 tz(screw_offset)
-                %screw(nut=nut, thread=thread_, head=head, with_nut=false, tolerance=1, h=screw_l, orient=-Z, align=Z);
+                %screw(nut=nut, thread=thread_, head=head, with_nut=false, tolerance=1, h=screw_l, orient=Z, align=Z);
             }
 
+            tz(trap_offset)
             rotate([0,0,30])
-            %screw_nut(nut=nut, thread=thread, tolerance=1, orient=-Z, align=N);
+            %screw_nut(nut=nut, thread=thread, tolerance=1, orient=Z, align=N);
         }
 
     }
@@ -564,6 +578,26 @@ if(false)
         /*%test_cuts(orient=y, axis_ref=-Z);*/
     }
 
+}
+
+if(false)
+{
+    nut1 = NutHexM5;
+    stack(dist=10,axis=X)
+    {
+        $show_vit=true;
+        $preview_mode=true;
+        #screw(nut=nut1, h=10, orient=-Z, align=-Z);
+        #screw_cut(nut=nut1, h=10, orient=-Z, align=-Z);
+        #screw_cut(nut=nut1, h=10, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=10, cut_screw=false, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=10, cut_screw=true, orient=-Z, align=-Z);
+        #screw(nut=nut1, h=20, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=20, cut_screw=true, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=20, trap_offset=20, cut_screw=true, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=25, screw_offset=-5, trap_offset=20, cut_screw=true, orient=-Z, align=-Z);
+        #nut_trap_cut(nut=nut1, screw_l=20, cut_screw=true, cut_screw_close=true, orient=-Z, align=-Z);
+    }
 }
 
 module test_cuts(orient)
