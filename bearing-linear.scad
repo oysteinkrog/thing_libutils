@@ -289,7 +289,19 @@ module linear_bearing_mount(part, bearing, extra_h=0, override_h=U, ziptie_type=
         }
 
         // for linear rod
-        cylindera(d=d+2*mm, h=1000, orient=Z);
+        if(mount_style=="open")
+        {
+            hull()
+            {
+                cylindera(d=d+2*mm, h=1000, orient=Z);
+                ty(1000)
+                cylindera(d=d+2*mm, h=1000, orient=Z);
+            }
+        }
+        else
+        {
+            cylindera(d=d+2*mm, h=1000, orient=Z);
+        }
 
         // flange
         translate(-Z*h/2)
@@ -423,7 +435,7 @@ if(false)
             text(get(LinearBearingModel, bearing), size=v_width[i]*.8, valign="center", halign="left");
 
             translate((v_width[i] + 10*mm)*Y)
-            linear_bearing_mount(bearing=bearing, align=Z);
+            linear_bearing_mount(bearing=bearing, align=Z, mount_dir_align=Y);
         }
     }
 }
