@@ -241,7 +241,7 @@ module rcylindera(
 function circle_profile(r=10, fn=$fn) = [for (i=[0:fn-1]) [r*sin(i*360/fn), r*cos(i*360/fn)]];
 
 function rounded_rectangle_profile(size=[10,10],r=[1,1],fn=32) = [
-let(r_ = is_array(r) ? r : [r,r])
+let(r_ = is_list(r) ? r : [r,r])
 for (index = [0:fn-1])
 let(a = index/fn*360) 
 [cos(a)*r.x, sin(a)*r.y]
