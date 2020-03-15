@@ -144,6 +144,7 @@ function nSpline(S, N) =
 //  S - is PxM-dim and denotes a seq of M-dim vectors to be
 //      used as y-vectors
 // returns NxM interpolated M-dim vectors
+  assert(N > 1, "nSpline")
   let(M=len(S[0]))
   let(t = line_integral(S))
   transpose(
@@ -171,6 +172,7 @@ function spline2D_rasterize(coeffs, t, N) =
 // evaluates a 2D-spline defined by coeffs for the ordered vector t
 // at N equidistant points
 // returns N vector containing sequence of interpolation values
+  assert(N > 1, "spline2D_rasterize")
   let(T = raster(t,N))
   [for(i=[0:len(T)-1]) spline2D_eval(coeffs, t, T[i])];
 
