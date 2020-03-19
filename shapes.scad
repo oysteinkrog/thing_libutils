@@ -290,7 +290,7 @@ module vectorz(l=10, l_arrow=4, mark=true)
         // Draw the mark
         if(mark)
         tz(lb)
-        tx(X)
+        tx(1)
         cubea([2,0.3,l_arrow*0.8], align=X);
 
         // Draw the body
