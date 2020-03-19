@@ -99,6 +99,28 @@ module rz(degrees)
     children();
 }
 
+module mx(m=true)
+{
+    assert(is_bool(m));
+    mirror(X*m)
+    children();
+}
+
+module my(m=true)
+{
+    assert(is_bool(m));
+    mirror(Y*m)
+    children();
+}
+
+module mz(m=true)
+{
+    assert(is_bool(m));
+    mirror(Z*m)
+    children();
+}
+
+
 // translate children
 module position(positions)
 {
