@@ -33,7 +33,7 @@ module fan_axial(width, depth, mount_dist, thread, head_embed=true, corner_radiu
                 screw_cut(thread=thread, h=depth, head_embed=head_embed, orient=-Z, align=-Z);
             }
         }
-        fan_axial_blades(width=bore_diameter, depth=depth, blade_angle=blade_angle);
+        fan_axial_blades(width=bore_diameter, depth=depth, angle=blade_angle);
     }
 }
 
