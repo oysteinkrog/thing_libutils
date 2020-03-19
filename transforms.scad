@@ -162,6 +162,34 @@ module stack(dist=10, distances=U, axis=Z)
     }
 }
 
+module spread(axis=N, dist=0, iter=[-1,1])
+{
+    assert(is_list(axis));
+    assert(is_num(dist));
+    assert(is_list(iter));
+
+    for(i=iter)
+    translate(i*axis*dist)
+    children();
+}
+
+module spreadx(dist=0)
+{
+    spread(axis=X,dist=dist)
+    children();
+}
+
+module spready(dist=0)
+{
+    spread(axis=Y,dist=dist)
+    children();
+}
+
+module spreadz(dist=0)
+{
+    spread(axis=Z,dist=dist)
+    children();
+}
 
 module orient(axis=U, axis_ref=U, roll=0, extra_roll, extra_roll_orient)
 {
