@@ -325,6 +325,7 @@ module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
 
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_facets = get(NutFacets, nut);
+    assert(nut_facets>=4, "screw_nut: nut_facets < 4 is not supported");
     nut_dia = nut_dia(nut);
     nut_thread = fallback(thread, get(NutThread, nut));
     h_ = fallback(override_h, nut_thick);
@@ -333,7 +334,15 @@ module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
     {
         difference()
         {
-            cylindera($fn=nut_facets, d=nut_dia, h=h_);
+            echo(nut_facets);
+            if(nut_facets==4)
+            {
+                cubea([nut_dia,nut_dia,h_]);
+            }
+            else
+            {
+                cylindera($fn=nut_facets, d=nut_dia, h=h_);
+            }
             tz(-h_/2-.2)
             screw_thread(thread=nut_thread, h=h_+.1);
         }
@@ -346,6 +355,8 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, with_access=true, orient=Z, al
 
     nut_thick = get(NutThickness,nut)*tolerance;
     nut_dia = nut_dia(nut);
+    nut_facets = get(NutFacets, nut);
+    assert(nut_facets>=4, "screw_nut: nut_facets < 4 is not supported");
     size_align(size=[nut_dia, nut_dia, nut_thick], orient=orient, align=align)
     {
         tz(nut_thick/2)
@@ -356,14 +367,23 @@ module screw_nut_cut(nut, tolerance=1.05, h=1000, with_access=true, orient=Z, al
             if(with_access)
             tz(-nut_thick-.01)
             {
-                cylindera(d=nut_dia+2*mm, h=h, orient=Z, align=-Z);
+                if(nut_facets==4)
+                {
+                    cubea([nut_dia+2*mm,nut_dia+2*mm, h], align=-Z);
+                }
+                else
+                {
+                    cylindera(d=nut_dia+2*mm, h=h, orient=Z, align=-Z);
+                }
             }
         }
     }
 }
 
 function nut_radius(nut) = outradius(get(NutWidthMin, nut)/2, get(NutFacets, nut));
-function nut_dia(nut) = 2*nut_radius(nut);
+function nut_dia(nut) = get(NutFacets, nut) > 4 ?
+                2*nut_radius(nut) :
+                get(NutWidthMax, nut);
 
 module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, screw_offset=0*mm, cut_screw=false, cut_screw_close=false, trap_h=10, trap_axis=-Y, orient=Z, align=N)
 {
@@ -418,8 +438,15 @@ module nut_trap_cut(nut, thread, head="socket", trap_offset=10, screw_l=10*mm, s
             {
                 orient(axis=orient, axis_ref=Z)
                 {
-                    rotate([0,0,30])
-                    cylindera($fn=nut_facets, d=nut_dia, h=nut_h, align=N);
+                    if(nut_facets==4)
+                    {
+                        cubea([nut_dia,nut_dia,h_]);
+                    }
+                    else
+                    {
+                        rz(30)
+                        cylindera($fn=nut_facets, d=nut_dia, h=nut_h, align=N);
+                    }
                 }
 
                 orient(axis=orient, axis_ref=Z)
