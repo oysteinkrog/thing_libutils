@@ -182,9 +182,38 @@ module spreadx(dist=0)
     children();
 }
 
+module spreadxy(dist=0)
+{
+    spreadx(dist)
+    spready(dist)
+    children();
+}
+
+module spreadxyz(dist=0)
+{
+    spreadx(dist)
+    spready(dist)
+    spreadz(dist)
+    children();
+}
+
+module spreadxz(dist=0)
+{
+    spreadx(dist)
+    spready(dist)
+    children();
+}
+
 module spready(dist=0)
 {
     spread(axis=Y,dist=dist)
+    children();
+}
+
+module spreadyz(dist=0)
+{
+    spready(dist)
+    spreadz(dist)
     children();
 }
 
