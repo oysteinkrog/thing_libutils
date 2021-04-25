@@ -614,6 +614,15 @@ NutKnurlM5_5_42 = [
     [NutFacets, 20],
 ];
 
+NutKnurlM3_5_46 = [
+    [NutHoleDia, 3*mm],
+    [NutWidthMin, 4.5*mm],
+    [NutThickness, 5*mm],
+    [NutWidthMax, 4.5*mm],
+    [NutThread, ThreadM3],
+    [NutFacets, 20],
+];
+
 AllNut = [NutHexM1_2,
 NutHexM1_4,
 NutHexM1_6,
