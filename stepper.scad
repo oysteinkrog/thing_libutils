@@ -100,6 +100,60 @@ module motor_mount(part=U, model, thickness, size=NemaMedium, extra_size=U, dual
     }
 }
 
+module motor_outline(part=U, model, length=5*mm, extra_side=0, orient=Z, align=N)
+{
+    assert(model!=U, "model == U");
+    assert(length!=U, "length == U");
+    side = get(NemaSideSize, model) + extra_side;
+    cutR = get(NemaMountingHoleCutoutRadius, model);
+    lip = get(NemaMountingHoleLip, model);
+    roundR = get(NemaEdgeRoundingRadius, model);
+    extrSize = get(NemaRoundExtrusionHeight, model);
+    extrRad = get(NemaRoundExtrusionDiameter, model) * 0.5;
+
+    s=[side, side, length];
+    size_align(size=s, orient=orient, orient_ref=Z, align=align)
+    if(part==U)
+    {
+        difference()
+        {
+            motor_outline(part="pos", model=model, length=length, extra_side=extra_side);
+            motor_outline(part="neg", model=model, length=length, extra_side=extra_side);
+        }
+        motor_outline(part="vit", model=model, length=length, extra_side=extra_side);
+    }
+    if(part=="pos")
+    {
+        material(Mat_BlackPaint)
+        /*tz(-s.z)*/
+        cubea(s, align=N);
+    }
+    else if(part=="neg")
+    {
+        // Corner cutouts
+        if (lip > 0)
+        material(Mat_BlackPaint)
+        tz(-s.z)
+        for(x=[-1,1])
+        for(y=[-1,1])
+        tx(x*side/2)
+        ty(y*side/2)
+        tz(-lip)
+        cylindera(h=length, r=cutR, align=N);
+
+        // Rounded edges
+        if (roundR > 0)
+        material(Mat_BlackPaint)
+        for(x=[-1,1])
+        for(y=[-1,1])
+        tx(x*side/2)
+        ty(y*side/2)
+        mirror([x>0?0:1,y>0?0:1,0])
+        rz(45)
+        cubea(size=[roundR, roundR*2, 4+length + extrSize+2], align=N, extra_size=.1*N, extra_align=-N);
+    }
+}
+
 module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=N)
 {
     assert(model!=U, "model == U");
@@ -118,8 +172,6 @@ module motor(part=U, model, size=NemaMedium, dual_axis=false, orient=Z, align=N)
 
     holeDist = get(NemaDistanceBetweenMountingHoles, model) * 0.5;
     holeRadius = get(NemaMountingHoleDiameter, model) * 0.5;
-
-    mid = side / 2;
 
     roundR = get(NemaEdgeRoundingRadius, model);
 
