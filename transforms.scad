@@ -101,22 +101,25 @@ module rz(degrees)
 
 module mx(m=true)
 {
+    assert(!is_undef(m));
     assert(is_bool(m));
-    mirror(X*m)
+    mirror(X*(m?1:0))
     children();
 }
 
 module my(m=true)
 {
+    assert(!is_undef(m));
     assert(is_bool(m));
-    mirror(Y*m)
+    mirror(Y*(m?1:0))
     children();
 }
 
 module mz(m=true)
 {
+    assert(!is_undef(m));
     assert(is_bool(m));
-    mirror(Z*m)
+    mirror(Z*(m?1:0))
     children();
 }
 
