@@ -64,7 +64,8 @@ module spherea(r, d, align=N, extra_r, extra_d, extra_align, orient=Z, orient_re
     d_ = v_fallback(d, [r*2]);
     assert(d_ != U);
 
-    extra_d_ = v_fallback(extra_d, [extra_r*2, 0]);
+    /*extra_d_ = v_fallback(extra_d, [extra_r*2, 0]);*/
+    extra_d_ = !is_undef(extra_d)?extra_d:!is_undef(extra_r)?extra_r*2:0;
 
     size=[d_,d_,d_];
     extra_size=[extra_d_,extra_d_,extra_d_];
@@ -94,15 +95,21 @@ module cylindera(
 
     pi=3.1415926536;
 
-    d1_ = v_fallback(d1, [r*2, r1*2]);
-    d2_ = v_fallback(d2, [r*2, r2*2]);
+    /*d1_ = v_fallback(d1, [r*2, r1*2]);*/
+    d1_ = !is_undef(d1)?d1:!is_undef(r)?r*2:!is_undef(r1)?r1*2:U;
+    /*d2_ = v_fallback(d2, [r*2, r2*2]);*/
+    d2_ = !is_undef(d2)?d2:!is_undef(r)?r*2:!is_undef(r2)?r2*2:U;
 
-    r1_ = v_fallback(r1, [d1_/2, d/2, r]);
-    r2_ = v_fallback(r2, [d2_/2, d/2, r]);
+    /*r1_ = v_fallback(r1, [d1_/2, d/2, r]);*/
+    r1_ = !is_undef(r1)?r1:!is_undef(d1_)?d1_/2:!is_undef(d)?d/2:r;
+    /*r2_ = v_fallback(r2, [d2_/2, d/2, r]);*/
+    r2_ = !is_undef(r2)?r2:!is_undef(d2_)?d2_/2:!is_undef(d)?d/2:r;
 
-    r_max = v_fallback(r, [max(r1_,r2_)]);
+    /*r_max = v_fallback(r, [max(r1_,r2_)]);*/
+    r_max = !is_undef(r)?r:max(r1_,r2_);
 
-    extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);
+    /*extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);*/
+    extra_r_ = !is_undef(extra_r)?extra_r:!is_undef(extra_d)?extra_d/2:0;
 
     if(debug)
     {
@@ -192,17 +199,24 @@ module rcylindera(
         poly=false
         )
 {
-    d1_ = v_fallback(d1, [r*2, r1*2]);
-    d2_ = v_fallback(d2, [r*2, r2*2]);
 
-    r1_ = v_fallback(r1, [d1_/2, d/2, r]);
-    r2_ = v_fallback(r2, [d2_/2, d/2, r]);
+    /*d1_ = v_fallback(d1, [r*2, r1*2]);*/
+    d1_ = !is_undef(d1)?d1:!is_undef(r)?r*2:!is_undef(r1)?r1*2:U;
+    /*d2_ = v_fallback(d2, [r*2, r2*2]);*/
+    d2_ = !is_undef(d2)?d2:!is_undef(r)?r*2:!is_undef(r2)?r2*2:U;
 
-    r_max = v_fallback(r, [max(r1_,r2_)]);
+    /*r1_ = v_fallback(r1, [d1_/2, d/2, r]);*/
+    r1_ = !is_undef(r1)?r1:!is_undef(d1_)?d1_/2:!is_undef(d)?d/2:r;
+    /*r2_ = v_fallback(r2, [d2_/2, d/2, r]);*/
+    r2_ = !is_undef(r2)?r2:!is_undef(d2_)?d2_/2:!is_undef(d)?d/2:r;
+
+    /*r_max = v_fallback(r, [max(r1_,r2_)]);*/
+    r_max = !is_undef(r)?r:max(r1_,r2_);
+
+    /*extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);*/
+    extra_r_ = !is_undef(extra_r)?extra_r:!is_undef(extra_d)?extra_d/2:0;
 
     h_ = h+extra_h;
-
-    extra_r_ = v_fallback(extra_r, [extra_d/2, 0]);
 
     assert(r1_ != U);
     assert(r2_ != U);
@@ -526,7 +540,8 @@ module rtriangle(o_len, a_len, depth, round_r=2, align=N, orient=Z)
 
 module teardrop(r, d, h=10, truncate=1, align=N, orient=Y, roll=0)
 {
-    r_= v_fallback(r, [d/2]);
+    /*r_= v_fallback(r, [d/2]);*/
+    r_= !is_undef(r)?r:d/2;
 
     sx1 = r_ * sin(-45);
     sx2 = r_ * -sin(-45);
