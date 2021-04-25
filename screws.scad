@@ -334,7 +334,6 @@ module screw_nut(nut, thread, tolerance=1.00, override_h=U, orient=Z, align=N)
     {
         difference()
         {
-            echo(nut_facets);
             if(nut_facets==4)
             {
                 cubea([nut_dia,nut_dia,h_]);
