@@ -510,3 +510,9 @@ if(test_mode)
 function polyhole_n(d) = max(round(2 * d), 3);
 function polyhole_d(d) = 2*(d / 2) / cos (180 / polyhole_n(d));
 
+function decompose(v) = [X*v.x,Y*v.y,Z*v.z];
+if(test_mode)
+{
+    vec_a = X+Y+Z;
+    assert_v(decompose(vec_a),[X,Y,Z]);
+}
